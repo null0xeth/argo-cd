@@ -15,3 +15,26 @@ argo-cd:
       enabled: true
       minReplicas: 2
 
+  ## Argo Configs
+  configs:
+    # General Argo CD configuration
+    ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+    cm:
+      # -- Enable exec feature in Argo UI
+      ## Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
+      exec.enabled: true
+
+      # -- Enable Status Badge
+      ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
+      statusbadge.enabled: true
+
+
+    # Argo CD configuration parameters
+    ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
+    params:
+      # -- Enables [Applications in any namespace]
+      ## List of additional namespaces where applications may be created in and reconciled from.
+      ## The namespace where Argo CD is installed to will always be allowed.
+      ## Set comma-separated list. (e.g. app-team-one, app-team-two)
+      application.namespaces: "*"
+
