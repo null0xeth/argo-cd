@@ -3,5 +3,5 @@ name: argo-cd
 version: 1.0.0
 dependencies:
   - name: argo-cd
-    version: "{{ helm_charts['argocd']['version'] }}"
-    repository: "{{ helm_repo_map['argocd']['url'] }}"
+    version: 6.9.3
+    repository: https://argoproj.github.io/argo-helm
