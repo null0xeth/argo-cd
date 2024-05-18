@@ -1,8 +1,4 @@
 spec:
-  project: default
   destination:
     server: https://kubernetes.default.svc
-  source:
-    repoURL: https://github.com/null0xeth/argo-cd.git
-    path: charts/root-app/
-    targetRevision: HEAD
+
