@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ .Values.spec.source.repoURL }}
+    repoURL: https://github.com/null0xeth/argo-cd.git
     path: charts/argo-cd
-    targetRevision: {{ .Values.spec.source.targetRevision }}
+    targetRevision: HEAD
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
