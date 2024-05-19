@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: application-kustomize-components
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  source:
+    path:  manifests
+    repoURL: https://github.com/argoproj-labs/argocd-extension-metrics
+    targetRevision: main
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+
+    # This!
+    kustomize:
+      namespace: argocd
+      components:
+        - ../../../kustomize/argocd-extensions/metrics/service.yaml  # relative to the kustomization.yaml (`source.path`).
+        - ../../../kustomize/argocd-extensions/metrics/deployment.yaml
+        - ../../../kustomize/argocd-extensions/metrics/configmap.yaml
