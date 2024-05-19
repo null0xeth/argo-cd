@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-saack
+  name: kube-prometheus-stack
   namespace: default
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -10,7 +10,7 @@ spec:
   project: default
   destination:
     server: {{ .Values.spec.destination.server }}
-    namespace: default
+    namespace: argocd
   source:
     path: charts/kube-prometheus-stack
     repoURL: https://github.com/null0xeth/argo-cd.git
