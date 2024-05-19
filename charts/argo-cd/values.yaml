@@ -9,6 +9,16 @@ argo-cd:
     autoscaling:
       enabled: true
       minReplicas: 2
+    extensions:
+      enabled: true
+      extensionList:
+        - name: extension-metrics
+          env:
+            - name: EXTENSION_URL
+              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+            - name: EXTENSION_CHECKSUM_URL
+              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+
 
   repoServer:
     autoscaling:
@@ -38,14 +48,14 @@ argo-cd:
       ## Set comma-separated list. (e.g. app-team-one, app-team-two)
       application.namespaces: "*"
 
-controller:
-  extensions:
-    enabled: true
-    extensionList:
-     - name: extension-metrics
-       env:
-         - name: EXTENSION_URL
-           value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
-         - name: EXTENSION_CHECKSUM_URL
-           value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+# controller:
+#   extensions:
+#     enabled: true
+#     extensionList:
+#      - name: extension-metrics
+#        env:
+#          - name: EXTENSION_URL
+#            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+#          - name: EXTENSION_CHECKSUM_URL
+#            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
 
