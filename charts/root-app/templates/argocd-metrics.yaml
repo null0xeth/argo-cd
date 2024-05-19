@@ -12,14 +12,14 @@ spec:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
   source:
-    path:  manifests
-    repoURL: https://github.com/argoproj-labs/argocd-extension-metrics
+    path: kustomize/argocd-extensions/metrics/
+    repoURL: https://github.com/null0xeth/argo-cd.git
     targetRevision: main
     kustomize:
       components:
-        - ../../../kustomize/argocd-extensions/metrics/service.yaml  # relative to the kustomization.yaml (`source.path`).
-        - ../../../kustomize/argocd-extensions/metrics/deployment.yaml
-        - ../../../kustomize/argocd-extensions/metrics/configmap.yaml
+        - service.yaml  # relative to the kustomization.yaml (`source.path`).
+        - deployment.yaml
+        - configmap.yaml
   syncPolicy:
     automated:
       selfHeal: true
