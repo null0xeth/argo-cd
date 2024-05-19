@@ -15,9 +15,9 @@ spec:
     path: kustomize/argocd-extensions/metrics/
     repoURL: https://github.com/null0xeth/argo-cd.git
     targetRevision: main
-    kustomize:
-      components:
-        - components
+    # kustomize:
+    #   components:
+    #     - components
   syncPolicy:
     automated:
       selfHeal: true
