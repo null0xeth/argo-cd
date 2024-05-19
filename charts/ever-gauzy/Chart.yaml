@@ -1,0 +1,8 @@
+apiVersion: v2
+name: ever-gauzy
+version: 1.0.0
+dependencies:
+  - name: ever-gauzy
+    version: 0.1.9
+    repository: https://charts.ever.co
+

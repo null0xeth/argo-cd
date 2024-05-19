@@ -1,0 +1,6 @@
+dependencies:
+- name: ever-gauzy
+  repository: https://charts.ever.co
+  version: 0.1.9
+digest: sha256:96620ae78662dcdb96c64df08fdd7d7572ee6c63f2b1b180f4988b646d0bc156
+generated: "2024-05-19T12:11:39.135538437+02:00"
