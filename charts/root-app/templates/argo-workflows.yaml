@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-events
+  name: argo-workflows
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/null0xeth/argo-cd.git
-    path: charts/argo/argocd-events
+    path: charts/argo/argo-workflows
     targetRevision: HEAD
   destination:
     server: {{ .Values.spec.destination.server }}

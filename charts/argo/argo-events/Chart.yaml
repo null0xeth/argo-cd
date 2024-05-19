@@ -1,9 +1,8 @@
 apiVersion: v2
-name: argocd-rollouts
+name: argo-events
 version: 1.0.0
 dependencies:
-  - name: argocd-rollouts
-    version: 2.35.2
+  - name: argo-events
+    version: 2.4.4
     repository: https://argoproj.github.io/argo-helm
-
 

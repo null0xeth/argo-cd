@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-rollouts
+  name: argo-rollouts
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/null0xeth/argo-cd.git
-    path: charts/argo/argocd-rollouts
+    path: charts/argo/argo-rollouts
     targetRevision: HEAD
   destination:
     server: {{ .Values.spec.destination.server }}

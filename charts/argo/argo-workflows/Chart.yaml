@@ -1,8 +1,8 @@
 apiVersion: v2
-name: argocd-workflows
+name: argo-workflows
 version: 1.0.0
 dependencies:
-  - name: argocd-workflows
+  - name: argo-workflows
     version: 0.41.6
     repository: https://argoproj.github.io/argo-helm
 
