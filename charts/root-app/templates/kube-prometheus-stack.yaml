@@ -12,9 +12,9 @@ spec:
     server: {{ .Values.spec.destination.server }}
     namespace: default
   source:
-    chart: kube-prometheus-stack
+    path: charts/kube-prometheus-stack
     repoURL: https://github.com/null0xeth/argo-cd.git
-    targetRevision: 1.0.0
+    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
