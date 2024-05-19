@@ -18,6 +18,24 @@ argo-cd:
               value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
             - name: EXTENSION_CHECKSUM_URL
               value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+      initContainers:
+        - name: extension-metrics
+          image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
+          env:
+          - name: EXTENSION_URL
+            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+          volumeMounts:
+            - name: extensions
+              mountPath: /tmp/extensions/
+          securityContext:
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+      volumeMounts:
+        - name: extensions
+          mountPath: /tmp/extensions/
+      volumes:
+        - name: extensions
+          emptyDir: {}
 
   repoServer:
     autoscaling:
