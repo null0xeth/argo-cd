@@ -1,6 +1,7 @@
 argo-cd:
   crds:
-    keep: false
+    install: true
+    keep: true
 
   redis-ha:
     enabled: true
@@ -10,12 +11,12 @@ argo-cd:
       enabled: true
       minReplicas: 2
     extensions:
-      enabled: true
-      extensionList:
-        - name: rollout-extension
-          env:
-            - name: EXTENSION_URL
-              value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+      #enabled: true
+      # extensionList:
+      #   - name: rollout-extension
+      #     env:
+      #       - name: EXTENSION_URL
+      #         value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
 
   repoServer:
     autoscaling:
@@ -36,12 +37,12 @@ argo-cd:
       statusbadge.enabled: true
       create: true
       server.rbac.log.enforce.enable: true
-      extension.config: |-
-        extensions:
-          - name: metrics
-            backend:
-              services:
-                - url: http://argocd-metrics-server:9003
+      # extension.config: |-
+      #   extensions:
+      #     - name: metrics
+      #       backend:
+      #         services:
+      #           - url: http://argocd-metrics-server:9003
 
 
     # Argo CD configuration parameters
