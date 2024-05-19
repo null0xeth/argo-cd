@@ -17,9 +17,7 @@ spec:
     targetRevision: main
     kustomize:
       components:
-        - service.yaml  # relative to the kustomization.yaml (`source.path`).
-        - deployment.yaml
-        - configmap.yaml
+        - components
   syncPolicy:
     automated:
       selfHeal: true
