@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: application-kustomize-components
-  namespace: argocd
+  name: kewb-prometheus
+  namespace: default
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 
@@ -10,13 +10,14 @@ spec:
   project: default
   destination:
     server: {{ .Values.spec.destination.server }}
-    namespace: argocd
+    namespace: default
   source:
-    path: kustomize/argocd-extensions/metrics/
-    repoURL: https://github.com/null0xeth/argo-cd.git
+    path: charts/kube-prometheus-stack
+    repoURL: https://github.com/prometheus-community/helm-charts
     targetRevision: main
   syncPolicy:
     automated:
       selfHeal: true
+
 
 
