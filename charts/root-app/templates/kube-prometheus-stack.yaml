@@ -5,6 +5,11 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
   name: kube-prometheus-stack
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: '20'
+
 spec:
   source:
     path: charts/kube-prometheus-stack
