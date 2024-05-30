@@ -8,9 +8,6 @@ resources:
 - base/ingress.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/ha/install.yaml
 
-components:
-- https://github.com/argoproj-labs/argocd-extensions/manifests
-
 patches:
 - path: patches/argocd-cm.yaml
 - path: patches/argocd-notifications-controller-deploy.yaml
