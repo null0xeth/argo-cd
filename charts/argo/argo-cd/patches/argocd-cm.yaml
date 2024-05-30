@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: argocd-cm
-  namespace: argocd
+  name: argocd-cm-params
   labels:
-    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/name: argocd-cm-params
     app.kubernetes.io/part-of: argocd
 data:
   # Argo CD's externally facing base URL (optional). Required when configuring SSO
