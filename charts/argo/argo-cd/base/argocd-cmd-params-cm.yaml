@@ -8,3 +8,5 @@ metadata:
 data:
   server.insecure: "false"
   server.enable.proxy.extension: "true"
+  applicationsetcontroller.enable.progressive.syncs: "false"
+  notificationscontroller.selfservice.enabled: "false"

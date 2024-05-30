@@ -8,6 +8,7 @@ resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.2/manifests/ha/install.yaml
 - base/ingress.yaml
 patches:
+- path: patches/argocd-cm.yaml
 - path: base/argocd-rbac-cm.yaml
 - path: base/argocd-cmd-params-cm.yaml
 - path: patches/argocd-rollouts-extension.yaml
