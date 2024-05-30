@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-metrics-extension
+  name: extension-installer
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -15,7 +15,7 @@ spec:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
   source:
-    path: kustomize/extensions
+    path: kustomize/extension-installer
     repoURL: https://github.com/null0xeth/argo-cd.git
     targetRevision: main
   syncPolicy:
@@ -33,5 +33,6 @@ spec:
         duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
         factor: 2 # a factor to multiply the base duration after each failed retry
         maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+
 
 
