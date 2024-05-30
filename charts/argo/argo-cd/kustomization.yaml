@@ -5,17 +5,20 @@ namespace: argocd
 
 resources:
 - base/namespace.yaml
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.2/manifests/ha/install.yaml
 - base/ingress.yaml
+- https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/ha/install.yaml
+
+components:
+- https://github.com/argoproj-labs/argocd-extensions/manifests
+
 patches:
 - path: patches/argocd-cm.yaml
-- path: base/argocd-rbac-cm.yaml
+- path: patches/argocd-notifications-controller-deploy.yaml
 - path: base/argocd-cmd-params-cm.yaml
+- path: base/argocd-rbac-cm.yaml
 - path: patches/argocd-rollouts-extension.yaml
 - path: patches/argocd-metrics-extension.yaml
-- path: patches/argocd-notifications-controller-deploy.yaml
 - path: https://raw.githubusercontent.com/argoproj/argo-cd/master/notifications_catalog/install.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
-
