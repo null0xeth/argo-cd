@@ -1,3 +1,32 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: argocd-server
+# spec:
+#   template:
+#     spec:
+#       initContainers:
+#         - name: extension-metrics
+#           image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
+#           env:
+#           - name: EXTENSION_URL
+#             value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+#           - name: EXTENSION_CHECKSUM_URL
+#             value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+#           volumeMounts:
+#             - name: extensions
+#               mountPath: /tmp/extensions/
+#           securityContext:
+#             runAsUser: 1000
+#             allowPrivilegeEscalation: false
+#       containers:
+#         - name: argocd-server
+#           volumeMounts:
+#             - name: extensions
+#               mountPath: /tmp/extensions/
+#       volumes:
+#         - name: extensions
+#           emptyDir: {}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,22 +34,13 @@ metadata:
 spec:
   template:
     spec:
-      initContainers:
-        - name: extension-metrics
-          image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
-          env:
-          - name: EXTENSION_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
-          - name: EXTENSION_CHECKSUM_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+      containers:
+        - name: argocd-server
           volumeMounts:
             - name: extensions
               mountPath: /tmp/extensions/
-          securityContext:
-            runAsUser: 1000
-            allowPrivilegeEscalation: false
-      containers:
-        - name: argocd-server
+        - name: argocd-extensions
+          image: ghcr.io/argoproj-labs/argocd-extensions:latest
           volumeMounts:
             - name: extensions
               mountPath: /tmp/extensions/

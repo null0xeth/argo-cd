@@ -5,5 +5,5 @@ resources:
 - crds
 - rbac
 
-components:
-- argocd-server-patch
+# components:
+# - argocd-server-patch
