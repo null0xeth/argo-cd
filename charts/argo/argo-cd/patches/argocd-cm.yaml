@@ -19,4 +19,4 @@ data:
       - name: metrics
         backend:
           services:
-            - url: https://argocd-metrics-server:9003
+            - url: http://argocd-metrics-server:9003
