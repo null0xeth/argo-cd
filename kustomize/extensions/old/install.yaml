@@ -20,7 +20,7 @@ spec:
               fieldRef:
                 apiVersion: v1
                 fieldPath: metadata.namespace
-          image: sarabala1979/argocd-metrics-server:v1
+          image: quay.io/argoprojlabs/argocd-extension-metrics:latest
           imagePullPolicy: IfNotPresent
           name: argocd-metrics-server
           ports:

@@ -10,4 +10,5 @@ metadata:
 spec:
   sources:
     - web:
-        url: https://github.com/argoproj-labs/argocd-extension-metrics/blob/main/manifests/extension.tar
+        url: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
+
