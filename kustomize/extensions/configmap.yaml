@@ -296,10 +296,16 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://prometheus-operated.kube-prometheus-stack.svc.cluster.local:9090"
+        "address": "http://kube-prometheus-stack-prometheus.prometheus-operated.monitoring.svc.cluster.local:9090"
       }
     }
     }
 kind: ConfigMap
 metadata:
   name: argocd-metrics-server-configmap
+
+  ## The clusterDomain value will be added to the cluster.peer option of the alertmanager.
+  ## Without this specified option cluster.peer will have value alertmanager-monitoring-alertmanager-0.alertmanager-operated:9094 (default value)
+  ## With this specified option cluster.peer will have value alertmanager-monitoring-alertmanager-0.alertmanager-operated.namespace.svc.cluster-domain:9094
+  ##
+

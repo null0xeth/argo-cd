@@ -16,7 +16,7 @@ spec:
     repoURL: https://github.com/null0xeth/argo-cd.git
     targetRevision: main
   destination:
-    namespace: kube-prometheus-stack
+    namespace: monitoring
     server: 'https://kubernetes.default.svc'
   project: default
   syncPolicy:
