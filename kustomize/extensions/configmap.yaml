@@ -296,7 +296,7 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
+        "address": "http://prometheus-kube-prometheus-stack-prometheus-0.prometheus-operated.monitoring.svc.cluster.local:9090"
       }
     }
     }
