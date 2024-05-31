@@ -2,21 +2,18 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "20"
   name: kube-prometheus-stack
   namespace: argocd
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
-  annotations:
-    argocd.argoproj.io/sync-wave: '20'
-
+    - resources-finalizer.argocd.argoproj.io
 spec:
   source:
     path: charts/kube-prometheus-stack
     repoURL: https://github.com/null0xeth/argo-cd.git
     targetRevision: main
   destination:
-    namespace: monitoring
+    namespace: argocd
     server: 'https://kubernetes.default.svc'
   project: default
   syncPolicy:

@@ -2223,16 +2223,16 @@ prometheusOperator:
     ## On chart upgrades (or if the secret exists) the cert will not be re-generated. You can use this to provide your own
     ## certs ahead of time if you wish.
     ##
-    annotations: {}
-    #   argocd.argoproj.io/hook: PreSync
-    #   argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    annotations:
+      argocd.argoproj.io/hook: PreSync
+      argocd.argoproj.io/hook-delete-policy: HookSucceeded
 
     namespaceSelector: {}
     objectSelector: {}
 
 
     deployment:
-      enabled: false
+      enabled: true
 
       ## Number of replicas
       ##
@@ -2264,7 +2264,7 @@ prometheusOperator:
       ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
       ##
       serviceAccount:
-        automountServiceAccountToken: false
+        automountServiceAccountToken: true
         create: true
         name: ""
 
@@ -2484,7 +2484,7 @@ prometheusOperator:
     # Security context for create job container
     createSecretJob:
       securityContext:
-        allowPrivilegeEscalation: false
+        allowPrivilegeEscalation: true
         readOnlyRootFilesystem: true
         capabilities:
           drop:
@@ -2539,7 +2539,7 @@ prometheusOperator:
   networkPolicy:
     ## Enable creation of NetworkPolicy resources.
     ##
-    enabled: false
+    enabled: true
 
     ## Flavor of the network policy to use.
     #  Can be:
@@ -2901,7 +2901,7 @@ prometheus:
 
   ## Configure network policy for the prometheus
   networkPolicy:
-    enabled: false
+    enabled: true
 
     ## Flavor of the network policy to use.
     #  Can be:
@@ -3107,7 +3107,7 @@ prometheus:
   ## Configuration for creating a separate Service for each statefulset Prometheus replica
   ##
   servicePerReplica:
-    enabled: false
+    enabled: true
     annotations: {}
 
     ## Port for Prometheus Service per replica to listen on
@@ -4694,7 +4694,7 @@ thanosRuler:
 
 ## Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
 ##
-cleanPrometheusOperatorObjectNames: false
+cleanPrometheusOperatorObjectNames: true
 
 ## Extra manifests to deploy as an array
 extraManifests: []
