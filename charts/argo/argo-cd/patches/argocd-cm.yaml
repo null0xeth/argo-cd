@@ -20,3 +20,15 @@ data:
         backend:
           services:
             - url: http://argocd-metrics-server:9003
+
+  # OIDC configuration as an alternative to dex (optional).
+  oidc.config: |
+    name: Auth0
+    issuer: https://honkertown.eu.auth0.com
+    clientID: wVjUeq8TFm3NiHBsnRChY7khxVrklTr8
+    clientSecret: $argocd-auth0-oidc
+    requestedScopes:
+    - openid
+    - profile
+    - email
+    - 'https://argocd.chonk.city/claims'
