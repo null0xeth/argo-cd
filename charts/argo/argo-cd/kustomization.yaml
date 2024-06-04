@@ -11,9 +11,8 @@ resources:
 patches:
 - path: patches/argocd-cm.yaml
 - path: patches/argocd-notifications-controller-deploy.yaml
-- path: base/argocd-cmd-params-cm.yaml
-- path: base/argocd-rbac-cm.yaml
-- path: patches/argocd-rollouts-extension.yaml
+- path: patches/argocd-cmd-params-cm.yaml
+- path: patches/argocd-rbac-cm.yaml
 - path: patches/argocd-metrics-extension.yaml
 - path: https://raw.githubusercontent.com/argoproj/argo-cd/master/notifications_catalog/install.yaml
 

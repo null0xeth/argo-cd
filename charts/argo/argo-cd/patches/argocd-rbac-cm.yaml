@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+data:
+  policy.csv: |
+    g, argoproj:argo-rollouts-approvers, role:admin
+    g, argoproj:argo-workflows-approvers, role:admin
+    g, argoproj:argocd-approvers, role:admin
+    p, role:readonly, extensions, invoke, metrics, allow
+    p, role:admin, extensions, invoke, metrics, allow
+    p, role:admin, applications, *, */*, allow
+    p, role:admin, clusters, get, *, allow
+    p, role:admin, repositories, get, *, allow
+    p, role:admin, repositories, create, *, allow
+    p, role:admin, repositories, update, *, allow
+    p, role:admin, repositories, delete, *, allow
+    p, role:admin, projects, get, *, allow
+    p, role:admin, projects, create, *, allow
+    p, role:admin, projects, update, *, allow
+    p, role:admin, projects, delete, *, allow
+    p, role:admin, logs, get, *, allow
+    p, role:admin, exec, create, */*, allow
+  policy.default: role:readonly
