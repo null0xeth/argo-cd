@@ -296,7 +296,7 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://kube-prometheus-stack-prometheus:9090"
+        "address": "http://prometheus-operated:9090"
       }
     }
     }
