@@ -21,6 +21,4 @@ data:
     p, role:admin, projects, delete, *, allow
     p, role:admin, logs, get, *, allow
     p, role:admin, exec, create, */*, allow
-    g, argocd-global-admins, role:admin
   policy.default: role:readonly
-  scopes: '[https://argocd.chonk.city/claims, email]'
