@@ -1,14 +1,5 @@
 ---
 apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
-metadata:
-  name: argocd-transport
-  namespace: argocd
-spec:
-  serverName: chonk.city
-  insecureSkipVerify: false
----
-apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: argocd-server-ui
@@ -23,24 +14,13 @@ spec:
       priority: 10
       services:
         - name: argocd-server
-          port: 443
-          scheme: https
-          serversTransport: argocd-transport
-      middlewares:
-        - name: rate-limit
-          namespace: traefik
-        - name: https-redirectscheme
-          namespace: traefik
-        - name: default-headers
-          namespace: traefik
-        - name: compress
-          namespace: traefik
+          port: 80
     - kind: Rule
       match: Host(`argocd.chonk.city`) && Header(`Content-Type`, `application/grpc`)
       priority: 11
       services:
         - name: argocd-server
-          port: 443
+          port: 80
           scheme: h2c
           serversTransport: argocd-transport
   tls:

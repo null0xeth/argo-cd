@@ -10,5 +10,5 @@ data:
   applicationsetcontroller.enable.progressive.syncs: "true"
   notificationscontroller.selfservice.enabled: "true"
   dexserver.disable.tls: "true"
-  server.insecure: "false"
+  server.insecure: "true"
 
