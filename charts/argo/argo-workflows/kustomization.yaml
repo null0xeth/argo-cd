@@ -5,10 +5,12 @@ namespace: argo
 
 resources:
   - https://github.com/argoproj/argo-workflows/manifests/cluster-install
+  - https://github.com/argoproj/argo-workflows/manifests/quick-start/sso/dex
   - base/namespace.yaml
   - base/cnpg-cluster.yaml
 
 patches:
+  - path: patches/argo-server-sa.yaml
   - path: patches/workflow-controller-configmap.yaml
 
 generatorOptions:

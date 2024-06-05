@@ -1,5 +1,20 @@
 apiVersion: v1
 data:
+  sso: |
+    issuer: http://dex:5556/dex
+    issuerAlias: http://mydex:5556/dex
+    clientId:
+      name: argo-server-sso
+      key: clientID
+    clientSecret:
+      name: argo-server-sso
+      key: clientSecret
+    redirectUrl: http://localhost:8080/oauth2/callback
+    scopes:
+    - groups
+    - email
+    rbac:
+      enabled: true
   persistence: |
     connectionPool:
       maxIdleConns: 100
@@ -9,15 +24,15 @@ data:
     archive: true
     archiveTTL: 7d
     postgresql:
-      host: cluster-argo-wf-rw
+      host: cluster-argo-workflows-rw
       port: 5432
-      database: app
+      database: argo_wf
       tableName: argo_workflows
       userNameSecret:
-        name: cluster-argo-wf-app
+        name: cluster-argo-workflows-app
         key: user
       passwordSecret:
-        name: cluster-argo-wf-app
+        name: cluster-argo-workflows-app
         key: password
   retentionPolicy: |
     completed: 10
