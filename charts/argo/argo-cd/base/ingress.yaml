@@ -1,50 +1,50 @@
----
-apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
-metadata:
-  name: argocd-transport
-  namespace: argocd
-spec:
-  serverName: chonk.city
-  insecureSkipVerify: true
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: argocd-server-ui
-  namespace: argocd
-  annotations:
-    kubernetes.io/ingress.class: traefik-external
-spec:
-  entryPoints: [websecure]
-  routes:
-    - kind: Rule
-      match: Host(`argocd.chonk.city`)
-      priority: 10
-      services:
-        - name: argocd-server
-          port: 80
-          scheme: https
-          serversTransport: argocd-transport
-      middlewares:
-        - name: rate-limit
-          namespace: traefik
-        - name: https-redirectscheme
-          namespace: traefik
-        - name: default-headers
-          namespace: traefik
-        - name: compress
-          namespace: traefik
-    - kind: Rule
-      match: Host(`argocd.chonk.city`) && Header(`Content-Type`, `application/grpc`)
-      priority: 11
-      services:
-        - name: argocd-server
-          port: 80
-          scheme: h2c
-          serversTransport: argocd-transport
-  tls:
-    secretName: chonk-city-tls
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: ServersTransport
+# metadata:
+#   name: argocd-transport
+#   namespace: argocd
+# spec:
+#   serverName: chonk.city
+#   insecureSkipVerify: false
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: argocd-server-ui
+#   namespace: argocd
+#   annotations:
+#     kubernetes.io/ingress.class: traefik-external
+# spec:
+#   entryPoints: [websecure]
+#   routes:
+#     - kind: Rule
+#       match: Host(`argocd.chonk.city`)
+#       priority: 10
+#       services:
+#         - name: argocd-server
+#           port: 443
+#           scheme: https
+#           serversTransport: argocd-transport
+#       middlewares:
+#         - name: rate-limit
+#           namespace: traefik
+#         - name: https-redirectscheme
+#           namespace: traefik
+#         - name: default-headers
+#           namespace: traefik
+#         - name: compress
+#           namespace: traefik
+#     - kind: Rule
+#       match: Host(`argocd.chonk.city`) && Header(`Content-Type`, `application/grpc`)
+#       priority: 11
+#       services:
+#         - name: argocd-server
+#           port: 443
+#           scheme: h2c
+#           serversTransport: argocd-transport
+#   tls:
+#     secretName: chonk-city-tls
 
 
 

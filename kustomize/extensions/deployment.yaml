@@ -1,17 +1,17 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: serving.knative.dev/v1
+kind: Service
 metadata:
   name: argocd-metrics-server
 spec:
-  selector:
-    matchLabels:
-      app: argocd-metrics-server
-  strategy:
-    type: Recreate
+  # selector:
+  #   matchLabels:
+  #     app: argocd-metrics-server
+  # strategy:
+  #   type: Recreate
   template:
-    metadata:
-      labels:
-        app: argocd-metrics-server
+    # metadata:
+    #   labels:
+    #     app: argocd-metrics-server
     spec:
       containers:
         - image: quay.io/argoprojlabs/argocd-extension-metrics:latest
@@ -21,8 +21,8 @@ spec:
           name: argocd-metrics-server
           ports:
             - containerPort: 9003
-              name: metrics
-              protocol: TCP
+              # name: metrics
+              # protocol: TCP
           resources:
             requests:
               cpu: 100m
