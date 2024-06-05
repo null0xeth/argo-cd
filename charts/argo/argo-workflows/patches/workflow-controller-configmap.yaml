@@ -1,0 +1,28 @@
+apiVersion: v1
+data:
+  persistence: |
+    connectionPool:
+      maxIdleConns: 100
+      maxOpenConns: 0
+      connMaxLifetime: 0s
+    nodeStatusOffLoad: true
+    archive: true
+    archiveTTL: 7d
+    postgresql:
+      host: cluster-argo-wf-rw
+      port: 5432
+      database: app
+      tableName: argo_workflows
+      userNameSecret:
+        name: cluster-argo-wf-app
+        key: user
+      passwordSecret:
+        name: cluster-argo-wf-app
+        key: password
+  retentionPolicy: |
+    completed: 10
+    failed: 3
+    errored: 3
+kind: ConfigMap
+metadata:
+  name: workflow-controller-configmap
