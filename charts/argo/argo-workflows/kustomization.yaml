@@ -7,7 +7,6 @@ resources:
   - base/namespace.yaml
   - base/cnpg-cluster.yaml
   - https://github.com/argoproj/argo-workflows/manifests/base?ref=main
-  - https://github.com/argoproj/argo-workflows/releases/download/v3.5.7/install.yaml
 
 patches:
   - path: patches/workflow-controller-configmap.yaml
