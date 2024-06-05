@@ -6,7 +6,11 @@ metadata:
     app.kubernetes.io/name: argocd-cmd-params-cm
     app.kubernetes.io/part-of: argocd
 data:
-  server.insecure: "false"
   server.enable.proxy.extension: "true"
   applicationsetcontroller.enable.progressive.syncs: "true"
   notificationscontroller.selfservice.enabled: "true"
+  controller.repo.server.plaintext: "true"
+  dexserver.disable.tls: "true"
+  server.dex.server.plaintext: "true"
+  server.insecure: "true"
+  server.repo.server.plaintext: "true"
