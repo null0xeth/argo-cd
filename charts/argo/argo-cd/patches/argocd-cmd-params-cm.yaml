@@ -9,9 +9,6 @@ data:
   server.enable.proxy.extension: "true"
   applicationsetcontroller.enable.progressive.syncs: "true"
   notificationscontroller.selfservice.enabled: "true"
-
-  controller.repo.server.plaintext: "true"
   dexserver.disable.tls: "true"
-  server.dex.server.plaintext: "true"
   server.insecure: "false"
-  server.repo.server.plaintext: "true"
+
