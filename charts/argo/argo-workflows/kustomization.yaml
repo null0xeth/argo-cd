@@ -4,9 +4,9 @@ kind: Kustomization
 namespace: argo
 
 resources:
+  - https://github.com/argoproj/argo-workflows/manifests/cluster-install
   - base/namespace.yaml
   - base/cnpg-cluster.yaml
-  - https://github.com/argoproj/argo-workflows/manifests/base?ref=main
 
 patches:
   - path: patches/workflow-controller-configmap.yaml
