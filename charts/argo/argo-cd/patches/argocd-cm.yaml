@@ -25,8 +25,9 @@ data:
   oidc.config: |
     name: Okta
     # this is the authorization server URI
-    issuer: https://trial-8014233.okta.com/oauth2/ausexu7kh4YtOrcB9697
-    clientID: 0oaexubsqbEEQkVKz697
+    issuer: https://trial-8014233.okta.com/oauth2/auseyonhju8otD3v8697
+    clientID: 0oaeyojs1mFGWcW34697
     clientSecret: $oidc.okta.clientSecret
     requestedScopes: ["openid", "profile", "email", "groups"]
     requestedIDTokenClaims: {"groups": {"essential": true}}
+
