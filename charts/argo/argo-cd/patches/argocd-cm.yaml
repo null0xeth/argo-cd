@@ -26,8 +26,10 @@ data:
     name: Okta
     # this is the authorization server URI
     issuer: https://trial-8014233.okta.com/oauth2/auseyonhju8otD3v8697
-    clientID: 0oaeyojs1mFGWcW34697
+    clientID: 0oaeyy99ra4Y4cVqh697
     clientSecret: $oidc.okta.clientSecret
     requestedScopes: ["openid", "profile", "email", "groups"]
     requestedIDTokenClaims: {"groups": {"essential": true}}
+    cliClientID: $oidc.okta.clientSecret
+    enablePKCEAuthentication: true
 
