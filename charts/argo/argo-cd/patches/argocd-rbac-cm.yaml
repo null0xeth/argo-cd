@@ -11,34 +11,36 @@ data:
     p, role:readonly, projects, get, *, allow
     p, role:readonly, accounts, get, *, allow
     p, role:readonly, gpgkeys, get, *, allow
-    p, role:readonly, extensions, invoke, metrics, allow
+    p, role:readonly, logs, get, */*, allow
 
-    p, role:admin, extensions, invoke, metrics, allow
-    p, role:admin, applications, *, */*, allow
-    p, role:admin, clusters, get, *, allow
-    p, role:admin, clusters, create, *, allow
-    p, role:admin, clusters, update, *, allow
-    p, role:admin, clusters, delete, *, allow
+    p, role:admin, applications, create, */*, allow
+    p, role:admin, applications, update, */*, allow
+    p, role:admin, applications, delete, */*, allow
+    p, role:admin, applications, sync, */*, allow
+    p, role:admin, applications, override, */*, allow
+    p, role:admin, applications, action/*, */*, allow
+    p, role:admin, applicationsets, get, */*, allow
+    p, role:admin, applicationsets, create, */*, allow
+    p, role:admin, applicationsets, update, */*, allow
+    p, role:admin, applicationsets, delete, */*, allow
     p, role:admin, certificates, create, *, allow
     p, role:admin, certificates, update, *, allow
     p, role:admin, certificates, delete, *, allow
-    p, role:admin, repositories, get, *, allow
+    p, role:admin, clusters, create, *, allow
+    p, role:admin, clusters, update, *, allow
+    p, role:admin, clusters, delete, *, allow
     p, role:admin, repositories, create, *, allow
     p, role:admin, repositories, update, *, allow
     p, role:admin, repositories, delete, *, allow
-    p, role:admin, projects, get, *, allow
     p, role:admin, projects, create, *, allow
     p, role:admin, projects, update, *, allow
     p, role:admin, projects, delete, *, allow
-    p, role:admin, logs, get, *, allow
-    p, role:admin, exec, create, */*, allow
     p, role:admin, accounts, update, *, allow
     p, role:admin, gpgkeys, create, *, allow
     p, role:admin, gpgkeys, delete, *, allow
+    p, role:admin, exec, create, */*, allow
 
-    g, argoproj:argo-rollouts-approvers, role:admin
-    g, argoproj:argo-workflows-approvers, role:admin
-    g, argoproj:argocd-approvers, role:admin
+    g, role:admin, role:readonly
+    g, admin, role:admin
     g, argocd-admins, role:admin
   policy.default: role:readonly
-  scopes: '[email,groups]'
