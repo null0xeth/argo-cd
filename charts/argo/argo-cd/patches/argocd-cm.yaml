@@ -21,11 +21,12 @@ data:
           services:
             - url: http://argocd-metrics-server:9003
 
-oidc.config: |
-  name: Okta
-  # this is the authorization server URI
-  issuer: https://trial-8014233.okta.com/oauth2/default
-  clientID: 0oaexubsqbEEQkVKz697
-  clientSecret: $oidc.okta.clientSecret
-  requestedScopes: ["openid", "profile", "email", "groups"]
-  requestedIDTokenClaims: {"groups": {"essential": true}}
+  accounts.null0x: apiKey, login
+  oidc.config: |
+    name: Okta
+    # this is the authorization server URI
+    issuer: https://trial-8014233.okta.com/oauth2/ausexu7kh4YtOrcB9697
+    clientID: 0oaexubsqbEEQkVKz697
+    clientSecret: $oidc.okta.clientSecret
+    requestedScopes: ["openid", "profile", "email", "groups"]
+    requestedIDTokenClaims: {"groups": {"essential": true}}
