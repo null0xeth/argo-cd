@@ -8,7 +8,7 @@ metadata:
 data:
   # Argo CD's externally facing base URL (optional). Required when configuring SSO
   url: https://argocd.chonk.city
-
+  admin.enable: "true"
   # Enables application status badge feature
   statusbadge.enabled: "true"
 
@@ -23,13 +23,10 @@ data:
 
   accounts.null0x: apiKey, login
   oidc.config: |
-    name: Okta
+    name: OneLogin
     # this is the authorization server URI
-    issuer: https://trial-8014233.okta.com/oauth2/auseyonhju8otD3v8697
-    clientID: 0oaeyy99ra4Y4cVqh697
-    clientSecret: $oidc.okta.clientSecret
+    issuer: https://honklabs.onelogin.com/oidc/2
+    clientID: 695b32d0-070f-013d-b382-1e9d70d9272c238236
+    clientSecret: $argocd-onelogin-oidc:argocd-onelogin-oidc
     requestedScopes: ["openid", "profile", "email", "groups"]
-    requestedIDTokenClaims: {"groups": {"essential": true}}
-    cliClientID: $oidc.okta.clientSecret
     enablePKCEAuthentication: true
-

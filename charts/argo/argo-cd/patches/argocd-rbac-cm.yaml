@@ -4,7 +4,6 @@ metadata:
   name: argocd-rbac-cm
 data:
   policy.csv: |
-    g, argocd-admins, role:admin
-    g, argocd-readonly, role:readonly
-
+    g, honklabs:argocd-admin, role:admin
   policy.default: role:readonly
+  scopes: '[groups, username]'
