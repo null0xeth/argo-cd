@@ -8,10 +8,12 @@ openapi:
 
 helmCharts:
   - name: argo-cd
-    repo: https://github.com/null0xeth/argo-cd/helm/charts/argo/argo-cd
+    repo: https://argoproj.github.io/argo-helm
     version: "7.1.3"
-    releaseName: argo-cd
+    releaseName: argocd
     namespace: argocd
+    apiVersions:
+      - monitoring.coreos.com/v1
     valuesFile: values.yaml
 
 resources:
