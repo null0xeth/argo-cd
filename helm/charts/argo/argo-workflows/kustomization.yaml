@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+openapi:
+  path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_workflows_kustomize_schema.json
+
+helmCharts:
+- name: argo-workflows
+  repo: https://argoproj.github.io/argo-helm
+  version: "0.41.7"
+  namespace: argo
+  apiVersions:
+    - monitoring.coreos.com/v1
+  valuesFile: values.yaml
+
+resources:
+  - resources
+
+# Patches work too:
+# patches:
+#   - path: ...
+#     target:
+#       kind: Deployment

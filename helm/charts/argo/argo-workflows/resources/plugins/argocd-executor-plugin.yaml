@@ -1,0 +1,36 @@
+---
+# This is an auto-generated file. DO NOT EDIT
+apiVersion: v1
+data:
+  sidecar.automountServiceAccountToken: "false"
+  sidecar.container: |
+    image: urielc12/argocd-plugin
+    name: argocd-executor-plugin
+    ports:
+    - containerPort: 3000
+    resources:
+      limits:
+        cpu: 200m
+        memory: 64Mi
+      requests:
+        cpu: 100m
+        memory: 32Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+kind: ConfigMap
+metadata:
+  annotations:
+    workflows.argoproj.io/description: |
+      This is an ArgoCD plugin that allows you to interact with an argocd instance of your choice.
+      For examples visit https://github.com/UrielCohen456/argo-workflows-argocd-executor-plugin/examples
+  creationTimestamp: null
+  labels:
+    workflows.argoproj.io/configmap-type: ExecutorPlugin
+  name: argocd-executor-plugin
+

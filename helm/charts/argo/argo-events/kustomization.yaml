@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+openapi:
+  path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_events_kustomize_schema.json
+
+helmCharts:
+- name: argo-events
+  repo: https://argoproj.github.io/argo-helm
+  version: "2.4.5"
+    #releaseName: argo-wf
+  namespace: argo-events
+  valuesFile: values.yaml
+
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-events/master/examples/eventbus/native.yaml
+  - resources/rbac/operate-workflow-sa.yaml
+  - resources/rbac/operate-workflow-role.yaml
+  - resources/event-sources/webhook.yaml
+  - resources/sensors/webhook.yaml
+

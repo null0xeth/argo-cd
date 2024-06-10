@@ -1,0 +1,20 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "creationTimestamp": "2024-06-09T14:01:08Z",
+    "deletionTimestamp": "2024-06-09T15:54:39Z",
+    "labels": {
+      "kubernetes.io/metadata.name": "argo-events"
+    },
+    "name": "argo-events",
+    "resourceVersion": "14446169",
+    "uid": "4834c627-7430-477c-8985-18151cce2573"
+  },
+  "spec": {
+    "finalizers": []
+  },
+  "status": {
+    "phase": "Terminating"
+  }
+}

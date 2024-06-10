@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argo
+
+resources:
+  - https://raw.githubusercontent.com/argoproj-labs/argo-workflows-catalog/master/templates/buildkit/manifests.yaml
+  - https://raw.githubusercontent.com/argoproj-labs/argo-workflows-catalog/master/templates/slack/manifests.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/artifacts-workflowtemplate.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/ci-workflowtemplate.yaml
+  - https://raw.githubusercontent.com/argoproj-labs/argo-workflows-catalog/master/templates/argocd-sync-and-wait/manifests.yaml
+  - https://raw.githubusercontent.com/argoproj-labs/argo-workflows-catalog/master/templates/slack-workflow-notifications/manifests.yaml
+  - https://raw.githubusercontent.com/argoproj/argoproj-deployments/master/workflow-examples/resources/workflows/github-event-workflowtemplate.yaml
+  - https://raw.githubusercontent.com/argoproj/argoproj-deployments/master/workflow-examples/resources/workflows/event-consumer-workfloweventbinding.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-workflows/main/examples/workflow-event-binding/event-consumer-workflowtemplate.yaml

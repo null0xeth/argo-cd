@@ -1,0 +1,87 @@
+---
+# ServiceAccount
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: workflow-sa
+  namespace: argo
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: workflow-sa.service-account-token
+  annotations:
+    kubernetes.io/service-account.name: workflow-sa
+type: kubernetes.io/service-account-token
+---
+# Role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: workflow-role
+rules:
+  # Pod get/watch is used to identify the container IDs of the current pod.
+  # Pod patch is used to annotate the step's outputs back to controller (e.g. artifact location).
+  - apiGroups:
+      - ""
+    verbs:
+      - get
+      - watch
+      - patch
+    resources:
+      - pods
+  # Logs get/watch are used to get the pods logs for script outputs, and for log archival
+  - apiGroups:
+      - ""
+    verbs:
+      - get
+      - watch
+    resources:
+      - pods/log
+  # Access to secrets
+  - apiGroups:
+      - ""
+    verbs:
+      - get
+    resources:
+      - secrets
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: workflow-permissions
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: workflow-role
+subjects:
+  - kind: ServiceAccount
+    name: workflow-sa
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hermes
+  namespace: argo
+  labels:
+    workflows.argoproj.io/configmap-type: ExecutorPlugin
+data:
+  sidecar.container: |
+    name: hermes
+    image: ghcr.io/kjagiello/hermes:0.1.0
+    imagePullPolicy: IfNotPresent
+    command: ['-p', '3030']
+    ports:
+      - containerPort: 3030
+    resources:
+      limits:
+        cpu: 200m
+        memory: 64Mi
+      requests:
+        cpu: 100m
+        memory: 32Mi
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+

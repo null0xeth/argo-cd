@@ -1,0 +1,4 @@
+apiVersion: v2
+name: argo-pipelines
+version: 1.0.0
+

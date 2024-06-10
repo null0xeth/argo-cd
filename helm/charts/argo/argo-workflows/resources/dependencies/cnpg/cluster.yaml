@@ -1,0 +1,23 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-argo-workflows
+  namespace: argo
+spec:
+  instances: 3
+
+  bootstrap:
+    initdb:
+      database: argo_wf
+      owner: argo_admin
+      dataChecksums: true
+      encoding: 'UTF8'
+  storage:
+    size: 20Gi
+  walStorage:
+    size: 5Gi
+  tablespaces:
+  - name: argo_workflows
+    storage:
+      size: 20Gi
+

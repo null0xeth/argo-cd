@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: operate-workflow-sa
+  namespace: argo-events
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: operate-workflow-sa.service-account-token
+  annotations:
+    kubernetes.io/service-account.name: operate-workflow-sa
+type: kubernetes.io/service-account-token
