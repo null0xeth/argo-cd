@@ -5,7 +5,7 @@
 # -- Provide a name in place of `argocd`
 nameOverride: ""
 # -- String to fully override `"argo-cd.fullname"`
-fullnameOverride: ""
+fullnameOverride: "argocd"
 # -- Override the namespace
 # @default -- `.Release.Namespace`
 namespaceOverride: ""

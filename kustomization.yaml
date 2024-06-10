@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../helm/charts/argo/argo-cd
+  - kustomize/argo/argo-cd
 
 # patches:
 # - path: patch.yaml

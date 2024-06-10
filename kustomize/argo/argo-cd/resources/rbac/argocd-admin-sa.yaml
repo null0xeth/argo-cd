@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argocd-admin
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-admin.service-account-token
+  annotations:
+    kubernetes.io/service-account.name: argocd-admin
+type: kubernetes.io/service-account-token

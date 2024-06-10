@@ -13,13 +13,13 @@ spec:
       match: Host(`argocd.chonk.city`)
       priority: 10
       services:
-        - name: argo-cd-server
+        - name: argocd-server
           port: 80
     - kind: Rule
       match: Host(`argocd.chonk.city`) && Header(`Content-Type`, `application/grpc`)
       priority: 11
       services:
-        - name: argo-cd-server
+        - name: argocd-server
           port: 80
           scheme: h2c
   tls:
