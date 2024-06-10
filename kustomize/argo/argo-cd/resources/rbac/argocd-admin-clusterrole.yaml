@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   name: argocd-admin-clusterrole
 rules:
-  - apiGroups: ["argoproj.io"]
+  - apiGroups: ["*"]
     resources: ["*"]
     verbs: ["*"]
 
