@@ -4,6 +4,9 @@ kind: Kustomization
 openapi:
   path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_workflows_kustomize_schema.json
 
+helmGlobals:
+  chartHome: ../../../charts
+
 helmCharts:
 - name: argo-workflows
   repo: https://argoproj.github.io/argo-helm

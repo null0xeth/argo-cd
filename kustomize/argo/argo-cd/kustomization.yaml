@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+openapi:
+  path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_cd_kustomize_schema.json
+
+helmCharts:
+  - name: argo-cd
+    repo: https://github.com/null0xeth/argo-cd/helm/charts/argo/argo-cd
+    version: "7.1.3"
+    releaseName: argo-cd
+    namespace: argocd
+    valuesFile: values.yaml
+
+resources:
+  - resources
+  - secrets
+
+patches:
+  - path: patches/kustomize-helm.yaml

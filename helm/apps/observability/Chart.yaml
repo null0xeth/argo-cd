@@ -1,0 +1,4 @@
+apiVersion: v2
+name: observability
+version: 1.0.0
+

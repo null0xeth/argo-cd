@@ -4,7 +4,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
   name: kube-prometheus-stack
-  namespace: argocd
+  namespace: monitoring
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

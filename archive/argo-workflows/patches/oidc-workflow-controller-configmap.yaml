@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  sso: |
+    issuer: https://honklabs.onelogin.com/oidc/2
+    clientId:
+      name: argo-workflows-sso
+      key: clientId
+    clientSecret:
+      name: argo-workflows-sso
+      key: clientSecret
+    redirectUrl: https://argo-workflows.chonk.city/oauth2/callback
+    scopes:
+    - groups
+    rbac:
+      enabled: true
+kind: ConfigMap
+metadata:
+  name: workflow-controller-configmap
