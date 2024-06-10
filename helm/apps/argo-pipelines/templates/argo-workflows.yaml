@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/null0xeth/argo-cd.git
-    path: helm/charts/argo/argo-workflows
+    path: kustomize/argo/argo-workflows
     targetRevision: HEAD
   destination:
     server: {{ .Values.spec.destination.server }}

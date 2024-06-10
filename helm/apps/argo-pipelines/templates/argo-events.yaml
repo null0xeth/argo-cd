@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/null0xeth/argo-cd.git
-    path: helm/charts/argo/argo-events
+    path: kustomize/argo/argo-events
     targetRevision: HEAD
   destination:
     server: {{ .Values.spec.destination.server }}

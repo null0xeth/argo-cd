@@ -284,6 +284,7 @@ configs:
     # @default -- `''` (See [values.yaml])
     policy.csv: |
       g, honklabs:argocd-admin, role:admin
+      p, role:argocd-admin, extensions, invoke, metrics, allow
 
     # -- OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
     # The scope value can be a string, or a list of strings.
