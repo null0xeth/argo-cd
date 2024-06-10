@@ -6,5 +6,4 @@ namespace: argocd
 resources:
   - namespace.yaml
   - ingress.yaml
-  - app-project.yaml
   - rbac
