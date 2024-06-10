@@ -283,8 +283,21 @@ configs:
     # -- File containing user-defined policies and role definitions.
     # @default -- `''` (See [values.yaml])
     policy.csv: |
-      g, honklabs:argocd-admin, role:admin
       p, role:argocd-admin, extensions, invoke, metrics, allow
+      p, role:argocd-admin, applications, *, */*, allow
+      p, role:argocd-admin, clusters, get, *, allow
+      p, role:argocd-admin, repositories, get, *, allow
+      p, role:argocd-admin, repositories, create, *, allow
+      p, role:argocd-admin, repositories, update, *, allow
+      p, role:argocd-admin, repositories, delete, *, allow
+      p, role:argocd-admin, projects, get, *, allow
+      p, role:argocd-admin, projects, create, *, allow
+      p, role:argocd-admin, projects, update, *, allow
+      p, role:argocd-admin, projects, delete, *, allow
+      p, role:argocd-admin, logs, get, *, allow
+      p, role:argocd-admin, exec, create, */*, allow
+      g, honklabs:argocd-admin, role:admin
+
 
     # -- OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
     # The scope value can be a string, or a list of strings.
