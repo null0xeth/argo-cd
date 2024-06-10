@@ -283,18 +283,12 @@ configs:
     # -- File containing user-defined policies and role definitions.
     # @default -- `''` (See [values.yaml])
     policy.csv: |
-      p, role:argocd-admin, extensions, invoke, metrics, allow
+      p, role:argocd-admin, extensions, *, *, allow
       p, role:argocd-admin, applications, *, */*, allow
-      p, role:argocd-admin, clusters, get, *, allow
-      p, role:argocd-admin, repositories, get, *, allow
-      p, role:argocd-admin, repositories, create, *, allow
-      p, role:argocd-admin, repositories, update, *, allow
-      p, role:argocd-admin, repositories, delete, *, allow
-      p, role:argocd-admin, projects, get, *, allow
-      p, role:argocd-admin, projects, create, *, allow
-      p, role:argocd-admin, projects, update, *, allow
-      p, role:argocd-admin, projects, delete, *, allow
-      p, role:argocd-admin, logs, get, *, allow
+      p, role:argocd-admin, clusters, *, *, allow
+      p, role:argocd-admin, repositories, *, *, allow
+      p, role:argocd-admin, projects, *, *, allow
+      p, role:argocd-admin, logs, *, *, allow
       p, role:argocd-admin, exec, create, */*, allow
       g, honklabs:argocd-admin, role:admin
 
