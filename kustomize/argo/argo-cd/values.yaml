@@ -1489,7 +1489,7 @@ redis:
 # Ref: https://github.com/DandyDeveloper/charts/blob/master/charts/redis-ha/values.yaml
 redis-ha:
   # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
-  enabled: false
+  enabled: true
   ## Redis image
   image:
     # -- Redis repository
@@ -1520,7 +1520,7 @@ redis-ha:
   ## Enables a HA Proxy for better LoadBalancing / Sentinel Master support. Automatically proxies to Redis master.
   haproxy:
     # -- Enabled HAProxy LoadBalancing/Proxy
-    enabled: false
+    enabled: true
     # --  Custom labels for the haproxy pod. This is relevant for Argo CD CLI.
     labels:
       app.kubernetes.io/name: argocd-redis-ha-haproxy-lb
@@ -1542,7 +1542,7 @@ redis-ha:
       readOnlyRootFilesystem: true
 
   # -- Configures redis-ha with AUTH
-  auth: false
+  auth: true
   # -- Existing Secret to use for redis-ha authentication.
   # By default the redis-secret-init Job is generating this Secret.
   existingSecret: argocd-redis-credentials
@@ -1581,7 +1581,7 @@ redis-ha:
 # External Redis parameters
 externalRedis:
   # -- External Redis server host
-  host: "argocd-redis-master"
+  host: ""
   # -- External Redis username
   username: ""
   # -- External Redis password
@@ -1590,7 +1590,7 @@ externalRedis:
   port: 6379
   # -- The name of an existing secret with Redis credentials (must contain key `redis-password`).
   # When it's set, the `externalRedis.password` parameter is ignored
-  existingSecret: "argocd-redis-credentials"
+  existingSecret: ""
   # -- External Redis Secret annotations
   secretAnnotations: {}
 
