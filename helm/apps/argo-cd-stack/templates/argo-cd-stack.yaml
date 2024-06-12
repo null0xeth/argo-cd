@@ -10,6 +10,8 @@ spec:
     repoURL: https://github.com/null0xeth/argo-cd
     path: helm/apps/argo-cd-stack/
     targetRevision: HEAD
+    plugin:
+      name: kustomize-build-with-helm
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
@@ -25,4 +27,3 @@ spec:
         factor: 2
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true
