@@ -194,6 +194,7 @@ configs:
     # -- Enable Status Badge
     ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
     statusbadge.enabled: true
+    kustomize.buildOptions: --enable-helm
 
     oidc.config: |
       name: OneLogin
