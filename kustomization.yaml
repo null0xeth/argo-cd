@@ -5,4 +5,5 @@ resources:
   - kustomize/argo/argo-cd
 
 # patches:
-# - path: patch.yaml
+# - path: ./kustomize/argo/argo-cd/patches/kustomize-helm.yaml
+# - path: ./kustomize/argo/argo-cd/patches/metrics-server-extension.yaml

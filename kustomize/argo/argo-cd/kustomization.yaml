@@ -21,4 +21,5 @@ resources:
   - secrets
 
 patches:
-  - path: patches/kustomize-helm.yaml
+- path: ./kustomize/argo/argo-cd/patches/kustomize-helm.yaml
+- path: ./kustomize/argo/argo-cd/patches/metrics-server-extension.yaml
