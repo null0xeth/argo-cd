@@ -2,8 +2,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: argocd-admin
-  annotations:
-    argocd.argoproj.io/hook: PreSync
 ---
 apiVersion: v1
 kind: Secret
@@ -11,5 +9,4 @@ metadata:
   name: argocd-admin.service-account-token
   annotations:
     kubernetes.io/service-account.name: argocd-admin
-    argocd.argoproj.io/hook: PreSync
 type: kubernetes.io/service-account-token
