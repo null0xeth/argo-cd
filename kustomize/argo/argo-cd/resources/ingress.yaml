@@ -7,8 +7,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik-external
     argocd.argoproj.io/hook: PostSync
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   entryPoints: [websecure]
   routes:
