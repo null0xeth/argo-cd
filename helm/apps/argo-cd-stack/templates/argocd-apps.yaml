@@ -3,10 +3,12 @@ kind: Application
 metadata:
   name: argocd-apps
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://github.com/null0xeth/argo-cd
+    repoURL: https://github.com/null0xeth/argo-cd.git
     path: kustomize/argo/argocd-apps
     targetRevision: HEAD
   destination:
