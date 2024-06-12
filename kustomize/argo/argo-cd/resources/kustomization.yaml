@@ -7,4 +7,4 @@ resources:
   - namespace.yaml
   - ingress.yaml
   - rbac
-  - cmp/kustomize-helm.yaml
+  #- cmp/kustomize-helm.yaml

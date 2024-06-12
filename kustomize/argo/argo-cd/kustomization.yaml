@@ -16,9 +16,12 @@ helmCharts:
       - monitoring.coreos.com/v1
     valuesFile: values.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 resources:
   - resources
   - secrets
 
-patches:
-- path: patches/metrics-server-extension.yaml
+# patches:
+# - path: patches/metrics-server-extension.yaml
