@@ -1542,7 +1542,7 @@ redis-ha:
       readOnlyRootFilesystem: true
 
   # -- Configures redis-ha with AUTH
-  auth: true
+  auth: false
   # -- Existing Secret to use for redis-ha authentication.
   # By default the redis-secret-init Job is generating this Secret.
   existingSecret: argocd-redis-credentials
@@ -1596,7 +1596,7 @@ externalRedis:
 
 redisSecretInit:
   # -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
-  enabled: false
+  enabled: true
   # -- Redis secret-init name
   name: redis-secret-init
 
