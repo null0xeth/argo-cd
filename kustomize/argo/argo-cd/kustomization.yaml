@@ -21,5 +21,4 @@ resources:
   - secrets
 
 patches:
-- path: patches/kustomize-helm.yaml
 - path: patches/metrics-server-extension.yaml
