@@ -375,15 +375,15 @@ configs:
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins:
-      kustomize-build-with-helm:
-        init:
-          command: [sh]
-          args: [-c, 'echo "Initializing..."']
+    plugins: {}
+      # kustomize-build-with-helm:
+      #   init:
+      #     command: [sh]
+      #     args: [-c, 'echo "Initializing..."']
 
-        generate:
-          command: [ "sh", "-c" ]
-          args: [ "kustomize build --enable-helm" ]
+      #   generate:
+      #     command: [ "sh", "-c" ]
+      #     args: [ "kustomize build --enable-helm" ]
       # --- First plugin
       # my-plugin:
       #   init:
