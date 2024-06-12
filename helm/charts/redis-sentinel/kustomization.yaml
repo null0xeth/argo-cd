@@ -3,6 +3,10 @@ kind: Kustomization
 
 namespace: argocd
 
+commonAnnotations:
+  annotations:
+  argocd.argoproj.io/sync-wave: "-5"
+
 helmCharts:
   - name: redis
     repo: oci://registry-1.docker.io/bitnamicharts
