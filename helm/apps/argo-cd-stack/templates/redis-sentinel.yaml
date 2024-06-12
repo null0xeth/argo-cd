@@ -14,7 +14,7 @@ spec:
   project: default
   source:
     # TODO: fix
-    repoURL: https://github.com/null0xeth/argo-cd.git
+    repoURL: https://github.com/null0xeth/argo-cd
     path: helm/charts/redis-sentinel
     targetRevision: HEAD
   syncPolicy:

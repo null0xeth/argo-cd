@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/null0xeth/argo-cd.git
+    repoURL: https://github.com/null0xeth/argo-cd
     path: kustomize/argo/argocd-apps
     targetRevision: HEAD
   destination:
