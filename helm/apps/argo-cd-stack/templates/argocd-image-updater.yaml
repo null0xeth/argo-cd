@@ -9,8 +9,6 @@ spec:
     repoURL: https://github.com/null0xeth/argo-cd
     path: kustomize/argo/argocd-image-updater
     targetRevision: HEAD
-    plugin:
-      name: kustomize-build-with-helm
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
