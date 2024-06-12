@@ -4,3 +4,5 @@ metadata:
   name: argocd
   labels:
     istio-injection: enabled
+  annotations:
+    argocd.argoproj.io/hook: PreSync

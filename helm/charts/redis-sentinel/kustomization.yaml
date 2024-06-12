@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+helmCharts:
+  - name: redis
+    repo: oci://registry-1.docker.io/bitnamicharts
+    version: "19.5.2"
+    releaseName: argocd-redis
+    namespace: argocd
+    valuesFile: values.yaml
+
+resources:
+  - secrets/argocd-redis-credentials.yaml
+
+

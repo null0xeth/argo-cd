@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 data:
   kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
 

@@ -34,7 +34,8 @@ crds:
   # -- Keep CRDs on chart uninstall
   keep: true
   # -- Annotations to be added to all CRDs
-  annotations: {}
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   # -- Addtional labels to be added to all CRDs
   additionalLabels: {}
 
@@ -201,6 +202,20 @@ configs:
       clientSecret: $argocd-onelogin-oidc:argocd-onelogin-oidc
       requestedScopes: ["openid", "profile", "email", "groups"]
       enablePKCEAuthentication: true
+
+    resource.customizations.health.argoproj.io_Application: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.health ~= nil then
+          hs.status = obj.status.health.status
+          if obj.status.health.message ~= nil then
+            hs.message = obj.status.health.message
+          end
+        end
+      end
+      return hs
 
   # Argo CD configuration parameters
   ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
@@ -1429,7 +1444,7 @@ redis:
 
   metrics:
     # -- Deploy metrics service
-    enabled: true
+    enabled: false
 
     # Redis metrics service configuration
     service:
@@ -1448,7 +1463,7 @@ redis:
 
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Interval at which metrics should be scraped
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -1474,7 +1489,7 @@ redis:
 # Ref: https://github.com/DandyDeveloper/charts/blob/master/charts/redis-ha/values.yaml
 redis-ha:
   # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
-  enabled: true
+  enabled: false
   ## Redis image
   image:
     # -- Redis repository
@@ -1505,7 +1520,7 @@ redis-ha:
   ## Enables a HA Proxy for better LoadBalancing / Sentinel Master support. Automatically proxies to Redis master.
   haproxy:
     # -- Enabled HAProxy LoadBalancing/Proxy
-    enabled: true
+    enabled: false
     # --  Custom labels for the haproxy pod. This is relevant for Argo CD CLI.
     labels:
       app.kubernetes.io/name: argocd-redis-ha-haproxy-lb
@@ -1527,10 +1542,10 @@ redis-ha:
       readOnlyRootFilesystem: true
 
   # -- Configures redis-ha with AUTH
-  auth: true
+  auth: false
   # -- Existing Secret to use for redis-ha authentication.
   # By default the redis-secret-init Job is generating this Secret.
-  existingSecret: argocd-redis
+  existingSecret: argocd-redis-credentials
 
   # -- Whether the Redis server pods should be forced to run on separate nodes.
   hardAntiAffinity: true
@@ -1566,7 +1581,7 @@ redis-ha:
 # External Redis parameters
 externalRedis:
   # -- External Redis server host
-  host: ""
+  host: "argocd-redis"
   # -- External Redis username
   username: ""
   # -- External Redis password
@@ -1575,13 +1590,13 @@ externalRedis:
   port: 6379
   # -- The name of an existing secret with Redis credentials (must contain key `redis-password`).
   # When it's set, the `externalRedis.password` parameter is ignored
-  existingSecret: ""
+  existingSecret: "argocd-redis-credentials"
   # -- External Redis Secret annotations
   secretAnnotations: {}
 
 redisSecretInit:
   # -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
-  enabled: true
+  enabled: false
   # -- Redis secret-init name
   name: redis-secret-init
 
