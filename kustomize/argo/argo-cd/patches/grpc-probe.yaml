@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+spec:
+  template:
+    spec:
+      containers:
+      - name: argocd-repo-server
+        livenessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          exec:
+            command: [ "/usr/local/bin/grpc-health-probe", "-addr=:8081", "-tls", "-tls-no-verify" ]
+        volumeMounts:
+        - mountPath: /usr/local/bin/grpc-health-probe
+          name: custom-tools
+          subPath: grpc-health-probe
+      volumes:
+      - name: custom-tools
+        emptyDir: {}
+      initContainers:
+      - name: download-grpc-health-probe
+        image: alpine:3.8
+        command: [sh, -c]
+        args:
+          - wget --no-check-certificate https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.4.27/grpc_health_probe-linux-amd64 &&
+            mv grpc_health_probe-linux-amd64 /custom-tools/grpc-health-probe &&
+            chmod ugo+x /custom-tools/grpc-health-probe
+        volumeMounts:
+          - mountPath: /custom-tools
+            name: custom-tools
