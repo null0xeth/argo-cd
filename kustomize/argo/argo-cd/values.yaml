@@ -32,7 +32,7 @@ crds:
   # -- Install and upgrade CRDs
   install: true
   # -- Keep CRDs on chart uninstall
-  keep: true
+  keep: false
   # -- Annotations to be added to all CRDs
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
@@ -598,7 +598,7 @@ controller:
   ## When replicas are added or removed, the sharding algorithm is re-run to ensure that the
   ## clusters are distributed according to the algorithm. If the algorithm is well-balanced,
   ## like round-robin, then the shards will be well-balanced.
-  dynamicClusterDistribution: true
+  dynamicClusterDistribution: false
 
   # -- Application controller heartbeat time
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/dynamic-cluster-distribution/#working-of-dynamic-distribution
@@ -1680,12 +1680,12 @@ server:
   name: server
 
   # -- The number of server pods to run
-  replicas: 1
+  replicas: 2 2
 
   ## Argo CD server Horizontal Pod Autoscaler
   autoscaling:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the Argo CD server
-    enabled: true
+    enabled: false
     # -- Minimum number of replicas for the Argo CD server [HPA]
     minReplicas: 2
     # -- Maximum number of replicas for the Argo CD server [HPA]
@@ -2341,12 +2341,12 @@ repoServer:
   name: repo-server
 
   # -- The number of repo server pods to run
-  replicas: 1
+  replicas: 2
 
   ## Repo server Horizontal Pod Autoscaler
   autoscaling:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
-    enabled: true
+    enabled: false
     # -- Minimum number of replicas for the repo server [HPA]
     minReplicas: 2
     # -- Maximum number of replicas for the repo server [HPA]
