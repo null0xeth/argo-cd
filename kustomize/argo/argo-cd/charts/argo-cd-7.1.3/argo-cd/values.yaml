@@ -3,9 +3,9 @@
 ##
 
 # -- Provide a name in place of `argocd`
-nameOverride: ""
+nameOverride: argocd
 # -- String to fully override `"argo-cd.fullname"`
-fullnameOverride: "argocd"
+fullnameOverride: ""
 # -- Override the namespace
 # @default -- `.Release.Namespace`
 namespaceOverride: ""
@@ -18,7 +18,7 @@ apiVersionOverrides: {}
 
 # -- Create aggregated roles that extend existing cluster roles to interact with argo-cd resources
 ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
-createAggregateRoles: true
+createAggregateRoles: false
 # -- Create cluster roles for cluster-wide installation.
 ## Used when you manage applications in the same cluster where Argo CD runs
 createClusterRoles: true
@@ -34,8 +34,7 @@ crds:
   # -- Keep CRDs on chart uninstall
   keep: true
   # -- Annotations to be added to all CRDs
-  annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  annotations: {}
   # -- Addtional labels to be added to all CRDs
   additionalLabels: {}
 
@@ -43,11 +42,11 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  domain: argocd.chonk.city
+  domain: argocd.example.com
 
   # -- Common labels for the all resources
-  additionalLabels:
-    app: argo-cd
+  additionalLabels: {}
+    # app: argo-cd
 
   # -- Number of old deployment ReplicaSets to retain. The rest will be garbage collected.
   revisionHistoryLimit: 3
@@ -55,11 +54,12 @@ global:
   # Default image used by all components
   image:
     # -- If defined, a repository applied to all Argo CD deployments
-    repository: ""
+    repository: quay.io/argoproj/argocd
     # -- Overrides the global Argo CD image tag whose default is the chart appVersion
     tag: ""
     # -- If defined, a imagePullPolicy applied to all Argo CD deployments
-    imagePullPolicy: ""
+    imagePullPolicy: IfNotPresent
+
   # -- Secrets with credentials to pull images from a private registry
   imagePullSecrets: []
 
@@ -87,10 +87,10 @@ global:
 
   # -- Toggle and define pod-level security context.
   # @default -- `{}` (See [values.yaml])
-  securityContext:
-    runAsUser: 999
-    runAsGroup: 999
-    fsGroup: 999
+  securityContext: {}
+  #  runAsUser: 999
+  #  runAsGroup: 999
+  #  fsGroup: 999
 
   # -- Mapping between IP and hostnames that will be injected as entries in the pod's hosts files
   hostAliases: []
@@ -108,7 +108,7 @@ global:
   # Default network policy rules used by all components
   networkPolicy:
     # -- Create NetworkPolicy objects for all components
-    create: true
+    create: false
     # -- Default deny all ingress traffic
     defaultDenyIngress: false
 
@@ -146,11 +146,11 @@ global:
     #   whenUnsatisfiable: DoNotSchedule
 
   # -- Deployment strategy for the all deployed Deployments
-  deploymentStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+  deploymentStrategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+    #   maxSurge: 25%
+    #   maxUnavailable: 25%
 
   # -- Environment variables to pass to all deployed Deployments
   env: []
@@ -178,7 +178,7 @@ configs:
 
     # -- Enable exec feature in Argo UI
     ## Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
-    exec.enabled: true
+    exec.enabled: false
 
     # -- Enable local admin user
     ## Ref: https://argo-cd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
@@ -192,30 +192,38 @@ configs:
 
     # -- Enable Status Badge
     ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
-    statusbadge.enabled: true
-    kustomize.buildOptions: --enable-helm
+    statusbadge.enabled: false
 
-    oidc.config: |
-      name: OneLogin
-      issuer: https://honklabs.onelogin.com/oidc/2
-      clientID: 695b32d0-070f-013d-b382-1e9d70d9272c238236
-      clientSecret: $argocd-onelogin-oidc:argocd-onelogin-oidc
-      requestedScopes: ["openid", "profile", "email", "groups"]
-      enablePKCEAuthentication: true
+    # Dex configuration
+    # dex.config: |
+    #   connectors:
+    #     # GitHub example
+    #     - type: github
+    #       id: github
+    #       name: GitHub
+    #       config:
+    #         clientID: aabbccddeeff00112233
+    #         clientSecret: $dex.github.clientSecret # Alternatively $<some_K8S_secret>:dex.github.clientSecret
+    #         orgs:
+    #         - name: your-github-org
 
-    # resource.customizations.health.argoproj.io_Application: |
-    #     hs = {}
-    #     hs.status = "Progressing"
-    #     hs.message = ""
-    #     if obj.status ~= nil then
-    #       if obj.status.health ~= nil then
-    #         hs.status = obj.status.health.status
-    #         if obj.status.health.message ~= nil then
-    #           hs.message = obj.status.health.message
-    #         end
-    #       end
-    #     end
-    #     return hs
+    # OIDC configuration as an alternative to dex (optional).
+    # oidc.config: |
+    #   name: AzureAD
+    #   issuer: https://login.microsoftonline.com/TENANT_ID/v2.0
+    #   clientID: CLIENT_ID
+    #   clientSecret: $oidc.azuread.clientSecret
+    #   rootCA: |
+    #     -----BEGIN CERTIFICATE-----
+    #     ... encoded certificate data here ...
+    #     -----END CERTIFICATE-----
+    #   requestedIDTokenClaims:
+    #     groups:
+    #       essential: true
+    #   requestedScopes:
+    #     - openid
+    #     - profile
+    #     - email
 
   # Argo CD configuration parameters
   ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
@@ -244,7 +252,7 @@ configs:
     ## Server properties
     # -- Run server without TLS
     ## NOTE: This value should be set when you generate params by other means as it changes ports used by ingress template.
-    server.insecure: true
+    server.insecure: false
     # -- Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
     server.basehref: /
     # -- Used if Argo CD is running behind reverse proxy under subpath different from /
@@ -266,13 +274,13 @@ configs:
     # -- Modify how application is synced between the generator and the cluster. One of: `sync`, `create-only`, `create-update`, `create-delete`
     applicationsetcontroller.policy: sync
     # -- Enables use of the Progressive Syncs capability
-    applicationsetcontroller.enable.progressive.syncs: true
+    applicationsetcontroller.enable.progressive.syncs: false
 
     # -- Enables [Applications in any namespace]
     ## List of additional namespaces where applications may be created in and reconciled from.
     ## The namespace where Argo CD is installed to will always be allowed.
     ## Set comma-separated list. (e.g. app-team-one, app-team-two)
-    application.namespaces: "default, argocd, argo, argo-events, monitoring"
+    application.namespaces: ""
 
     # -- JQ Path expression timeout
     ## By default, the evaluation of a JQPathExpression is limited to one second.
@@ -293,17 +301,26 @@ configs:
 
     # -- The name of the default role which Argo CD will falls back to, when authorizing API requests (optional).
     # If omitted or empty, users may be still be able to login, but will see no apps, projects, etc...
-    policy.default: 'role:readonly'
+    policy.default: ''
 
     # -- File containing user-defined policies and role definitions.
     # @default -- `''` (See [values.yaml])
-    policy.csv: |
-      g, argocd-admin, role:admin
-      g, argo-admin, role:admin
+    policy.csv: ''
+    # Policy rules are in the form:
+    #  p, subject, resource, action, object, effect
+    # Role definitions and bindings are in the form:
+    #  g, subject, inherited-subject
+    # policy.csv: |
+    #   p, role:org-admin, applications, *, */*, allow
+    #   p, role:org-admin, clusters, get, *, allow
+    #   p, role:org-admin, repositories, *, *, allow
+    #   p, role:org-admin, logs, get, *, allow
+    #   p, role:org-admin, exec, create, */*, allow
+    #   g, your-github-org:your-team, role:org-admin
 
     # -- OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
     # The scope value can be a string, or a list of strings.
-    scopes: "[groups, username]"
+    scopes: "[groups]"
 
     # -- Matcher function for Casbin, `glob` for glob matcher and `regex` for regex matcher.
     policy.matchMode: "glob"
@@ -368,21 +385,13 @@ configs:
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
   cmp:
     # -- Create the argocd-cmp-cm configmap
-    create: true
+    create: false
 
     # -- Annotations to be added to argocd-cmp-cm configmap
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
     plugins: {}
-      # kustomize-build-with-helm:
-      #   init:
-      #     command: [sh]
-      #     args: [-c, 'echo "Initializing..."']
-
-      #   generate:
-      #     command: [ "sh", "-c" ]
-      #     args: [ "kustomize build --enable-helm" ]
       # --- First plugin
       # my-plugin:
       #   init:
@@ -598,7 +607,7 @@ controller:
   ## When replicas are added or removed, the sharding algorithm is re-run to ensure that the
   ## clusters are distributed according to the algorithm. If the algorithm is well-balanced,
   ## like round-robin, then the shards will be well-balanced.
-  dynamicClusterDistribution: true
+  dynamicClusterDistribution: false
 
   # -- Application controller heartbeat time
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/dynamic-cluster-distribution/#working-of-dynamic-distribution
@@ -705,12 +714,12 @@ controller:
 
   # -- Resource limits and requests for the application controller pods
   resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 512Mi
-    # requests:
-    #   cpu: 250m
-    #   memory: 256Mi
+  #  limits:
+  #    cpu: 500m
+  #    memory: 512Mi
+  #  requests:
+  #    cpu: 250m
+  #    memory: 256Mi
 
   # Application controller container ports
   containerPorts:
@@ -797,12 +806,12 @@ controller:
   ## Application controller metrics configuration
   metrics:
     # -- Deploy metrics service
-    enabled: true
+    enabled: false
     # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
     scrapeTimeout: ""
     applicationLabels:
       # -- Enables additional labels in argocd_app_labels metric
-      enabled: true
+      enabled: false
       # -- Additional labels
       labels: []
     service:
@@ -820,7 +829,7 @@ controller:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -843,7 +852,7 @@ controller:
       annotations: {}
     rules:
       # -- Deploy a PrometheusRule for the application controller
-      enabled: true
+      enabled: false
       # -- PrometheusRule namespace
       namespace: "" # "monitoring"
       # -- PrometheusRule selector
@@ -856,31 +865,31 @@ controller:
       annotations: {}
 
       # -- PrometheusRule.Spec for the application controller
-      spec:
-        - alert: ArgoAppMissing
-          expr: |
-            absent(argocd_app_info) == 1
-          for: 15m
-          labels:
-            severity: critical
-          annotations:
-            summary: "[Argo CD] No reported applications"
-            description: >
-              Argo CD has not reported any applications data for the past 15 minutes which
-              means that it must be down or not functioning properly.  This needs to be
-              resolved for this cloud to continue to maintain state.
-        - alert: ArgoAppNotSynced
-          expr: |
-            argocd_app_info{sync_status!="Synced"} == 1
-          for: 12h
-          labels:
-            severity: warning
-          annotations:
-            summary: "[{{`{{$labels.name}}`}}] Application not synchronized"
-            description: >
-              The application [{{`{{$labels.name}}`}} has not been synchronized for over
-              12 hours which means that the state of this cloud has drifted away from the
-              state inside Git.
+      spec: []
+      # - alert: ArgoAppMissing
+      #   expr: |
+      #     absent(argocd_app_info) == 1
+      #   for: 15m
+      #   labels:
+      #     severity: critical
+      #   annotations:
+      #     summary: "[Argo CD] No reported applications"
+      #     description: >
+      #       Argo CD has not reported any applications data for the past 15 minutes which
+      #       means that it must be down or not functioning properly.  This needs to be
+      #       resolved for this cloud to continue to maintain state.
+      # - alert: ArgoAppNotSynced
+      #   expr: |
+      #     argocd_app_info{sync_status!="Synced"} == 1
+      #   for: 12h
+      #   labels:
+      #     severity: warning
+      #   annotations:
+      #     summary: "[{{`{{$labels.name}}`}}] Application not synchronized"
+      #     description: >
+      #       The application [{{`{{$labels.name}}`}} has not been synchronized for over
+      #       12 hours which means that the state of this cloud has drifted away from the
+      #       state inside Git.
 
   ## Enable this and set the rules: to whatever custom rules you want for the Cluster Role resource.
   ## Defaults to off
@@ -893,7 +902,7 @@ controller:
 ## Dex
 dex:
   # -- Enable dex
-  enabled: false
+  enabled: true
   # -- Dex name
   name: dex-server
 
@@ -1190,7 +1199,7 @@ dex:
 ## Redis
 redis:
   # -- Enable redis
-  enabled: false
+  enabled: true
   # -- Redis name
   name: redis
 
@@ -1223,7 +1232,7 @@ redis:
   ## Prometheus redis-exporter sidecar
   exporter:
     # -- Enable Prometheus redis-exporter sidecar
-    enabled: true
+    enabled: false
     # -- Environment variables to pass to the Redis exporter
     env: []
     ## Prometheus redis-exporter image
@@ -1252,7 +1261,7 @@ redis:
     ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
     readinessProbe:
       # -- Enable Kubernetes liveness probe for Redis exporter (optional)
-      enabled: true
+      enabled: false
       # -- Number of seconds after the container has started before [probe] is initiated
       initialDelaySeconds: 30
       # -- How often (in seconds) to perform the [probe]
@@ -1265,7 +1274,7 @@ redis:
       failureThreshold: 5
     livenessProbe:
       # -- Enable Kubernetes liveness probe for Redis exporter
-      enabled: true
+      enabled: false
       # -- Number of seconds after the container has started before [probe] is initiated
       initialDelaySeconds: 30
       # -- How often (in seconds) to perform the [probe]
@@ -1310,7 +1319,7 @@ redis:
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   readinessProbe:
     # -- Enable Kubernetes liveness probe for Redis server
-    enabled: true
+    enabled: false
     # -- Number of seconds after the container has started before [probe] is initiated
     initialDelaySeconds: 30
     # -- How often (in seconds) to perform the [probe]
@@ -1323,7 +1332,7 @@ redis:
     failureThreshold: 5
   livenessProbe:
     # -- Enable Kubernetes liveness probe for Redis server
-    enabled: true
+    enabled: false
     # -- Number of seconds after the container has started before [probe] is initiated
     initialDelaySeconds: 30
     # -- How often (in seconds) to perform the [probe]
@@ -1360,12 +1369,12 @@ redis:
 
   # -- Resource limits and requests for redis
   resources: {}
-    # limits:
-    #   cpu: 200m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 64Mi
+  #  limits:
+  #    cpu: 200m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 100m
+  #    memory: 64Mi
 
   # -- Redis pod-level security context
   # @default -- See [values.yaml]
@@ -1394,7 +1403,7 @@ redis:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-        - ALL
+      - ALL
 
   # -- Redis service port
   servicePort: 6379
@@ -1432,13 +1441,13 @@ redis:
 
   serviceAccount:
     # -- Create a service account for the redis pod
-    create: true
+    create: false
     # -- Service account name for redis pod
     name: ""
     # -- Annotations applied to created service account
     annotations: {}
     # -- Automount API credentials for the Service Account
-    automountServiceAccountToken: true
+    automountServiceAccountToken: false
 
   service:
     # -- Redis service annotations
@@ -1448,7 +1457,7 @@ redis:
 
   metrics:
     # -- Deploy metrics service
-    enabled: true
+    enabled: false
 
     # Redis metrics service configuration
     service:
@@ -1467,7 +1476,7 @@ redis:
 
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Interval at which metrics should be scraped
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -1493,7 +1502,7 @@ redis:
 # Ref: https://github.com/DandyDeveloper/charts/blob/master/charts/redis-ha/values.yaml
 redis-ha:
   # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
-  enabled: true
+  enabled: false
   ## Redis image
   image:
     # -- Redis repository
@@ -1503,14 +1512,14 @@ redis-ha:
   ## Prometheus redis-exporter sidecar
   exporter:
     # -- Enable Prometheus redis-exporter sidecar
-    enabled: true
+    enabled: false
     # -- Repository to use for the redis-exporter
     image: public.ecr.aws/bitnami/redis-exporter
     # -- Tag to use for the redis-exporter
     tag: 1.58.0
   persistentVolume:
     # -- Configures persistence on Redis nodes
-    enabled: true
+    enabled: false
   ## Redis specific configuration options
   redis:
     # -- Redis convention for naming the cluster group: must match `^[\\w-\\.]+$` and can be templated
@@ -1527,7 +1536,7 @@ redis-ha:
     enabled: true
     # --  Custom labels for the haproxy pod. This is relevant for Argo CD CLI.
     labels:
-      app.kubernetes.io/name: argocd-redis-ha-haproxy-lb
+      app.kubernetes.io/name: argocd-redis-ha-haproxy
     metrics:
       # -- HAProxy enable prometheus metric scraping
       enabled: true
@@ -1552,7 +1561,7 @@ redis-ha:
   existingSecret: argocd-redis
 
   # -- Whether the Redis server pods should be forced to run on separate nodes.
-  hardAntiAffinity: false
+  hardAntiAffinity: true
 
   # -- Additional affinities to add to the Redis server pods.
   additionalAffinities: {}
@@ -1600,79 +1609,79 @@ externalRedis:
 
 redisSecretInit:
   # -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
-  enabled: false
+  enabled: true
   # -- Redis secret-init name
-  # name: redis-secret-init
+  name: redis-secret-init
 
-  # image:
-  #   # -- Repository to use for the Redis secret-init Job
-  #   # @default -- `""` (defaults to global.image.repository)
-  #   repository: "" # defaults to global.image.repository
-  #   # -- Tag to use for the Redis secret-init Job
-  #   # @default -- `""` (defaults to global.image.tag)
-  #   tag: "latest" # defaults to global.image.tag
-  #   # -- Image pull policy for the Redis secret-init Job
-  #   # @default -- `""` (defaults to global.image.imagePullPolicy)
-  #   imagePullPolicy: "" # IfNotPresent
+  image:
+    # -- Repository to use for the Redis secret-init Job
+    # @default -- `""` (defaults to global.image.repository)
+    repository: "" # defaults to global.image.repository
+    # -- Tag to use for the Redis secret-init Job
+    # @default -- `""` (defaults to global.image.tag)
+    tag: "" # defaults to global.image.tag
+    # -- Image pull policy for the Redis secret-init Job
+    # @default -- `""` (defaults to global.image.imagePullPolicy)
+    imagePullPolicy: "" # IfNotPresent
 
-  # # -- Secrets with credentials to pull images from a private registry
-  # # @default -- `[]` (defaults to global.imagePullSecrets)
-  # imagePullSecrets: []
+  # -- Secrets with credentials to pull images from a private registry
+  # @default -- `[]` (defaults to global.imagePullSecrets)
+  imagePullSecrets: []
 
-  # # -- Annotations to be added to the Redis secret-init Job
-  # jobAnnotations: {}
+  # -- Annotations to be added to the Redis secret-init Job
+  jobAnnotations: {}
 
-  # # -- Annotations to be added to the Redis secret-init Job
-  # podAnnotations: {}
+  # -- Annotations to be added to the Redis secret-init Job
+  podAnnotations: {}
 
-  # # -- Labels to be added to the Redis secret-init Job
-  # podLabels: {}
+  # -- Labels to be added to the Redis secret-init Job
+  podLabels: {}
 
-  # # -- Resource limits and requests for Redis secret-init Job
-  # resources:
-  #   limits:
-  #     cpu: 200m
-  #     memory: 128Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 64Mi
+  # -- Resource limits and requests for Redis secret-init Job
+  resources: {}
+  #  limits:
+  #    cpu: 200m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 100m
+  #    memory: 64Mi
 
-  # # -- Application controller container-level security context
-  # # @default -- See [values.yaml]
-  # containerSecurityContext:
-  #   allowPrivilegeEscalation: false
-  #   capabilities:
-  #     drop:
-  #       - ALL
-  #   readOnlyRootFilesystem: true
-  #   runAsNonRoot: true
-  #   seccompProfile:
-  #     type: RuntimeDefault
+  # -- Application controller container-level security context
+  # @default -- See [values.yaml]
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
 
-  # # -- Redis secret-init Job pod-level security context
-  # securityContext: {}
+  # -- Redis secret-init Job pod-level security context
+  securityContext: {}
 
-  # serviceAccount:
-  #   # -- Create a service account for the redis pod
-  #   create: true
-  #   # -- Service account name for redis pod
-  #   name: "argocd-redis-ha"
-  #   # -- Annotations applied to created service account
-  #   annotations: {}
-  #   # -- Automount API credentials for the Service Account
-  #   automountServiceAccountToken: true
+  serviceAccount:
+    # -- Create a service account for the redis pod
+    create: true
+    # -- Service account name for redis pod
+    name: ""
+    # -- Annotations applied to created service account
+    annotations: {}
+    # -- Automount API credentials for the Service Account
+    automountServiceAccountToken: true
 
-  # # -- Priority class for Redis secret-init Job
-  # # @default -- `""` (defaults to global.priorityClassName)
-  # priorityClassName: ""
+  # -- Priority class for Redis secret-init Job
+  # @default -- `""` (defaults to global.priorityClassName)
+  priorityClassName: ""
 
-  # # -- Node selector to be added to the Redis secret-init Job
-  # # @default -- `{}` (defaults to global.nodeSelector)
-  # nodeSelector: {}
+  # -- Node selector to be added to the Redis secret-init Job
+  # @default -- `{}` (defaults to global.nodeSelector)
+  nodeSelector: {}
 
-  # # -- Tolerations to be added to the Redis secret-init Job
-  # # @default -- `[]` (defaults to global.tolerations)
-  # tolerations: []
+  # -- Tolerations to be added to the Redis secret-init Job
+  # @default -- `[]` (defaults to global.tolerations)
+  tolerations: []
 
 ## Server
 server:
@@ -1685,9 +1694,9 @@ server:
   ## Argo CD server Horizontal Pod Autoscaler
   autoscaling:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the Argo CD server
-    enabled: true
+    enabled: false
     # -- Minimum number of replicas for the Argo CD server [HPA]
-    minReplicas: 2
+    minReplicas: 1
     # -- Maximum number of replicas for the Argo CD server [HPA]
     maxReplicas: 5
     # -- Average CPU utilization percentage for the Argo CD server [HPA]
@@ -1768,7 +1777,7 @@ server:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/#the-extensions-resource
   extensions:
     # -- Enable support for Argo CD extensions
-    enabled: true
+    enabled: false
 
     ## Argo CD extension installer image
     image:
@@ -1783,13 +1792,13 @@ server:
     # -- Extensions for Argo CD
     # @default -- `[]` (See [values.yaml])
     ## Ref: https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
-    extensionList:
-      - name: extension-metrics
-        env:
-          - name: EXTENSION_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
-          - name: EXTENSION_CHECKSUM_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
+    extensionList: []
+    #  - name: extension-metrics
+    #    env:
+    #      - name: EXTENSION_URL
+    #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+    #      - name: EXTENSION_CHECKSUM_URL
+    #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
 
     # -- Server UI extensions container-level security context
     # @default -- See [values.yaml]
@@ -1806,12 +1815,12 @@ server:
 
     # -- Resource limits and requests for the argocd-extensions container
     resources: {}
-      # limits:
-      #   cpu: 50m
-      #   memory: 128Mi
-      # requests:
-      #   cpu: 10m
-      #   memory: 64Mi
+    #  limits:
+    #    cpu: 50m
+    #    memory: 128Mi
+    #  requests:
+    #    cpu: 10m
+    #    memory: 64Mi
 
   # -- Additional containers to be added to the server pod
   ## Note: Supports use of custom Helm templates
@@ -1881,12 +1890,12 @@ server:
 
   # -- Resource limits and requests for the Argo CD server
   resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 50m
-    #   memory: 64Mi
+  #  limits:
+  #    cpu: 100m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 50m
+  #    memory: 64Mi
 
   # Server container ports
   containerPorts:
@@ -1970,17 +1979,17 @@ server:
     #   whenUnsatisfiable: DoNotSchedule
 
   # -- Deployment strategy to be added to the server Deployment
-  deploymentStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+  deploymentStrategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+    #   maxSurge: 25%
+    #   maxUnavailable: 25%
 
   # TLS certificate configuration via cert-manager
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
   certificate:
     # -- Deploy a Certificate resource (requires cert-manager)
-    enabled: true
+    enabled: false
     # -- The name of the Secret that will be automatically created and managed by this Certificate resource
     secretName: argocd-server-tls
     # -- Certificate primary domain (commonName)
@@ -2000,11 +2009,11 @@ server:
     ## Ref: https://cert-manager.io/docs/concepts/issuer
     issuer:
       # -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
-      group: "cert-manager.io"
+      group: ""
       # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
-      kind: "ClusterIssuer"
+      kind: ""
       # -- Certificate issuer name. Eg. `letsencrypt`
-      name: "letsencrypt"
+      name: ""
     # Private key of the certificate
     privateKey:
       # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
@@ -2075,7 +2084,7 @@ server:
   ## Server metrics service configuration
   metrics:
     # -- Deploy metrics service
-    enabled: true
+    enabled: false
     service:
       # -- Metrics service type
       type: ClusterIP
@@ -2091,7 +2100,7 @@ server:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2307,9 +2316,9 @@ server:
     # -- Additional TLS configuration for dedicated [gRPC-ingress]
     # @default -- `[]` (See [values.yaml])
     extraTls: []
-      # - secretName: chonk-city-tls
+      # - secretName: your-certificate-name
       #   hosts:
-      #     - grpc.chonk.city
+      #     - argocd.example.com
 
   # Create a OpenShift Route with SSL passthrough for UI and CLI
   # Consider setting 'hostname' e.g. https://argocd.apps-crc.testing/ using your Default Ingress Controller Domain
@@ -2346,11 +2355,11 @@ repoServer:
   ## Repo server Horizontal Pod Autoscaler
   autoscaling:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
-    enabled: true
+    enabled: false
     # -- Minimum number of replicas for the repo server [HPA]
-    minReplicas: 2
+    minReplicas: 1
     # -- Maximum number of replicas for the repo server [HPA]
-    maxReplicas: 3
+    maxReplicas: 5
     # -- Average CPU utilization percentage for the repo server [HPA]
     targetCPUUtilizationPercentage: 50
     # -- Average memory utilization percentage for the repo server [HPA]
@@ -2426,27 +2435,6 @@ repoServer:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
   extraContainers: []
-
-    # - name: kustomize-build-with-helm
-    #   command:
-    #     - "/var/run/argocd/argocd-cmp-server"
-    #   image: alpine/k8s:1.26.8
-    #   securityContext:
-    #     runAsNonRoot: true
-    #     runAsUser: 999
-    #   volumeMounts:
-    #     - mountPath: /var/run/argocd
-    #       name: var-files
-    #     - mountPath: /home/argocd/cmp-server/plugins
-    #       name: plugins
-    #     # Remove this volumeMount if you've chosen to bake the config file into the sidecar image.
-    #     - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-    #       subPath: kustomize-build-with-helm.yaml
-    #       name: argocd-cmp-cm
-    #     # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps
-    #     # mitigate path traversal attacks.
-    #     - mountPath: /tmp
-    #       name: cmp-tmp
     # - name: cmp-my-plugin
     #   command:
     #     - "/var/run/argocd/argocd-cmp-server"
@@ -2490,27 +2478,12 @@ repoServer:
 
   # -- Init containers to add to the repo server pods
   initContainers: []
-    # - name: download-grpc-health-probe
-    #   image: alpine:3.8
-    #   command: [sh, -c]
-    #   args:
-    #     - wget --no-check-certificate https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.4.27/grpc_health_probe-linux-amd64 &&
-    #       mv grpc_health_probe-linux-amd64 /custom-tools/grpc-health-probe &&
-    #       chmod ugo+x /custom-tools/grpc-health-probe
-    #   volumeMounts:
-    #     - mountPath: /custom-tools
-    #       name: custom-tools
 
   # -- Additional volumeMounts to the repo server main container
   volumeMounts: []
-    # - mountPath: /usr/local/bin/grpc-health-probe
-    #   name: custom-tools
-    #   subPath: grpc-health-probe
 
   # -- Additional volumes to the repo server pod
   volumes: []
-      # - name: custom-tools
-      #   emptyDir: {}
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
@@ -2556,12 +2529,12 @@ repoServer:
 
   # -- Resource limits and requests for the repo server pods
   resources: {}
-    # limits:
-    #   cpu: 50m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 10m
-    #   memory: 64Mi
+  #  limits:
+  #    cpu: 50m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 10m
+  #    memory: 64Mi
 
   # Repo server container ports
   containerPorts:
@@ -2641,11 +2614,11 @@ repoServer:
     #   whenUnsatisfiable: DoNotSchedule
 
   # -- Deployment strategy to be added to the repo server Deployment
-  deploymentStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+  deploymentStrategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+    #   maxSurge: 25%
+    #   maxUnavailable: 25%
 
   # -- Priority class for the repo server pods
   # @default -- `""` (defaults to global.priorityClassName)
@@ -2682,7 +2655,7 @@ repoServer:
   ## Repo server metrics service configuration
   metrics:
     # -- Deploy metrics service
-    enabled: true
+    enabled: false
     service:
       # -- Metrics service type
       type: ClusterIP
@@ -2698,7 +2671,7 @@ repoServer:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2750,14 +2723,14 @@ repoServer:
 
   # -- Repo server rbac rules
   rbac: []
-    # - apiGroups:
-    #     - argoproj.io
-    #   resources:
-    #     - applications
-    #   verbs:
-    #     - get
-    #     - list
-    #     - watch
+  #   - apiGroups:
+  #     - argoproj.io
+  #     resources:
+  #     - applications
+  #     verbs:
+  #     - get
+  #     - list
+  #     - watch
 
 ## ApplicationSet controller
 applicationSet:
@@ -2765,7 +2738,7 @@ applicationSet:
   name: applicationset-controller
 
   # -- The number of ApplicationSet controller pods to run
-  replicas: 2
+  replicas: 1
 
   ## ApplicationSet controller Pod Disruption Budget
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
@@ -2839,7 +2812,7 @@ applicationSet:
   ## Metrics service configuration
   metrics:
     # -- Deploy metrics service
-    enabled: true
+    enabled: false
     service:
       # -- Metrics service type
       type: ClusterIP
@@ -2855,7 +2828,7 @@ applicationSet:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2955,7 +2928,7 @@ applicationSet:
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   readinessProbe:
     # -- Enable Kubernetes liveness probe for ApplicationSet controller
-    enabled: true
+    enabled: false
     # -- Number of seconds after the container has started before [probe] is initiated
     initialDelaySeconds: 10
     # -- How often (in seconds) to perform the [probe]
@@ -2969,7 +2942,7 @@ applicationSet:
 
   livenessProbe:
     # -- Enable Kubernetes liveness probe for ApplicationSet controller
-    enabled: true
+    enabled: false
     # -- Number of seconds after the container has started before [probe] is initiated
     initialDelaySeconds: 10
     # -- How often (in seconds) to perform the [probe]
@@ -3006,11 +2979,11 @@ applicationSet:
     #   whenUnsatisfiable: DoNotSchedule
 
   # -- Deployment strategy to be added to the ApplicationSet controller Deployment
-  deploymentStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+  deploymentStrategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+    #   maxSurge: 25%
+    #   maxUnavailable: 25%
 
   # -- Priority class for the ApplicationSet controller pods
   # @default -- `""` (defaults to global.priorityClassName)
@@ -3020,7 +2993,7 @@ applicationSet:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-configuration
   certificate:
     # -- Deploy a Certificate resource (requires cert-manager)
-    enabled: true
+    enabled: false
     # -- The name of the Secret that will be automatically created and managed by this Certificate resource
     secretName: argocd-applicationset-controller-tls
     # -- Certificate primary domain (commonName)
@@ -3040,11 +3013,11 @@ applicationSet:
     ## Ref: https://cert-manager.io/docs/concepts/issuer
     issuer:
       # -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
-      group: "cert-manager.io"
+      group: ""
       # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
-      kind: "ClusterIssuer"
+      kind: ""
       # -- Certificate issuer name. Eg. `letsencrypt`
-      name: "letsencrypt"
+      name: ""
     # Private key of the certificate
     privateKey:
       # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
@@ -3123,11 +3096,11 @@ applicationSet:
       #   hosts:
       #     - argocd-applicationset.example.com
   # -- Enable ApplicationSet in any namespace feature
-  allowAnyNamespace: true
+  allowAnyNamespace: false
 ## Notifications controller
 notifications:
   # -- Enable notifications controller
-  enabled: false
+  enabled: true
 
   # -- Notifications controller name string
   name: notifications-controller
@@ -3170,10 +3143,10 @@ notifications:
 
   # -- Notifications controller log format. Either `text` or `json`
   # @default -- `""` (defaults to global.logging.format)
-  logFormat: "text"
+  logFormat: ""
   # -- Notifications controller log level. One of: `debug`, `info`, `warn`, `error`
   # @default -- `""` (defaults to global.logging.level)
-  logLevel: "debug"
+  logLevel: ""
 
   # -- Extra arguments to provide to the notifications controller
   extraArgs: []
@@ -3241,7 +3214,7 @@ notifications:
 
   metrics:
     # -- Enables prometheus metrics server
-    enabled: true
+    enabled: false
     # -- Metrics port
     port: 9001
     service:
@@ -3257,7 +3230,7 @@ notifications:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor selector
       selector: {}
         # prometheus: kube-prometheus
