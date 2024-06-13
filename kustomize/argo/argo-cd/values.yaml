@@ -2307,10 +2307,10 @@ server:
 
     # -- Additional TLS configuration for dedicated [gRPC-ingress]
     # @default -- `[]` (See [values.yaml])
-    extraTls:
-      - secretName: chonk-city-tls
-        hosts:
-          - grpc.chonk.city
+    extraTls: []
+      # - secretName: chonk-city-tls
+      #   hosts:
+      #     - grpc.chonk.city
 
   # Create a OpenShift Route with SSL passthrough for UI and CLI
   # Consider setting 'hostname' e.g. https://argocd.apps-crc.testing/ using your Default Ingress Controller Domain
@@ -2351,7 +2351,7 @@ repoServer:
     # -- Minimum number of replicas for the repo server [HPA]
     minReplicas: 2
     # -- Maximum number of replicas for the repo server [HPA]
-    maxReplicas: 5
+    maxReplicas: 3
     # -- Average CPU utilization percentage for the repo server [HPA]
     targetCPUUtilizationPercentage: 50
     # -- Average memory utilization percentage for the repo server [HPA]
@@ -2490,28 +2490,28 @@ repoServer:
     #       name: cmp-tmp
 
   # -- Init containers to add to the repo server pods
-  initContainers:
-    - name: download-grpc-health-probe
-      image: alpine:3.8
-      command: [sh, -c]
-      args:
-        - wget --no-check-certificate https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.4.27/grpc_health_probe-linux-amd64 &&
-          mv grpc_health_probe-linux-amd64 /custom-tools/grpc-health-probe &&
-          chmod ugo+x /custom-tools/grpc-health-probe
-      volumeMounts:
-        - mountPath: /custom-tools
-          name: custom-tools
+  initContainers: []
+    # - name: download-grpc-health-probe
+    #   image: alpine:3.8
+    #   command: [sh, -c]
+    #   args:
+    #     - wget --no-check-certificate https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.4.27/grpc_health_probe-linux-amd64 &&
+    #       mv grpc_health_probe-linux-amd64 /custom-tools/grpc-health-probe &&
+    #       chmod ugo+x /custom-tools/grpc-health-probe
+    #   volumeMounts:
+    #     - mountPath: /custom-tools
+    #       name: custom-tools
 
   # -- Additional volumeMounts to the repo server main container
-  volumeMounts:
-    - mountPath: /usr/local/bin/grpc-health-probe
-      name: custom-tools
-      subPath: grpc-health-probe
+  volumeMounts: []
+    # - mountPath: /usr/local/bin/grpc-health-probe
+    #   name: custom-tools
+    #   subPath: grpc-health-probe
 
   # -- Additional volumes to the repo server pod
-  volumes:
-      - name: custom-tools
-        emptyDir: {}
+  volumes: []
+      # - name: custom-tools
+      #   emptyDir: {}
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
