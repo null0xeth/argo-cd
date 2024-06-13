@@ -631,7 +631,7 @@ controller:
     repository: ""
     # -- Tag to use for the application controller
     # @default -- `""` (defaults to global.image.tag)
-    tag: "latest"
+    tag: ""
     # -- Image pull policy for the application controller
     # @default -- `""` (defaults to global.image.imagePullPolicy)
     imagePullPolicy: ""
@@ -2394,13 +2394,13 @@ repoServer:
   image:
     # -- Repository to use for the repo server
     # @default -- `""` (defaults to global.image.repository)
-    repository: ""
+    repository: "quay.io/argoproj/argocd:latest"
     # -- Tag to use for the repo server
     # @default -- `""` (defaults to global.image.tag)
     tag: "latest"
     # -- Image pull policy for the repo server
     # @default -- `""` (defaults to global.image.imagePullPolicy)
-    imagePullPolicy: ""
+    imagePullPolicy: "Always"
 
   # -- Secrets with credentials to pull images from a private registry
   # @default -- `[]` (defaults to global.imagePullSecrets)
@@ -2426,18 +2426,7 @@ repoServer:
   # -- Additional containers to be added to the repo server pod
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
-  extraContainers:
-    - name: argocd-repo-server
-      livenessProbe:
-        initialDelaySeconds: 10
-        periodSeconds: 10
-        failureThreshold: 3
-        exec:
-          command: [ "/usr/local/bin/grpc-health-probe", "-addr=:8081", "-tls", "-tls-no-verify" ]
-      volumeMounts:
-      - mountPath: /usr/local/bin/grpc-health-probe
-        name: custom-tools
-        subPath: grpc-health-probe
+  extraContainers: []
 
     # - name: kustomize-build-with-helm
     #   command:
@@ -2514,7 +2503,10 @@ repoServer:
           name: custom-tools
 
   # -- Additional volumeMounts to the repo server main container
-  volumeMounts: []
+  volumeMounts:
+    - mountPath: /usr/local/bin/grpc-health-probe
+      name: custom-tools
+      subPath: grpc-health-probe
 
   # -- Additional volumes to the repo server pod
   volumes:
@@ -2758,15 +2750,15 @@ repoServer:
     automountServiceAccountToken: true
 
   # -- Repo server rbac rules
-  rbac:
-    - apiGroups:
-        - argoproj.io
-      resources:
-        - applications
-      verbs:
-        - get
-        - list
-        - watch
+  rbac: []
+    # - apiGroups:
+    #     - argoproj.io
+    #   resources:
+    #     - applications
+    #   verbs:
+    #     - get
+    #     - list
+    #     - watch
 
 ## ApplicationSet controller
 applicationSet:
@@ -2796,13 +2788,13 @@ applicationSet:
   image:
     # -- Repository to use for the ApplicationSet controller
     # @default -- `""` (defaults to global.image.repository)
-    repository: ""
+    repository: "quay.io/argoproj/argocd:latest"
     # -- Tag to use for the ApplicationSet controller
     # @default -- `""` (defaults to global.image.tag)
     tag: "latest"
     # -- Image pull policy for the ApplicationSet controller
     # @default -- `""` (defaults to global.image.imagePullPolicy)
-    imagePullPolicy: ""
+    imagePullPolicy: "Always"
 
   # -- If defined, uses a Secret to pull an image from a private Docker registry or repository.
   # @default -- `[]` (defaults to global.imagePullSecrets)
@@ -3136,7 +3128,7 @@ applicationSet:
 ## Notifications controller
 notifications:
   # -- Enable notifications controller
-  enabled: true
+  enabled: false
 
   # -- Notifications controller name string
   name: notifications-controller
