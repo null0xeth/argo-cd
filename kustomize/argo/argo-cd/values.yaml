@@ -57,7 +57,7 @@ global:
     # -- If defined, a repository applied to all Argo CD deployments
     repository: ghcr.io/argoproj/argo-cd/argocd
     # -- Overrides the global Argo CD image tag whose default is the chart appVersion
-    tag: ""
+    tag: latest
     # -- If defined, a imagePullPolicy applied to all Argo CD deployments
     imagePullPolicy: IfNotPresent
   # -- Secrets with credentials to pull images from a private registry
