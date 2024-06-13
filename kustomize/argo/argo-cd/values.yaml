@@ -2251,13 +2251,13 @@ server:
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
   ingressGrpc:
     # -- Enable an ingress resource for the Argo CD server for dedicated [gRPC-ingress]
-    enabled: true
+    enabled: false
     # -- Additional ingress annotations for dedicated [gRPC-ingress]
     annotations: {}
     # -- Additional ingress labels for dedicated [gRPC-ingress]
     labels: {}
     # -- Defines which ingress controller will implement the resource [gRPC-ingress]
-    ingressClassName: "traefik-external"
+    ingressClassName: ""
 
     # -- Argo CD server hostname for dedicated [gRPC-ingress]
     # @default -- `""` (defaults to grpc.`server.ingress.hostname`)
@@ -2271,7 +2271,7 @@ server:
 
     # -- Enable TLS configuration for the hostname defined at `server.ingressGrpc.hostname`
     ## TLS certificate will be retrieved from a TLS secret with name: `argocd-server-grpc-tls`
-    tls: true
+    tls: false
 
     # -- The list of additional hostnames to be covered by ingress record
     # @default -- `[]` (See [values.yaml])
