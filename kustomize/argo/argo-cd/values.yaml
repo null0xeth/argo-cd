@@ -1680,7 +1680,7 @@ server:
   name: server
 
   # -- The number of server pods to run
-  replicas: 2 2
+  replicas: 2
 
   ## Argo CD server Horizontal Pod Autoscaler
   autoscaling:
