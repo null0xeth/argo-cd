@@ -5,7 +5,7 @@
 # -- Provide a name in place of `argocd`
 nameOverride: ""
 # -- String to fully override `"argo-cd.fullname"`
-fullnameOverride: ""
+fullnameOverride: "argocd"
 # -- Override the namespace
 # @default -- `.Release.Namespace`
 namespaceOverride: ""
@@ -2394,7 +2394,7 @@ repoServer:
   image:
     # -- Repository to use for the repo server
     # @default -- `""` (defaults to global.image.repository)
-    repository: "quay.io/argoproj/argocd:latest"
+    repository: "quay.io/argoproj/argocd"
     # -- Tag to use for the repo server
     # @default -- `""` (defaults to global.image.tag)
     tag: "latest"
@@ -2788,7 +2788,7 @@ applicationSet:
   image:
     # -- Repository to use for the ApplicationSet controller
     # @default -- `""` (defaults to global.image.repository)
-    repository: "quay.io/argoproj/argocd:latest"
+    repository: "quay.io/argoproj/argocd"
     # -- Tag to use for the ApplicationSet controller
     # @default -- `""` (defaults to global.image.tag)
     tag: "latest"
