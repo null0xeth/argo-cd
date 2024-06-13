@@ -2426,7 +2426,19 @@ repoServer:
   # -- Additional containers to be added to the repo server pod
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
-  extraContainers: []
+  extraContainers:
+    - name: argocd-repo-server
+      livenessProbe:
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        failureThreshold: 3
+        exec:
+          command: [ "/usr/local/bin/grpc-health-probe", "-addr=:8081", "-tls", "-tls-no-verify" ]
+      volumeMounts:
+      - mountPath: /usr/local/bin/grpc-health-probe
+        name: custom-tools
+        subPath: grpc-health-probe
+
     # - name: kustomize-build-with-helm
     #   command:
     #     - "/var/run/argocd/argocd-cmp-server"
@@ -2489,18 +2501,25 @@ repoServer:
     #       name: cmp-tmp
 
   # -- Init containers to add to the repo server pods
-  initContainers: []
+  initContainers:
+    - name: download-grpc-health-probe
+      image: alpine:3.8
+      command: [sh, -c]
+      args:
+        - wget --no-check-certificate https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.4.27/grpc_health_probe-linux-amd64 &&
+          mv grpc_health_probe-linux-amd64 /custom-tools/grpc-health-probe &&
+          chmod ugo+x /custom-tools/grpc-health-probe
+      volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
 
   # -- Additional volumeMounts to the repo server main container
   volumeMounts: []
 
   # -- Additional volumes to the repo server pod
   volumes:
-    - name: argocd-cmp-cm
-      configMap:
-        name: argocd-cmp-cm
-    - name: cmp-tmp
-      emptyDir: {}
+      - name: custom-tools
+        emptyDir: {}
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm
