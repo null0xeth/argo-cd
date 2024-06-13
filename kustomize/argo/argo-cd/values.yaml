@@ -59,7 +59,7 @@ global:
     # -- Overrides the global Argo CD image tag whose default is the chart appVersion
     tag: "latest"
     # -- If defined, a imagePullPolicy applied to all Argo CD deployments
-    imagePullPolicy: "always"
+    imagePullPolicy: "Always"
   # -- Secrets with credentials to pull images from a private registry
   imagePullSecrets: []
 
