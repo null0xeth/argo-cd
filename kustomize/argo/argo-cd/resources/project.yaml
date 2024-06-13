@@ -8,9 +8,12 @@ metadata:
 spec:
   sourceRepos:
     - '*'
+  sourceNamespaces:
+    - '*'
   destinations:
     - namespace: '*'
       server: '*'
+      name: 'in-cluster'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

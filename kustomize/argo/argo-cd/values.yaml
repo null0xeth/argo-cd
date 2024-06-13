@@ -273,7 +273,7 @@ configs:
     ## List of additional namespaces where applications may be created in and reconciled from.
     ## The namespace where Argo CD is installed to will always be allowed.
     ## Set comma-separated list. (e.g. app-team-one, app-team-two)
-    application.namespaces: "*"
+    application.namespaces: "default, argocd, argo, argo-events, monitoring"
 
     # -- JQ Path expression timeout
     ## By default, the evaluation of a JQPathExpression is limited to one second.

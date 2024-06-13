@@ -7,7 +7,7 @@ openapi:
 helmCharts:
 - name: argo-events
   repo: https://argoproj.github.io/argo-helm
-  version: "2.4.5"
+  version: ">= 2.4.5"
     #releaseName: argo-wf
   namespace: argo-events
   valuesFile: values.yaml
