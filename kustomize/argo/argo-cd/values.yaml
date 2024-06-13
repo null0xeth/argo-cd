@@ -511,7 +511,7 @@ configs:
     annotations: {}
 
     # -- Shared secret for authenticating GitHub webhook events
-    githubSecret: "$argocd-github-token:webhook.github.secret"
+    githubSecret: ""
     # -- Shared secret for authenticating GitLab webhook events
     gitlabSecret: ""
     # -- Shared secret for authenticating BitbucketServer webhook events
