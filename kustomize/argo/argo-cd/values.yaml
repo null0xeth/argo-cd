@@ -820,7 +820,7 @@ controller:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -843,7 +843,7 @@ controller:
       annotations: {}
     rules:
       # -- Deploy a PrometheusRule for the application controller
-      enabled: true
+      enabled: false
       # -- PrometheusRule namespace
       namespace: "" # "monitoring"
       # -- PrometheusRule selector
@@ -1467,7 +1467,7 @@ redis:
 
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Interval at which metrics should be scraped
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -2004,7 +2004,7 @@ server:
       # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
       kind: "ClusterIssuer"
       # -- Certificate issuer name. Eg. `letsencrypt`
-      name: "letsencrypt"
+      name: "letsencrypt-production"
     # Private key of the certificate
     privateKey:
       # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
@@ -2091,7 +2091,7 @@ server:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2698,7 +2698,7 @@ repoServer:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2855,7 +2855,7 @@ applicationSet:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -3022,7 +3022,7 @@ applicationSet:
     # -- Deploy a Certificate resource (requires cert-manager)
     enabled: true
     # -- The name of the Secret that will be automatically created and managed by this Certificate resource
-    secretName: argocd-applicationset-controller-tls
+    secretName: chonk-city-tls
     # -- Certificate primary domain (commonName)
     # @default -- `""` (defaults to global.domain)
     domain: ""
@@ -3044,7 +3044,7 @@ applicationSet:
       # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
       kind: "ClusterIssuer"
       # -- Certificate issuer name. Eg. `letsencrypt`
-      name: "letsencrypt"
+      name: "letsencrypt-production"
     # Private key of the certificate
     privateKey:
       # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
@@ -3257,7 +3257,7 @@ notifications:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor selector
       selector: {}
         # prometheus: kube-prometheus
