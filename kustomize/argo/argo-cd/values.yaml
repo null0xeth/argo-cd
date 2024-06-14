@@ -34,8 +34,8 @@ crds:
   # -- Keep CRDs on chart uninstall
   keep: false
   # -- Annotations to be added to all CRDs
-  annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  annotations: {}
+    #argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   # -- Addtional labels to be added to all CRDs
   additionalLabels: {}
 
@@ -833,7 +833,7 @@ controller:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: false
+      enabled: true
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -856,7 +856,7 @@ controller:
       annotations: {}
     rules:
       # -- Deploy a PrometheusRule for the application controller
-      enabled: false
+      enabled: true
       # -- PrometheusRule namespace
       namespace: "" # "monitoring"
       # -- PrometheusRule selector
@@ -908,44 +908,44 @@ dex:
   # -- Enable dex
   enabled: false
   # -- Dex name
-  name: dex-server
+  # name: dex-server
 
-  # -- Additional command line arguments to pass to the Dex server
-  extraArgs: []
+  # # -- Additional command line arguments to pass to the Dex server
+  # extraArgs: []
 
   metrics:
     # -- Deploy metrics service
     enabled: false
-    service:
-      # -- Metrics service annotations
-      annotations: {}
-      # -- Metrics service labels
-      labels: {}
-      # -- Metrics service port name
-      portName: http-metrics
+    # service:
+    #   # -- Metrics service annotations
+    #   annotations: {}
+    #   # -- Metrics service labels
+    #   labels: {}
+    #   # -- Metrics service port name
+    #   portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
       enabled: false
-      # -- Prometheus ServiceMonitor interval
-      interval: 30s
-      # -- Prometheus [RelabelConfigs] to apply to samples before scraping
-      relabelings: []
-      # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
-      metricRelabelings: []
-      # -- Prometheus ServiceMonitor selector
-      selector: {}
-        # prometheus: kube-prometheus
+      # # -- Prometheus ServiceMonitor interval
+      # interval: 30s
+      # # -- Prometheus [RelabelConfigs] to apply to samples before scraping
+      # relabelings: []
+      # # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
+      # metricRelabelings: []
+      # # -- Prometheus ServiceMonitor selector
+      # selector: {}
+      #   # prometheus: kube-prometheus
 
-      # -- Prometheus ServiceMonitor scheme
-      scheme: ""
-      # -- Prometheus ServiceMonitor tlsConfig
-      tlsConfig: {}
-      # -- Prometheus ServiceMonitor namespace
-      namespace: "" # "monitoring"
-      # -- Prometheus ServiceMonitor labels
-      additionalLabels: {}
-      # -- Prometheus ServiceMonitor annotations
-      annotations: {}
+      # # -- Prometheus ServiceMonitor scheme
+      # scheme: ""
+      # # -- Prometheus ServiceMonitor tlsConfig
+      # tlsConfig: {}
+      # # -- Prometheus ServiceMonitor namespace
+      # namespace: "" # "monitoring"
+      # # -- Prometheus ServiceMonitor labels
+      # additionalLabels: {}
+      # # -- Prometheus ServiceMonitor annotations
+      # annotations: {}
 
   ## Dex Pod Disruption Budget
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
@@ -1098,41 +1098,41 @@ dex:
     # -- Enable Kubernetes liveness probe for Dex >= 2.28.0
     enabled: false
     # -- Http path to use for the liveness probe
-    httpPath: /healthz/live
-    # -- Http port to use for the liveness probe
-    httpPort: metrics
-    # -- Scheme to use for for the liveness probe (can be HTTP or HTTPS)
-    httpScheme: HTTP
-    # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
-    failureThreshold: 3
-    # -- Number of seconds after the container has started before [probe] is initiated
-    initialDelaySeconds: 10
-    # -- How often (in seconds) to perform the [probe]
-    periodSeconds: 10
-    # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
-    successThreshold: 1
-    # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    # httpPath: /healthz/live
+    # # -- Http port to use for the liveness probe
+    # httpPort: metrics
+    # # -- Scheme to use for for the liveness probe (can be HTTP or HTTPS)
+    # httpScheme: HTTP
+    # # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+    # failureThreshold: 3
+    # # -- Number of seconds after the container has started before [probe] is initiated
+    # initialDelaySeconds: 10
+    # # -- How often (in seconds) to perform the [probe]
+    # periodSeconds: 10
+    # # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+    # successThreshold: 1
+    # # -- Number of seconds after which the [probe] times out
+    # timeoutSeconds: 1
 
   readinessProbe:
     # -- Enable Kubernetes readiness probe for Dex >= 2.28.0
     enabled: false
     # -- Http path to use for the readiness probe
-    httpPath: /healthz/ready
-    # -- Http port to use for the readiness probe
-    httpPort: metrics
-    # -- Scheme to use for for the liveness probe (can be HTTP or HTTPS)
-    httpScheme: HTTP
-    # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
-    failureThreshold: 3
-    # -- Number of seconds after the container has started before [probe] is initiated
-    initialDelaySeconds: 10
-    # -- How often (in seconds) to perform the [probe]
-    periodSeconds: 10
-    # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
-    successThreshold: 1
-    # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    # httpPath: /healthz/ready
+    # # -- Http port to use for the readiness probe
+    # httpPort: metrics
+    # # -- Scheme to use for for the liveness probe (can be HTTP or HTTPS)
+    # httpScheme: HTTP
+    # # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+    # failureThreshold: 3
+    # # -- Number of seconds after the container has started before [probe] is initiated
+    # initialDelaySeconds: 10
+    # # -- How often (in seconds) to perform the [probe]
+    # periodSeconds: 10
+    # # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+    # successThreshold: 1
+    # # -- Number of seconds after which the [probe] times out
+    # timeoutSeconds: 1
 
   # -- terminationGracePeriodSeconds for container lifecycle hook
   terminationGracePeriodSeconds: 30
@@ -1205,302 +1205,302 @@ redis:
   # -- Enable redis
   enabled: false
   # -- Redis name
-  name: redis
+  # name: redis
 
-  ## Redis Pod Disruption Budget
-  ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
-  pdb:
-    # -- Deploy a [PodDisruptionBudget] for the Redis
-    enabled: false
-    # -- Labels to be added to Redis pdb
-    labels: {}
-    # -- Annotations to be added to Redis pdb
-    annotations: {}
-    # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
-    # @default -- `""` (defaults to 0 if not specified)
-    minAvailable: ""
-    # -- Number of pods that are unavailble after eviction as number or percentage (eg.: 50%).
-    ## Has higher precedence over `redis.pdb.minAvailable`
-    maxUnavailable: ""
+  # ## Redis Pod Disruption Budget
+  # ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+  # pdb:
+  #   # -- Deploy a [PodDisruptionBudget] for the Redis
+  #   enabled: false
+  #   # -- Labels to be added to Redis pdb
+  #   labels: {}
+  #   # -- Annotations to be added to Redis pdb
+  #   annotations: {}
+  #   # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
+  #   # @default -- `""` (defaults to 0 if not specified)
+  #   minAvailable: ""
+  #   # -- Number of pods that are unavailble after eviction as number or percentage (eg.: 50%).
+  #   ## Has higher precedence over `redis.pdb.minAvailable`
+  #   maxUnavailable: ""
 
-  ## Redis image
-  image:
-    # -- Redis repository
-    repository: public.ecr.aws/docker/library/redis
-    # -- Redis tag
-    tag: 7.2.4-alpine
-    # -- Redis image pull policy
-    # @default -- `""` (defaults to global.image.imagePullPolicy)
-    imagePullPolicy: ""
+  # ## Redis image
+  # image:
+  #   # -- Redis repository
+  #   repository: public.ecr.aws/docker/library/redis
+  #   # -- Redis tag
+  #   tag: 7.2.4-alpine
+  #   # -- Redis image pull policy
+  #   # @default -- `""` (defaults to global.image.imagePullPolicy)
+  #   imagePullPolicy: ""
 
-  ## Prometheus redis-exporter sidecar
-  exporter:
-    # -- Enable Prometheus redis-exporter sidecar
-    enabled: true
-    # -- Environment variables to pass to the Redis exporter
-    env: []
-    ## Prometheus redis-exporter image
-    image:
-      # -- Repository to use for the redis-exporter
-      repository: public.ecr.aws/bitnami/redis-exporter
-      # -- Tag to use for the redis-exporter
-      tag: 1.58.0
-      # -- Image pull policy for the redis-exporter
-      # @default -- `""` (defaults to global.image.imagePullPolicy)
-      imagePullPolicy: ""
+  # ## Prometheus redis-exporter sidecar
+  # exporter:
+  #   # -- Enable Prometheus redis-exporter sidecar
+  #   enabled: true
+  #   # -- Environment variables to pass to the Redis exporter
+  #   env: []
+  #   ## Prometheus redis-exporter image
+  #   image:
+  #     # -- Repository to use for the redis-exporter
+  #     repository: public.ecr.aws/bitnami/redis-exporter
+  #     # -- Tag to use for the redis-exporter
+  #     tag: 1.58.0
+  #     # -- Image pull policy for the redis-exporter
+  #     # @default -- `""` (defaults to global.image.imagePullPolicy)
+  #     imagePullPolicy: ""
 
-    # -- Redis exporter security context
-    # @default -- See [values.yaml]
-    containerSecurityContext:
-      runAsNonRoot: true
-      readOnlyRootFilesystem: true
-      allowPrivilegeEscalation: false
-      seccompProfile:
-        type: RuntimeDefault
-      capabilities:
-        drop:
-        - ALL
+  #   # -- Redis exporter security context
+  #   # @default -- See [values.yaml]
+  #   containerSecurityContext:
+  #     runAsNonRoot: true
+  #     readOnlyRootFilesystem: true
+  #     allowPrivilegeEscalation: false
+  #     seccompProfile:
+  #       type: RuntimeDefault
+  #     capabilities:
+  #       drop:
+  #       - ALL
 
-    ## Probes for Redis exporter (optional)
-    ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
-    readinessProbe:
-      # -- Enable Kubernetes liveness probe for Redis exporter (optional)
-      enabled: true
-      # -- Number of seconds after the container has started before [probe] is initiated
-      initialDelaySeconds: 30
-      # -- How often (in seconds) to perform the [probe]
-      periodSeconds: 15
-      # -- Number of seconds after which the [probe] times out
-      timeoutSeconds: 15
-      # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
-      successThreshold: 1
-      # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
-      failureThreshold: 5
-    livenessProbe:
-      # -- Enable Kubernetes liveness probe for Redis exporter
-      enabled: true
-      # -- Number of seconds after the container has started before [probe] is initiated
-      initialDelaySeconds: 30
-      # -- How often (in seconds) to perform the [probe]
-      periodSeconds: 15
-      # -- Number of seconds after which the [probe] times out
-      timeoutSeconds: 15
-      # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
-      successThreshold: 1
-      # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
-      failureThreshold: 5
+  #   ## Probes for Redis exporter (optional)
+  #   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  #   readinessProbe:
+  #     # -- Enable Kubernetes liveness probe for Redis exporter (optional)
+  #     enabled: true
+  #     # -- Number of seconds after the container has started before [probe] is initiated
+  #     initialDelaySeconds: 30
+  #     # -- How often (in seconds) to perform the [probe]
+  #     periodSeconds: 15
+  #     # -- Number of seconds after which the [probe] times out
+  #     timeoutSeconds: 15
+  #     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+  #     successThreshold: 1
+  #     # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+  #     failureThreshold: 5
+  #   livenessProbe:
+  #     # -- Enable Kubernetes liveness probe for Redis exporter
+  #     enabled: true
+  #     # -- Number of seconds after the container has started before [probe] is initiated
+  #     initialDelaySeconds: 30
+  #     # -- How often (in seconds) to perform the [probe]
+  #     periodSeconds: 15
+  #     # -- Number of seconds after which the [probe] times out
+  #     timeoutSeconds: 15
+  #     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+  #     successThreshold: 1
+  #     # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+  #     failureThreshold: 5
 
-    # -- Resource limits and requests for redis-exporter sidecar
-    resources: {}
-      # limits:
-      #   cpu: 50m
-      #   memory: 64Mi
-      # requests:
-      #   cpu: 10m
-      #   memory: 32Mi
+  #   # -- Resource limits and requests for redis-exporter sidecar
+  #   resources: {}
+  #     # limits:
+  #     #   cpu: 50m
+  #     #   memory: 64Mi
+  #     # requests:
+  #     #   cpu: 10m
+  #     #   memory: 32Mi
 
-  # -- Secrets with credentials to pull images from a private registry
-  # @default -- `[]` (defaults to global.imagePullSecrets)
-  imagePullSecrets: []
+  # # -- Secrets with credentials to pull images from a private registry
+  # # @default -- `[]` (defaults to global.imagePullSecrets)
+  # imagePullSecrets: []
 
-  # -- Additional command line arguments to pass to redis-server
-  extraArgs: []
-  # - --bind
-  # - "0.0.0.0"
+  # # -- Additional command line arguments to pass to redis-server
+  # extraArgs: []
+  # # - --bind
+  # # - "0.0.0.0"
 
-  # -- Environment variables to pass to the Redis server
-  env: []
+  # # -- Environment variables to pass to the Redis server
+  # env: []
 
-  # -- envFrom to pass to the Redis server
-  # @default -- `[]` (See [values.yaml])
-  envFrom: []
-  # - configMapRef:
-  #     name: config-map-name
-  # - secretRef:
-  #     name: secret-name
+  # # -- envFrom to pass to the Redis server
+  # # @default -- `[]` (See [values.yaml])
+  # envFrom: []
+  # # - configMapRef:
+  # #     name: config-map-name
+  # # - secretRef:
+  # #     name: secret-name
 
-  ## Probes for Redis server (optional)
-  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
-  readinessProbe:
-    # -- Enable Kubernetes liveness probe for Redis server
-    enabled: true
-    # -- Number of seconds after the container has started before [probe] is initiated
-    initialDelaySeconds: 30
-    # -- How often (in seconds) to perform the [probe]
-    periodSeconds: 15
-    # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 15
-    # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
-    successThreshold: 1
-    # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
-    failureThreshold: 5
-  livenessProbe:
-    # -- Enable Kubernetes liveness probe for Redis server
-    enabled: true
-    # -- Number of seconds after the container has started before [probe] is initiated
-    initialDelaySeconds: 30
-    # -- How often (in seconds) to perform the [probe]
-    periodSeconds: 15
-    # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 15
-    # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
-    successThreshold: 1
-    # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
-    failureThreshold: 5
+  # ## Probes for Redis server (optional)
+  # ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  # readinessProbe:
+  #   # -- Enable Kubernetes liveness probe for Redis server
+  #   enabled: true
+  #   # -- Number of seconds after the container has started before [probe] is initiated
+  #   initialDelaySeconds: 30
+  #   # -- How often (in seconds) to perform the [probe]
+  #   periodSeconds: 15
+  #   # -- Number of seconds after which the [probe] times out
+  #   timeoutSeconds: 15
+  #   # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+  #   successThreshold: 1
+  #   # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+  #   failureThreshold: 5
+  # livenessProbe:
+  #   # -- Enable Kubernetes liveness probe for Redis server
+  #   enabled: true
+  #   # -- Number of seconds after the container has started before [probe] is initiated
+  #   initialDelaySeconds: 30
+  #   # -- How often (in seconds) to perform the [probe]
+  #   periodSeconds: 15
+  #   # -- Number of seconds after which the [probe] times out
+  #   timeoutSeconds: 15
+  #   # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+  #   successThreshold: 1
+  #   # -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+  #   failureThreshold: 5
 
-  # -- Additional containers to be added to the redis pod
-  ## Note: Supports use of custom Helm templates
-  extraContainers: []
+  # # -- Additional containers to be added to the redis pod
+  # ## Note: Supports use of custom Helm templates
+  # extraContainers: []
 
-  # -- Init containers to add to the redis pod
-  ## Note: Supports use of custom Helm templates
-  initContainers: []
+  # # -- Init containers to add to the redis pod
+  # ## Note: Supports use of custom Helm templates
+  # initContainers: []
 
-  # -- Additional volumeMounts to the redis container
-  volumeMounts: []
+  # # -- Additional volumeMounts to the redis container
+  # volumeMounts: []
 
-  # -- Additional volumes to the redis pod
-  volumes: []
+  # # -- Additional volumes to the redis pod
+  # volumes: []
 
-  # -- Annotations to be added to the Redis server Deployment
-  deploymentAnnotations: {}
+  # # -- Annotations to be added to the Redis server Deployment
+  # deploymentAnnotations: {}
 
-  # -- Annotations to be added to the Redis server pods
-  podAnnotations: {}
+  # # -- Annotations to be added to the Redis server pods
+  # podAnnotations: {}
 
-  # -- Labels to be added to the Redis server pods
-  podLabels: {}
+  # # -- Labels to be added to the Redis server pods
+  # podLabels: {}
 
-  # -- Resource limits and requests for redis
-  resources: {}
-    # limits:
-    #   cpu: 200m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 64Mi
+  # # -- Resource limits and requests for redis
+  # resources: {}
+  #   # limits:
+  #   #   cpu: 200m
+  #   #   memory: 128Mi
+  #   # requests:
+  #   #   cpu: 100m
+  #   #   memory: 64Mi
 
-  # -- Redis pod-level security context
-  # @default -- See [values.yaml]
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 999
-    seccompProfile:
-      type: RuntimeDefault
+  # # -- Redis pod-level security context
+  # # @default -- See [values.yaml]
+  # securityContext:
+  #   runAsNonRoot: true
+  #   runAsUser: 999
+  #   seccompProfile:
+  #     type: RuntimeDefault
 
-  # Redis container ports
-  containerPorts:
-    # -- Redis container port
-    redis: 6379
-    # -- Metrics container port
-    metrics: 9121
+  # # Redis container ports
+  # containerPorts:
+  #   # -- Redis container port
+  #   redis: 6379
+  #   # -- Metrics container port
+  #   metrics: 9121
 
-  # -- [DNS configuration]
-  dnsConfig: {}
-  # -- Alternative DNS policy for Redis server pods
-  dnsPolicy: "ClusterFirst"
+  # # -- [DNS configuration]
+  # dnsConfig: {}
+  # # -- Alternative DNS policy for Redis server pods
+  # dnsPolicy: "ClusterFirst"
 
-  # -- Redis container-level security context
-  # @default -- See [values.yaml]
-  containerSecurityContext:
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
+  # # -- Redis container-level security context
+  # # @default -- See [values.yaml]
+  # containerSecurityContext:
+  #   readOnlyRootFilesystem: true
+  #   allowPrivilegeEscalation: false
+  #   capabilities:
+  #     drop:
+  #       - ALL
 
-  # -- Redis service port
-  servicePort: 6379
+  # # -- Redis service port
+  # servicePort: 6379
 
-  # -- Priority class for redis pods
-  # @default -- `""` (defaults to global.priorityClassName)
-  priorityClassName: ""
+  # # -- Priority class for redis pods
+  # # @default -- `""` (defaults to global.priorityClassName)
+  # priorityClassName: ""
 
-  # -- [Node selector]
-  # @default -- `{}` (defaults to global.nodeSelector)
-  nodeSelector: {}
+  # # -- [Node selector]
+  # # @default -- `{}` (defaults to global.nodeSelector)
+  # nodeSelector: {}
 
-  # -- [Tolerations] for use with node taints
-  # @default -- `[]` (defaults to global.tolerations)
-  tolerations: []
+  # # -- [Tolerations] for use with node taints
+  # # @default -- `[]` (defaults to global.tolerations)
+  # tolerations: []
 
-  # -- Assign custom [affinity] rules to the deployment
-  # @default -- `{}` (defaults to global.affinity preset)
-  affinity: {}
+  # # -- Assign custom [affinity] rules to the deployment
+  # # @default -- `{}` (defaults to global.affinity preset)
+  # affinity: {}
 
-  # -- Assign custom [TopologySpreadConstraints] rules to redis
-  # @default -- `[]` (defaults to global.topologySpreadConstraints)
-  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
-  ## If labelSelector is left out, it will default to the labelSelector configuration of the deployment
-  topologySpreadConstraints: []
-    # - maxSkew: 1
-    #   topologyKey: topology.kubernetes.io/zone
-    #   whenUnsatisfiable: DoNotSchedule
+  # # -- Assign custom [TopologySpreadConstraints] rules to redis
+  # # @default -- `[]` (defaults to global.topologySpreadConstraints)
+  # ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+  # ## If labelSelector is left out, it will default to the labelSelector configuration of the deployment
+  # topologySpreadConstraints: []
+  #   # - maxSkew: 1
+  #   #   topologyKey: topology.kubernetes.io/zone
+  #   #   whenUnsatisfiable: DoNotSchedule
 
-  # -- terminationGracePeriodSeconds for container lifecycle hook
-  terminationGracePeriodSeconds: 30
+  # # -- terminationGracePeriodSeconds for container lifecycle hook
+  # terminationGracePeriodSeconds: 30
 
-  # -- Automount API credentials for the Service Account into the pod.
-  automountServiceAccountToken: true
+  # # -- Automount API credentials for the Service Account into the pod.
+  # automountServiceAccountToken: true
 
-  serviceAccount:
-    # -- Create a service account for the redis pod
-    create: true
-    # -- Service account name for redis pod
-    name: ""
-    # -- Annotations applied to created service account
-    annotations: {}
-    # -- Automount API credentials for the Service Account
-    automountServiceAccountToken: true
+  # serviceAccount:
+  #   # -- Create a service account for the redis pod
+  #   create: true
+  #   # -- Service account name for redis pod
+  #   name: ""
+  #   # -- Annotations applied to created service account
+  #   annotations: {}
+  #   # -- Automount API credentials for the Service Account
+  #   automountServiceAccountToken: true
 
-  service:
-    # -- Redis service annotations
-    annotations: {}
-    # -- Additional redis service labels
-    labels: {}
+  # service:
+  #   # -- Redis service annotations
+  #   annotations: {}
+  #   # -- Additional redis service labels
+  #   labels: {}
 
-  metrics:
-    # -- Deploy metrics service
-    enabled: true
+  # metrics:
+  #   # -- Deploy metrics service
+  #   enabled: true
 
-    # Redis metrics service configuration
-    service:
-      # -- Metrics service type
-      type: ClusterIP
-      # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
-      clusterIP: None
-      # -- Metrics service annotations
-      annotations: {}
-      # -- Metrics service labels
-      labels: {}
-      # -- Metrics service port
-      servicePort: 9121
-      # -- Metrics service port name
-      portName: http-metrics
+  #   # Redis metrics service configuration
+  #   service:
+  #     # -- Metrics service type
+  #     type: ClusterIP
+  #     # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+  #     clusterIP: None
+  #     # -- Metrics service annotations
+  #     annotations: {}
+  #     # -- Metrics service labels
+  #     labels: {}
+  #     # -- Metrics service port
+  #     servicePort: 9121
+  #     # -- Metrics service port name
+  #     portName: http-metrics
 
-    serviceMonitor:
-      # -- Enable a prometheus ServiceMonitor
-      enabled: false
-      # -- Interval at which metrics should be scraped
-      interval: 30s
-      # -- Prometheus [RelabelConfigs] to apply to samples before scraping
-      relabelings: []
-      # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
-      metricRelabelings: []
-      # -- Prometheus ServiceMonitor selector
-      selector: {}
-        # prometheus: kube-prometheus
+  #   serviceMonitor:
+  #     # -- Enable a prometheus ServiceMonitor
+  #     enabled: false
+  #     # -- Interval at which metrics should be scraped
+  #     interval: 30s
+  #     # -- Prometheus [RelabelConfigs] to apply to samples before scraping
+  #     relabelings: []
+  #     # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
+  #     metricRelabelings: []
+  #     # -- Prometheus ServiceMonitor selector
+  #     selector: {}
+  #       # prometheus: kube-prometheus
 
-      # -- Prometheus ServiceMonitor scheme
-      scheme: ""
-      # -- Prometheus ServiceMonitor tlsConfig
-      tlsConfig: {}
-      # -- Prometheus ServiceMonitor namespace
-      namespace: "" # "monitoring"
-      # -- Prometheus ServiceMonitor labels
-      additionalLabels: {}
-      # -- Prometheus ServiceMonitor annotations
-      annotations: {}
+  #     # -- Prometheus ServiceMonitor scheme
+  #     scheme: ""
+  #     # -- Prometheus ServiceMonitor tlsConfig
+  #     tlsConfig: {}
+  #     # -- Prometheus ServiceMonitor namespace
+  #     namespace: "" # "monitoring"
+  #     # -- Prometheus ServiceMonitor labels
+  #     additionalLabels: {}
+  #     # -- Prometheus ServiceMonitor annotations
+  #     annotations: {}
 
 ## Redis-HA subchart replaces custom redis deployment when `redis-ha.enabled=true`
 # Ref: https://github.com/DandyDeveloper/charts/blob/master/charts/redis-ha/values.yaml
@@ -1545,7 +1545,7 @@ redis-ha:
       # -- HAProxy enable prometheus metric scraping
       enabled: true
     # -- Whether the haproxy pods should be forced to run on separate nodes.
-    hardAntiAffinity: true
+    hardAntiAffinity: false
     # -- Additional affinities to add to the haproxy pods.
     additionalAffinities: {}
     # -- Assign custom [affinity] rules to the haproxy pods.
@@ -1596,20 +1596,20 @@ redis-ha:
     readOnlyRootFilesystem: true
 
 # External Redis parameters
-externalRedis:
-  # -- External Redis server host
-  host: ""
-  # -- External Redis username
-  username: ""
-  # -- External Redis password
-  password: ""
-  # -- External Redis server port
-  port: 6379
-  # -- The name of an existing secret with Redis credentials (must contain key `redis-password`).
-  # When it's set, the `externalRedis.password` parameter is ignored
-  existingSecret: ""
-  # -- External Redis Secret annotations
-  secretAnnotations: {}
+# externalRedis:
+#   # -- External Redis server host
+#   host: ""
+#   # -- External Redis username
+#   username: ""
+#   # -- External Redis password
+#   password: ""
+#   # -- External Redis server port
+#   port: 6379
+#   # -- The name of an existing secret with Redis credentials (must contain key `redis-password`).
+#   # When it's set, the `externalRedis.password` parameter is ignored
+#   existingSecret: ""
+#   # -- External Redis Secret annotations
+#   secretAnnotations: {}
 
 redisSecretInit:
   # -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
@@ -1700,15 +1700,15 @@ server:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the Argo CD server
     enabled: false
     # -- Minimum number of replicas for the Argo CD server [HPA]
-    minReplicas: 2
-    # -- Maximum number of replicas for the Argo CD server [HPA]
-    maxReplicas: 5
-    # -- Average CPU utilization percentage for the Argo CD server [HPA]
-    targetCPUUtilizationPercentage: 50
-    # -- Average memory utilization percentage for the Argo CD server [HPA]
-    targetMemoryUtilizationPercentage: 50
-    # -- Configures the scaling behavior of the target in both Up and Down directions.
-    behavior: {}
+    # minReplicas: 2
+    # # -- Maximum number of replicas for the Argo CD server [HPA]
+    # maxReplicas: 5
+    # # -- Average CPU utilization percentage for the Argo CD server [HPA]
+    # targetCPUUtilizationPercentage: 50
+    # # -- Average memory utilization percentage for the Argo CD server [HPA]
+    # targetMemoryUtilizationPercentage: 50
+    # # -- Configures the scaling behavior of the target in both Up and Down directions.
+    # behavior: {}
       # scaleDown:
       #  stabilizationWindowSeconds: 300
       #  policies:
@@ -1723,7 +1723,7 @@ server:
       #     periodSeconds: 60
     # -- Configures custom HPA metrics for the Argo CD server
     # Ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
-    metrics: []
+    #metrics: []
 
   ## Argo CD server Pod Disruption Budget
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
@@ -2121,7 +2121,7 @@ server:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: false
+      enabled: true
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2166,115 +2166,115 @@ server:
     enabled: false
     # -- Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
     ## Additional configuration might be required in related configuration sections
-    controller: generic
-    # -- Additional ingress labels
-    labels: {}
-    # -- Additional ingress annotations
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
-    annotations: {}
-      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # controller: generic
+    # # -- Additional ingress labels
+    # labels: {}
+    # # -- Additional ingress annotations
+    # ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
+    # annotations: {}
+    #   # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    #   # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
-    # -- Defines which ingress controller will implement the resource
-    ingressClassName: ""
+    # # -- Defines which ingress controller will implement the resource
+    # ingressClassName: ""
 
-    # -- Argo CD server hostname
-    # @default -- `""` (defaults to global.domain)
-    hostname: ""
+    # # -- Argo CD server hostname
+    # # @default -- `""` (defaults to global.domain)
+    # hostname: ""
 
-    # -- The path to Argo CD server
-    path: /
+    # # -- The path to Argo CD server
+    # path: /
 
-    # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
-    pathType: Prefix
+    # # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+    # pathType: Prefix
 
-    # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
-    ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
-    ## You can create this secret via `certificate` or `certificateSecret` option
-    tls: false
+    # # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
+    # ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
+    # ## You can create this secret via `certificate` or `certificateSecret` option
+    # tls: false
 
-    # -- The list of additional hostnames to be covered by ingress record
-    # @default -- `[]` (See [values.yaml])
-    extraHosts: []
-      # - name: argocd.example.com
-      #   path: /
+    # # -- The list of additional hostnames to be covered by ingress record
+    # # @default -- `[]` (See [values.yaml])
+    # extraHosts: []
+    #   # - name: argocd.example.com
+    #   #   path: /
 
-    # -- Additional ingress paths
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraPaths: []
-      # - path: /*
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: ssl-redirect
-      #       port:
-      #         name: use-annotation
+    # # -- Additional ingress paths
+    # # @default -- `[]` (See [values.yaml])
+    # ## Note: Supports use of custom Helm templates
+    # extraPaths: []
+    #   # - path: /*
+    #   #   pathType: Prefix
+    #   #   backend:
+    #   #     service:
+    #   #       name: ssl-redirect
+    #   #       port:
+    #   #         name: use-annotation
 
-    # -- Additional ingress rules
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraRules: []
-      # - http:
-      #     paths:
-      #     - path: /
-      #       pathType: Prefix
-      #       backend:
-      #         service:
-      #           name: '{{ include "argo-cd.server.fullname" . }}'
-      #           port:
-      #             name: '{{ .Values.server.service.servicePortHttpsName }}'
+    # # -- Additional ingress rules
+    # # @default -- `[]` (See [values.yaml])
+    # ## Note: Supports use of custom Helm templates
+    # extraRules: []
+    #   # - http:
+    #   #     paths:
+    #   #     - path: /
+    #   #       pathType: Prefix
+    #   #       backend:
+    #   #         service:
+    #   #           name: '{{ include "argo-cd.server.fullname" . }}'
+    #   #           port:
+    #   #             name: '{{ .Values.server.service.servicePortHttpsName }}'
 
-    # -- Additional TLS configuration
-    # @default -- `[]` (See [values.yaml])
-    extraTls: []
-      # - hosts:
-      #   - argocd.example.com
-      #   secretName: your-certificate-name
+    # # -- Additional TLS configuration
+    # # @default -- `[]` (See [values.yaml])
+    # extraTls: []
+    #   # - hosts:
+    #   #   - argocd.example.com
+    #   #   secretName: your-certificate-name
 
-    # AWS specific options for Application Load Balancer
-    # Applies only when `serv.ingress.controller` is set to `aws`
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#aws-application-load-balancers-albs-and-classic-elb-http-mode
-    aws:
-      # -- Backend protocol version for the AWS ALB gRPC service
-      ## This tells AWS to send traffic from the ALB using gRPC.
-      ## For more information: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html#health-check-settings
-      backendProtocolVersion: GRPC
-      # -- Service type for the AWS ALB gRPC service
-      ## Can be of type NodePort or ClusterIP depending on which mode you are running.
-      ## Instance mode needs type NodePort, IP mode needs type ClusterIP
-      ## Ref: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/how-it-works/#ingress-traffic
-      serviceType: NodePort
+    # # AWS specific options for Application Load Balancer
+    # # Applies only when `serv.ingress.controller` is set to `aws`
+    # ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#aws-application-load-balancers-albs-and-classic-elb-http-mode
+    # aws:
+    #   # -- Backend protocol version for the AWS ALB gRPC service
+    #   ## This tells AWS to send traffic from the ALB using gRPC.
+    #   ## For more information: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html#health-check-settings
+    #   backendProtocolVersion: GRPC
+    #   # -- Service type for the AWS ALB gRPC service
+    #   ## Can be of type NodePort or ClusterIP depending on which mode you are running.
+    #   ## Instance mode needs type NodePort, IP mode needs type ClusterIP
+    #   ## Ref: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/how-it-works/#ingress-traffic
+    #   serviceType: NodePort
 
-    # Google specific options for Google Application Load Balancer
-    # Applies only when `server.ingress.controller` is set to `gke`
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#google-cloud-load-balancers-with-kubernetes-ingress
-    gke:
-      # -- Google [BackendConfig] resource, for use with the GKE Ingress Controller
-      # @default -- `{}` (See [values.yaml])
-      ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
-      backendConfig: {}
-        # iap:
-        #  enabled: true
-        #  oauthclientCredentials:
-        #    secretName: argocd-secret
+    # # Google specific options for Google Application Load Balancer
+    # # Applies only when `server.ingress.controller` is set to `gke`
+    # ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#google-cloud-load-balancers-with-kubernetes-ingress
+    # gke:
+    #   # -- Google [BackendConfig] resource, for use with the GKE Ingress Controller
+    #   # @default -- `{}` (See [values.yaml])
+    #   ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
+    #   backendConfig: {}
+    #     # iap:
+    #     #  enabled: true
+    #     #  oauthclientCredentials:
+    #     #    secretName: argocd-secret
 
-      # -- Google [FrontendConfig] resource, for use with the GKE Ingress Controller
-      # @default -- `{}` (See [values.yaml])
-      ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
-      frontendConfig: {}
-        # redirectToHttps:
-        #   enabled: true
-        #   responseCodeName: RESPONSE_CODE
+    #   # -- Google [FrontendConfig] resource, for use with the GKE Ingress Controller
+    #   # @default -- `{}` (See [values.yaml])
+    #   ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
+    #   frontendConfig: {}
+    #     # redirectToHttps:
+    #     #   enabled: true
+    #     #   responseCodeName: RESPONSE_CODE
 
-      # Managed GKE certificate for ingress hostname
-      managedCertificate:
-        # -- Create ManagedCertificate resource and annotations for Google Load balancer
-        ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
-        create: true
-        # -- Additional domains for ManagedCertificate resource
-        extraDomains: []
-          # - argocd.example.com
+    #   # Managed GKE certificate for ingress hostname
+    #   managedCertificate:
+    #     # -- Create ManagedCertificate resource and annotations for Google Load balancer
+    #     ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
+    #     create: true
+    #     # -- Additional domains for ManagedCertificate resource
+    #     extraDomains: []
+    #       # - argocd.example.com
 
   # Dedicated gRPC ingress for ingress controllers that supports only single backend protocol per Ingress resource
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
@@ -2282,64 +2282,64 @@ server:
     # -- Enable an ingress resource for the Argo CD server for dedicated [gRPC-ingress]
     enabled: false
     # -- Additional ingress annotations for dedicated [gRPC-ingress]
-    annotations: {}
-    # -- Additional ingress labels for dedicated [gRPC-ingress]
-    labels: {}
-    # -- Defines which ingress controller will implement the resource [gRPC-ingress]
-    ingressClassName: ""
+    # annotations: {}
+    # # -- Additional ingress labels for dedicated [gRPC-ingress]
+    # labels: {}
+    # # -- Defines which ingress controller will implement the resource [gRPC-ingress]
+    # ingressClassName: ""
 
-    # -- Argo CD server hostname for dedicated [gRPC-ingress]
-    # @default -- `""` (defaults to grpc.`server.ingress.hostname`)
-    hostname: ""
+    # # -- Argo CD server hostname for dedicated [gRPC-ingress]
+    # # @default -- `""` (defaults to grpc.`server.ingress.hostname`)
+    # hostname: ""
 
-    # -- Argo CD server ingress path for dedicated [gRPC-ingress]
-    path: /
+    # # -- Argo CD server ingress path for dedicated [gRPC-ingress]
+    # path: /
 
-    # -- Ingress path type for dedicated [gRPC-ingress]. One of `Exact`, `Prefix` or `ImplementationSpecific`
-    pathType: Prefix
+    # # -- Ingress path type for dedicated [gRPC-ingress]. One of `Exact`, `Prefix` or `ImplementationSpecific`
+    # pathType: Prefix
 
-    # -- Enable TLS configuration for the hostname defined at `server.ingressGrpc.hostname`
-    ## TLS certificate will be retrieved from a TLS secret with name: `argocd-server-grpc-tls`
-    tls: false
+    # # -- Enable TLS configuration for the hostname defined at `server.ingressGrpc.hostname`
+    # ## TLS certificate will be retrieved from a TLS secret with name: `argocd-server-grpc-tls`
+    # tls: false
 
-    # -- The list of additional hostnames to be covered by ingress record
-    # @default -- `[]` (See [values.yaml])
-    extraHosts: []
-      # - name: grpc.argocd.example.com
-      #   path: /
+    # # -- The list of additional hostnames to be covered by ingress record
+    # # @default -- `[]` (See [values.yaml])
+    # extraHosts: []
+    #   # - name: grpc.argocd.example.com
+    #   #   path: /
 
-    # -- Additional ingress paths for dedicated [gRPC-ingress]
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraPaths: []
-      # - path: /*
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: ssl-redirect
-      #       port:
-      #         name: use-annotation
+    # # -- Additional ingress paths for dedicated [gRPC-ingress]
+    # # @default -- `[]` (See [values.yaml])
+    # ## Note: Supports use of custom Helm templates
+    # extraPaths: []
+    #   # - path: /*
+    #   #   pathType: Prefix
+    #   #   backend:
+    #   #     service:
+    #   #       name: ssl-redirect
+    #   #       port:
+    #   #         name: use-annotation
 
-    # -- Additional ingress rules
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraRules: []
-      # - http:
-      #     paths:
-      #     - path: /
-      #       pathType: Prefix
-      #       backend:
-      #         service:
-      #           name: '{{ include "argo-cd.server.fullname" . }}'
-      #           port:
-      #             name: '{{ .Values.server.service.servicePortHttpName }}'
+    # # -- Additional ingress rules
+    # # @default -- `[]` (See [values.yaml])
+    # ## Note: Supports use of custom Helm templates
+    # extraRules: []
+    #   # - http:
+    #   #     paths:
+    #   #     - path: /
+    #   #       pathType: Prefix
+    #   #       backend:
+    #   #         service:
+    #   #           name: '{{ include "argo-cd.server.fullname" . }}'
+    #   #           port:
+    #   #             name: '{{ .Values.server.service.servicePortHttpName }}'
 
-    # -- Additional TLS configuration for dedicated [gRPC-ingress]
-    # @default -- `[]` (See [values.yaml])
-    extraTls: []
-      # - secretName: chonk-city-tls
-      #   hosts:
-      #     - grpc.chonk.city
+    # # -- Additional TLS configuration for dedicated [gRPC-ingress]
+    # # @default -- `[]` (See [values.yaml])
+    # extraTls: []
+    #   # - secretName: chonk-city-tls
+    #   #   hosts:
+    #   #     - grpc.chonk.city
 
   # Create a OpenShift Route with SSL passthrough for UI and CLI
   # Consider setting 'hostname' e.g. https://argocd.apps-crc.testing/ using your Default Ingress Controller Domain
@@ -2349,13 +2349,13 @@ server:
     # -- Enable an OpenShift Route for the Argo CD server
     enabled: false
     # -- Openshift Route annotations
-    annotations: {}
-    # -- Hostname of OpenShift Route
-    hostname: ""
-    # -- Termination type of Openshift Route
-    termination_type: passthrough
-    # -- Termination policy of Openshift Route
-    termination_policy: None
+    # annotations: {}
+    # # -- Hostname of OpenShift Route
+    # hostname: ""
+    # # -- Termination type of Openshift Route
+    # termination_type: passthrough
+    # # -- Termination policy of Openshift Route
+    # termination_policy: None
 
   ## Enable this and set the rules: to whatever custom rules you want for the Cluster Role resource.
   ## Defaults to off
@@ -2378,30 +2378,30 @@ repoServer:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
     enabled: false
     # -- Minimum number of replicas for the repo server [HPA]
-    minReplicas: 2
-    # -- Maximum number of replicas for the repo server [HPA]
-    maxReplicas: 3
-    # -- Average CPU utilization percentage for the repo server [HPA]
-    targetCPUUtilizationPercentage: 50
-    # -- Average memory utilization percentage for the repo server [HPA]
-    targetMemoryUtilizationPercentage: 50
-    # -- Configures the scaling behavior of the target in both Up and Down directions.
-    behavior: {}
-      # scaleDown:
-      #  stabilizationWindowSeconds: 300
-      #  policies:
-      #   - type: Pods
-      #     value: 1
-      #     periodSeconds: 180
-      # scaleUp:
-      #   stabilizationWindowSeconds: 300
-      #   policies:
-      #   - type: Pods
-      #     value: 2
-      #     periodSeconds: 60
-    # -- Configures custom HPA metrics for the Argo CD repo server
-    # Ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
-    metrics: []
+    # minReplicas: 2
+    # # -- Maximum number of replicas for the repo server [HPA]
+    # maxReplicas: 3
+    # # -- Average CPU utilization percentage for the repo server [HPA]
+    # targetCPUUtilizationPercentage: 50
+    # # -- Average memory utilization percentage for the repo server [HPA]
+    # targetMemoryUtilizationPercentage: 50
+    # # -- Configures the scaling behavior of the target in both Up and Down directions.
+    # behavior: {}
+    #   # scaleDown:
+    #   #  stabilizationWindowSeconds: 300
+    #   #  policies:
+    #   #   - type: Pods
+    #   #     value: 1
+    #   #     periodSeconds: 180
+    #   # scaleUp:
+    #   #   stabilizationWindowSeconds: 300
+    #   #   policies:
+    #   #   - type: Pods
+    #   #     value: 2
+    #   #     periodSeconds: 60
+    # # -- Configures custom HPA metrics for the Argo CD repo server
+    # # Ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # metrics: []
 
   ## Repo server Pod Disruption Budget
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
@@ -2728,7 +2728,7 @@ repoServer:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: false
+      enabled: true
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -2885,7 +2885,7 @@ applicationSet:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: false
+      enabled: true
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
@@ -3050,110 +3050,111 @@ applicationSet:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-configuration
   certificate:
     # -- Deploy a Certificate resource (requires cert-manager)
-    enabled: true
+    enabled: false
     # -- The name of the Secret that will be automatically created and managed by this Certificate resource
-    secretName: chonk-city-tls
-    # -- Certificate primary domain (commonName)
-    # @default -- `""` (defaults to global.domain)
-    domain: ""
-    # -- Certificate Subject Alternate Names (SANs)
-    additionalHosts: []
-    # -- The requested 'duration' (i.e. lifetime) of the certificate.
-    # @default -- `""` (defaults to 2160h = 90d if not specified)
-    ## Ref: https://cert-manager.io/docs/usage/certificate/#renewal
-    duration: ""
-    # -- How long before the expiry a certificate should be renewed.
-    # @default -- `""` (defaults to 360h = 15d if not specified)
-    ## Ref: https://cert-manager.io/docs/usage/certificate/#renewal
-    renewBefore: ""
-    # Certificate issuer
-    ## Ref: https://cert-manager.io/docs/concepts/issuer
-    issuer:
-      # -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
-      group: "cert-manager.io"
-      # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
-      kind: "ClusterIssuer"
-      # -- Certificate issuer name. Eg. `letsencrypt`
-      name: "letsencrypt-production"
-    # Private key of the certificate
-    privateKey:
-      # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
-      rotationPolicy: Never
-      # -- The private key cryptography standards (PKCS) encoding for private key. Either: `PCKS1` or `PKCS8`
-      encoding: PKCS1
-      # -- Algorithm used to generate certificate private key. One of: `RSA`, `Ed25519` or `ECDSA`
-      algorithm: RSA
-      # -- Key bit size of the private key. If algorithm is set to `Ed25519`, size is ignored.
-      size: 2048
-    # -- Annotations to be applied to the ApplicationSet Certificate
-    annotations: {}
+    # secretName: chonk-city-tls
+    # # -- Certificate primary domain (commonName)
+    # # @default -- `""` (defaults to global.domain)
+    # domain: ""
+    # # -- Certificate Subject Alternate Names (SANs)
+    # additionalHosts: []
+    # # -- The requested 'duration' (i.e. lifetime) of the certificate.
+    # # @default -- `""` (defaults to 2160h = 90d if not specified)
+    # ## Ref: https://cert-manager.io/docs/usage/certificate/#renewal
+    # duration: ""
+    # # -- How long before the expiry a certificate should be renewed.
+    # # @default -- `""` (defaults to 360h = 15d if not specified)
+    # ## Ref: https://cert-manager.io/docs/usage/certificate/#renewal
+    # renewBefore: ""
+    # # Certificate issuer
+    # ## Ref: https://cert-manager.io/docs/concepts/issuer
+    # issuer:
+    #   # -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
+    #   group: "cert-manager.io"
+    #   # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
+    #   kind: "ClusterIssuer"
+    #   # -- Certificate issuer name. Eg. `letsencrypt`
+    #   name: "letsencrypt-production"
+    # # Private key of the certificate
+    # privateKey:
+    #   # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
+    #   rotationPolicy: Never
+    #   # -- The private key cryptography standards (PKCS) encoding for private key. Either: `PCKS1` or `PKCS8`
+    #   encoding: PKCS1
+    #   # -- Algorithm used to generate certificate private key. One of: `RSA`, `Ed25519` or `ECDSA`
+    #   algorithm: RSA
+    #   # -- Key bit size of the private key. If algorithm is set to `Ed25519`, size is ignored.
+    #   size: 2048
+    # # -- Annotations to be applied to the ApplicationSet Certificate
+    # annotations: {}
 
   ## Ingress for the Git Generator webhook
   ## Ref: https://argocd-applicationset.readthedocs.io/en/master/Generators-Git/#webhook-configuration)
   ingress:
     # -- Enable an ingress resource for ApplicationSet webhook
     enabled: false
-    # -- Additional ingress labels
-    labels: {}
-    # -- Additional ingress annotations
-    annotations: {}
+    # # -- Additional ingress labels
+    # labels: {}
+    # # -- Additional ingress annotations
+    # annotations: {}
 
-    # -- Defines which ingress ApplicationSet controller will implement the resource
-    ingressClassName: ""
+    # # -- Defines which ingress ApplicationSet controller will implement the resource
+    # ingressClassName: ""
 
-    # -- Argo CD ApplicationSet hostname
-    # @default -- `""` (defaults to global.domain)
-    hostname: ""
+    # # -- Argo CD ApplicationSet hostname
+    # # @default -- `""` (defaults to global.domain)
+    # hostname: ""
 
-    # -- List of ingress paths
-    path: /api/webhook
+    # # -- List of ingress paths
+    # path: /api/webhook
 
-    # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
-    pathType: Prefix
+    # # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+    # pathType: Prefix
 
-    # -- Enable TLS configuration for the hostname defined at `applicationSet.webhook.ingress.hostname`
-    ## TLS certificate will be retrieved from a TLS secret with name:`argocd-applicationset-controller-tls`
-    tls: false
+    # # -- Enable TLS configuration for the hostname defined at `applicationSet.webhook.ingress.hostname`
+    # ## TLS certificate will be retrieved from a TLS secret with name:`argocd-applicationset-controller-tls`
+    # tls: false
 
-    # -- The list of additional hostnames to be covered by ingress record
-    # @default -- `[]` (See [values.yaml])
-    extraHosts: []
-      # - name: argocd.example.com
-      #   path: /
+    # # -- The list of additional hostnames to be covered by ingress record
+    # # @default -- `[]` (See [values.yaml])
+    # extraHosts: []
+    #   # - name: argocd.example.com
+    #   #   path: /
 
-    # -- Additional ingress paths
-    # @default -- `[]` (See [values.yaml])
-    extraPaths: []
-      # - path: /*
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: ssl-redirect
-      #       port:
-      #         name: use-annotation
+    # # -- Additional ingress paths
+    # # @default -- `[]` (See [values.yaml])
+    # extraPaths: []
+    #   # - path: /*
+    #   #   pathType: Prefix
+    #   #   backend:
+    #   #     service:
+    #   #       name: ssl-redirect
+    #   #       port:
+    #   #         name: use-annotation
 
-    # -- Additional ingress rules
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraRules: []
-      # - http:
-      #    paths:
-      #    - path: /api/webhook
-      #      pathType: Prefix
-      #      backend:
-      #        service:
-      #          name: '{{ include "argo-cd.applicationSet.fullname" . }}'
-      #          port:
-      #            name: '{{ .Values.applicationSet.service.portName }}'
+    # # -- Additional ingress rules
+    # # @default -- `[]` (See [values.yaml])
+    # ## Note: Supports use of custom Helm templates
+    # extraRules: []
+    #   # - http:
+    #   #    paths:
+    #   #    - path: /api/webhook
+    #   #      pathType: Prefix
+    #   #      backend:
+    #   #        service:
+    #   #          name: '{{ include "argo-cd.applicationSet.fullname" . }}'
+    #   #          port:
+    #   #            name: '{{ .Values.applicationSet.service.portName }}'
 
-    # -- Additional ingress TLS configuration
-    # @default -- `[]` (See [values.yaml])
-    extraTls: []
-      # - secretName: argocd-applicationset-tls
-      #   hosts:
-      #     - argocd-applicationset.example.com
+    # # -- Additional ingress TLS configuration
+    # # @default -- `[]` (See [values.yaml])
+    # extraTls: []
+    #   # - secretName: argocd-applicationset-tls
+    #   #   hosts:
+    #   #     - argocd-applicationset.example.com
   # -- Enable ApplicationSet in any namespace feature
   allowAnyNamespace: true
+
 ## Notifications controller
 notifications:
   # -- Enable notifications controller
@@ -3287,7 +3288,7 @@ notifications:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: false
+      enabled: true
       # -- Prometheus ServiceMonitor selector
       selector: {}
         # prometheus: kube-prometheus
