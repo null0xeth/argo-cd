@@ -203,6 +203,13 @@ configs:
       requestedScopes: ["openid", "profile", "email", "groups"]
       enablePKCEAuthentication: true
 
+    extension.config: |-
+      extensions:
+        - name: metrics
+          backend:
+            services:
+              - url: http://argocd-metrics-server:9003
+
     # resource.customizations.health.argoproj.io_Application: |
     #     hs = {}
     #     hs.status = "Progressing"
@@ -257,6 +264,8 @@ configs:
     server.enable.gzip: true
     # -- Set X-Frame-Options header in HTTP responses to value. To disable, set to "".
     server.x.frame.options: sameorigin
+    # -- Proxy extension -- #
+    server.enable.proxy.extension: "true"
 
     ## Repo-server properties
     # -- Limit on number of concurrent manifests generate requests. Any value less the 1 means no limit.
@@ -300,6 +309,10 @@ configs:
     policy.csv: |
       g, argocd-admin, role:admin
       g, argo-admin, role:admin
+      p, role:readonly, extensions, invoke, metrics, allow
+      p, role:argocd-admin, extensions, invoke, metrics, allow
+      p, role:argo-admin, extensions, invoke, metrics, allow
+      p, role:admin, extensions, invoke, metrics, allow
 
     # -- OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
     # The scope value can be a string, or a list of strings.
@@ -1778,18 +1791,18 @@ server:
       tag: "v0.0.5"
       # -- Image pull policy for extensions
       # @default -- `""` (defaults to global.image.imagePullPolicy)
-      imagePullPolicy: ""
+      imagePullPolicy: "IfNotPresent"
 
     # -- Extensions for Argo CD
     # @default -- `[]` (See [values.yaml])
     ## Ref: https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
-    extensionList:
-      - name: extension-metrics
-        env:
-          - name: EXTENSION_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
-          - name: EXTENSION_CHECKSUM_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
+    extensionList: []
+      # - name: extension-metrics
+      #   env:
+      #     - name: EXTENSION_URL
+      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
+      #     - name: EXTENSION_CHECKSUM_URL
+      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
 
     # -- Server UI extensions container-level security context
     # @default -- See [values.yaml]
@@ -1798,11 +1811,11 @@ server:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
       runAsUser: 1000
-      seccompProfile:
-        type: RuntimeDefault
-      capabilities:
-        drop:
-        - ALL
+      # seccompProfile:
+      #   type: RuntimeDefault
+      # capabilities:
+      #   drop:
+      #   - ALL
 
     # -- Resource limits and requests for the argocd-extensions container
     resources: {}
@@ -1841,7 +1854,20 @@ server:
   ## If your target Kubernetes cluster(s) require a custom credential (exec) plugin
   ## you could use this (and the same in the application controller pod) to provide such executable
   ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins
-  initContainers: []
+  initContainers:
+    - name: extension-metrics
+      image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
+      env:
+      - name: EXTENSION_URL
+        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+      - name: EXTENSION_CHECKSUM_URL
+        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+      volumeMounts:
+        - name: extensions
+          mountPath: /tmp/extensions/
+      securityContext:
+        runAsUser: 1000
+        allowPrivilegeEscalation: false
   #  - name: download-tools
   #    image: alpine:3
   #    command: [sh, -c]
@@ -1853,13 +1879,17 @@ server:
   #        name: custom-tools
 
   # -- Additional volumeMounts to the server main container
-  volumeMounts: []
+  volumeMounts:
+    - name: extensions
+      mountPath: /tmp/extensions/
   #  - mountPath: /usr/local/bin/kubelogin
   #    name: custom-tools
   #    subPath: kubelogin
 
   # -- Additional volumes to the server pod
-  volumes: []
+  volumes:
+    - name: extensions
+      emptyDir: {}
   #  - name: custom-tools
   #    emptyDir: {}
 

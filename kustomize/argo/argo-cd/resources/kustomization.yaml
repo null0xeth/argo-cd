@@ -8,4 +8,5 @@ resources:
   - ingress.yaml
   - rbac
   - project.yaml
+  - metrics
   #- cmp/kustomize-helm.yaml
