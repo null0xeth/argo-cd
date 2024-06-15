@@ -1845,14 +1845,14 @@ server:
         allowPrivilegeEscalation: false
 
   # -- Additional volumeMounts to the server main container
-  # volumeMounts:
-  #   - name: extensions
-  #     mountPath: /tmp/extensions/resources/
+  volumeMounts:
+    - name: extensions
+      mountPath: /tmp/extensions/
 
   # -- Additional volumes to the server pod
-  volumes:
-    - name: extensions
-      emptyDir: {}
+  # volumes:
+  #   - name: extensions
+  #     emptyDir: {}
   #  - name: custom-tools
   #    emptyDir: {}
 
