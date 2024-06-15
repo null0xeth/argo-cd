@@ -23,5 +23,5 @@ resources:
   - resources
   - secrets
 
-    # patches:
-# - path: patches/grpc-probe.yaml
+patches:
+  - path: patches/metrics-server-extension.yaml
