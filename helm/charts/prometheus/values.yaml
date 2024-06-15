@@ -18,7 +18,10 @@ serviceAccounts:
   server:
     create: true
     name: ""
-    annotations: {}
+    annotations:
+      meta.helm.sh/release-name: prometheus
+      meta.helm.sh/release-namespace: monitoring
+
 
     ## Opt out of automounting Kubernetes API credentials.
     ## It will be overriden by server.automountServiceAccountToken value, if set.
@@ -26,6 +29,7 @@ serviceAccounts:
 
 ## Additional labels to attach to all resources
 commonMetaLabels: {}
+  #meta.helm.sh/release-namespace: monitoring
 
 ## Monitors ConfigMap changes and POSTs to a URL
 ## Ref: https://github.com/prometheus-operator/prometheus-operator/tree/main/cmd/prometheus-config-reloader
@@ -472,7 +476,10 @@ server:
 
     ## Prometheus server data Persistent Volume annotations
     ##
-    annotations: {}
+    annotations:
+      meta.helm.sh/release-name: prometheus
+      meta.helm.sh/release-namespace: monitoring
+
 
     ## Prometheus server data Persistent Volume existing claim name
     ## Requires server.persistentVolume.enabled: true
@@ -530,7 +537,10 @@ server:
 
   ## Annotations to be added to Prometheus server pods
   ##
-  podAnnotations: {}
+  podAnnotations:
+    meta.helm.sh/release-name: prometheus
+    meta.helm.sh/release-namespace: monitoring
+
     # iam.amazonaws.com/role: prometheus
 
   ## Labels to be added to Prometheus server pods
@@ -566,11 +576,16 @@ server:
 
   ## Annotations to be added to ConfigMap
   ##
-  configMapAnnotations: {}
+  configMapAnnotations:
+    meta.helm.sh/release-name: prometheus
+    meta.helm.sh/release-namespace: monitoring
 
   ## Annotations to be added to deployment
   ##
-  deploymentAnnotations: {}
+  deploymentAnnotations:
+    meta.helm.sh/release-name: prometheus
+    meta.helm.sh/release-namespace: monitoring
+
 
   statefulSet:
     ## If true, use a statefulset instead of a deployment for pod management.
@@ -687,7 +702,10 @@ server:
     ##
     enabled: true
 
-    annotations: {}
+    annotations:
+      meta.helm.sh/release-name: prometheus
+      meta.helm.sh/release-namespace: monitoring
+
     labels: {}
     clusterIP: ""
 

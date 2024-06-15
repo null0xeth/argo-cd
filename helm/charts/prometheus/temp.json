@@ -1,0 +1,22 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "creationTimestamp": "2024-06-15T11:08:09Z",
+    "deletionTimestamp": "2024-06-15T18:17:16Z",
+    "labels": {
+      "istio-injection": "enabled",
+      "kubernetes.io/metadata.name": "monitoring",
+      "name": "monitoring"
+    },
+    "name": "monitoring",
+    "resourceVersion": "19783419",
+    "uid": "301d5f2c-1f13-4246-8b21-7ec71f674be1"
+  },
+  "spec": {
+    "finalizers": []
+  },
+  "status": {
+    "phase": "Terminating"
+  }
+}
