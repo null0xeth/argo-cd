@@ -275,7 +275,7 @@ configs:
     # -- Modify how application is synced between the generator and the cluster. One of: `sync`, `create-only`, `create-update`, `create-delete`
     applicationsetcontroller.policy: sync
     # -- Enables use of the Progressive Syncs capability
-    applicationsetcontroller.enable.progressive.syncs: true
+    applicationsetcontroller.enable.progressive.syncs: false
 
     # -- Enables [Applications in any namespace]
     ## List of additional namespaces where applications may be created in and reconciled from.
@@ -1864,7 +1864,7 @@ server:
         value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
       volumeMounts:
         - name: extensions
-          mountPath: /tmp/extensions/
+          mountPath: /tmp/extensions/resources/
       securityContext:
         runAsUser: 1000
         allowPrivilegeEscalation: false
