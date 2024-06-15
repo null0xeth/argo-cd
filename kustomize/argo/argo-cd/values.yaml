@@ -2126,13 +2126,13 @@ server:
     # -- Extensions for Argo CD
     # @default -- `[]` (See [values.yaml])
     ## Ref: https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
-    extensionList: []
-      # - name: extension-metrics
-      #   env:
-      #     - name: EXTENSION_URL
-      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
-      #     - name: EXTENSION_CHECKSUM_URL
-      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
+    extensionList:
+      - name: extension-metrics
+        env:
+          - name: EXTENSION_URL
+            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
+          - name: EXTENSION_CHECKSUM_URL
+            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
 
     # -- Server UI extensions container-level security context
     # @default -- See [values.yaml]
@@ -2211,15 +2211,15 @@ server:
   # -- Additional volumeMounts to the server main container
   volumeMounts:
     - name: extensions
-      mountPath: /tmp/extensions/
+      mountPath: /tmp/extensions/resources/
   #  - mountPath: /usr/local/bin/kubelogin
   #    name: custom-tools
   #    subPath: kubelogin
 
   # -- Additional volumes to the server pod
-  volumes: {}
-    # - name: extensions
-    #   emptyDir: {}
+  volumes:
+    - name: extensions
+      emptyDir: {}
   #  - name: custom-tools
   #    emptyDir: {}
 
@@ -2340,7 +2340,7 @@ server:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
   certificate:
     # -- Deploy a Certificate resource (requires cert-manager)
-    enabled: true
+    enabled: false
     # -- The name of the Secret that will be automatically created and managed by this Certificate resource
     secretName: argocd-server-tls
     # -- Certificate primary domain (commonName)
