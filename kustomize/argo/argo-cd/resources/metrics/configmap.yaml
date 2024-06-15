@@ -298,7 +298,8 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://prometheus-operated.monitoring.svc.cluster.local:9090"
+        "address": "http://prometheus.lens-metrics.svc.cluster.local:80"
+
       }
     }
     }
