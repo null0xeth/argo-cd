@@ -1,0 +1,77 @@
+customLabels:
+  app: kube-state-metrics
+
+releaseLabel: true
+hostNetwork: false
+rbac:
+  create: true
+  useClusterRole: true
+  extraRules:
+    - apiGroups: ["monitoring.coreos.com"]
+      resources: ["prometheuses"]
+      verbs: ["list", "watch"]
+
+kubeRBACProxy:
+  enabled: true
+  image:
+    registry: quay.io
+    repository: brancz/kube-rbac-proxy
+    tag: v0.18.0
+    sha: ""
+    pullPolicy: IfNotPresent
+
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+
+serviceAccount:
+  create: true
+networkPolicy:
+  enabled: true
+  flavor: kubernetes
+collectors:
+  - certificatesigningrequests
+  - configmaps
+  - cronjobs
+  - daemonsets
+  - deployments
+  - endpoints
+  - horizontalpodautoscalers
+  - ingresses
+  - jobs
+  - leases
+  - limitranges
+  - mutatingwebhookconfigurations
+  - namespaces
+  - networkpolicies
+  - nodes
+  - persistentvolumeclaims
+  - persistentvolumes
+  - poddisruptionbudgets
+  - pods
+  - replicasets
+  - replicationcontrollers
+  - resourcequotas
+  - secrets
+  - services
+  - statefulsets
+  - storageclasses
+  - validatingwebhookconfigurations
+  - volumeattachments
+
+# Enabling kubeconfig will pass the --kubeconfig argument to the container
+kubeconfig:
+  enabled: true
+customResourceState:
+  enabled: true
+  # Add (Cluster)Role permissions to list/watch the customResources defined in the config to rbac.extraRules
+  config:
+    - apiGroups: ["monitoring.coreos.com"]
+      resources: ["prometheuses"]
+      verbs: ["list", "watch"]
+
+selfMonitor:
+  enabled: true

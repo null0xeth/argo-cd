@@ -200,7 +200,7 @@ server:
   ## The URL prefix at which the container can be accessed. Useful in the case the '-web.external-url' includes a slug
   ## so that the various internal URLs are still able to access as they are in the default case.
   ## (Optional)
-  prefixURL: ""
+  prefixURL: "/prometheus"
 
   ## External URL which can access prometheus
   ## Maybe same with Ingress host name
@@ -680,13 +680,7 @@ server:
 
   ## Security context to be added to server container
   ##
-  containerSecurityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
-    seccompProfile:
-      type: RuntimeDefault
+  containerSecurityContext: {}
 
   service:
     ## If false, no Service will be created for the Prometheus server
@@ -1224,7 +1218,7 @@ alertRelabelConfigs: {}
 networkPolicy:
   ## Enable creation of NetworkPolicy resources.
   ##
-  enabled: false
+  enabled: true
 
 # Force namespace of namespaced resources
 forceNamespace: ""
@@ -1266,6 +1260,81 @@ kube-state-metrics:
   ## If false, kube-state-metrics sub-chart will not be installed
   ##
   enabled: true
+  customLabels:
+    app: kube-state-metrics
+
+  releaseLabel: true
+  hostNetwork: false
+  rbac:
+    create: true
+    useClusterRole: true
+    extraRules:
+      - apiGroups: ["monitoring.coreos.com"]
+        resources: ["prometheuses"]
+        verbs: ["list", "watch"]
+
+  kubeRBACProxy:
+    enabled: true
+    image:
+      registry: quay.io
+      repository: brancz/kube-rbac-proxy
+      tag: v0.18.0
+      sha: ""
+      pullPolicy: IfNotPresent
+
+    containerSecurityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+
+  serviceAccount:
+    create: true
+  networkPolicy:
+    enabled: true
+    flavor: kubernetes
+  collectors:
+    - certificatesigningrequests
+    - configmaps
+    - cronjobs
+    - daemonsets
+    - deployments
+    - endpoints
+    - horizontalpodautoscalers
+    - ingresses
+    - jobs
+    - leases
+    - limitranges
+    - mutatingwebhookconfigurations
+    - namespaces
+    - networkpolicies
+    - nodes
+    - persistentvolumeclaims
+    - persistentvolumes
+    - poddisruptionbudgets
+    - pods
+    - replicasets
+    - replicationcontrollers
+    - resourcequotas
+    - secrets
+    - services
+    - statefulsets
+    - storageclasses
+    - validatingwebhookconfigurations
+    - volumeattachments
+
+  kubeconfig:
+    enabled: true
+  customResourceState:
+    enabled: true
+    config:
+      apiGroups: ["monitoring.coreos.com"]
+      resources: ["prometheuses"]
+      verbs: ["list", "watch"]
+
+  selfMonitor:
+    enabled: true
 
 ## prometheus-node-exporter sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter
@@ -1281,15 +1350,13 @@ prometheus-node-exporter:
   containerSecurityContext:
     allowPrivilegeEscalation: false
 
-## prometheus-pushgateway sub-chart configurable values
-## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-pushgateway
-##
 prometheus-pushgateway:
-  ## If false, pushgateway will not be installed
-  ##
   enabled: false
 
-  # Optional service annotations
-  serviceAnnotations:
-    prometheus.io/probe: pushgateway
+metrics-server:
+  args:
+    - --kubelet-insecure-tls
+
+
+
 
