@@ -1209,21 +1209,21 @@ serverFiles:
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
-extraScrapeConfigs: |
-  - job_name: 'prometheus-blackbox-exporter'
-    metrics_path: /probe
-    params:
-      module: [http_2xx]
-    static_configs:
-      - targets:
-        - https://example.com
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: prometheus-blackbox-exporter:9115
+# extraScrapeConfigs: |
+#   - job_name: 'prometheus-blackbox-exporter'
+#     metrics_path: /probe
+#     params:
+#       module: [http_2xx]
+#     static_configs:
+#       - targets:
+#         - https://example.com
+#     relabel_configs:
+#       - source_labels: [__address__]
+#         target_label: __param_target
+#       - source_labels: [__param_target]
+#         target_label: instance
+#       - target_label: __address__
+#         replacement: prometheus-blackbox-exporter:9115
 
 # Adds option to add alert_relabel_configs to avoid duplicate alerts in alertmanager
 # useful in H/A prometheus with different external labels but the same alerts
@@ -1260,7 +1260,7 @@ extraManifests: []
 alertmanager:
   ## If false, alertmanager will not be installed
   ##
-  enabled: false
+  enabled: true
 
   persistence:
     size: 2Gi
@@ -1278,40 +1278,19 @@ kube-state-metrics:
   ## If false, kube-state-metrics sub-chart will not be installed
   ##
   enabled: true
-  customLabels:
-    app: kube-state-metrics
-
   releaseLabel: true
   hostNetwork: false
+
   rbac:
     create: true
     useClusterRole: true
-    extraRules:
-      - apiGroups: ["monitoring.coreos.com"]
-        resources: ["prometheuses"]
-        verbs: ["list", "watch"]
 
   kubeRBACProxy:
     enabled: true
-    image:
-      registry: quay.io
-      repository: brancz/kube-rbac-proxy
-      tag: v0.18.0
-      sha: ""
-      pullPolicy: IfNotPresent
-
-    containerSecurityContext:
-      readOnlyRootFilesystem: true
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop:
-        - ALL
 
   serviceAccount:
     create: true
-  networkPolicy:
-    enabled: true
-    flavor: kubernetes
+
   collectors:
     - certificatesigningrequests
     - configmaps
@@ -1344,15 +1323,6 @@ kube-state-metrics:
 
   kubeconfig:
     enabled: true
-  customResourceState:
-    enabled: true
-    config:
-      apiGroups: ["monitoring.coreos.com"]
-      resources: ["prometheuses"]
-      verbs: ["list", "watch"]
-
-  selfMonitor:
-    enabled: true
 
 ## prometheus-node-exporter sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter
@@ -1361,9 +1331,18 @@ prometheus-node-exporter:
   ## If false, node-exporter will not be installed
   ##
   enabled: true
+  releaseLabel: true
 
-  rbac:
-    pspEnabled: false
+  networkPolicy:
+    enabled: true
+
+  prometheus:
+    monitor:
+      enabled: true
+      additionalLabels: {}
+
+    podMonitor:
+      enabled: true
 
   containerSecurityContext:
     allowPrivilegeEscalation: false
