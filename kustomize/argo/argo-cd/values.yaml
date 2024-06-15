@@ -1771,13 +1771,13 @@ server:
     # -- Extensions for Argo CD
     # @default -- `[]` (See [values.yaml])
     ## Ref: https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
-    extensionList: []
-      # - name: extension-metrics
-      #   env:
-      #     - name: EXTENSION_URL
-      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
-      #     - name: EXTENSION_CHECKSUM_URL
-      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
+    extensionList:
+      - name: extension-metrics
+        env:
+          - name: EXTENSION_URL
+            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension.tar.gz
+          - name: EXTENSION_CHECKSUM_URL
+            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.2/extension_checksums.txt
 
     # -- Server UI extensions container-level security context
     # @default -- See [values.yaml]
@@ -1829,20 +1829,20 @@ server:
   ## If your target Kubernetes cluster(s) require a custom credential (exec) plugin
   ## you could use this (and the same in the application controller pod) to provide such executable
   ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins
-  initContainers:
-    - name: extension-metrics
-      image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
-      env:
-      - name: EXTENSION_URL
-        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
-      - name: EXTENSION_CHECKSUM_URL
-        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
-      volumeMounts:
-        - name: extensions
-          mountPath: /tmp/extensions/resources/
-      securityContext:
-        runAsUser: 1000
-        allowPrivilegeEscalation: false
+  initContainers: []
+    # - name: extension-metrics
+    #   image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
+    #   env:
+    #     - name: EXTENSION_URL
+    #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+    #     - name: EXTENSION_CHECKSUM_URL
+    #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+    #   volumeMounts:
+    #     - name: extensions
+    #       mountPath: /tmp/extensions/resources/
+    #   securityContext:
+    #     runAsUser: 1000
+    #     allowPrivilegeEscalation: false
 
   # -- Additional volumeMounts to the server main container
   volumeMounts:
