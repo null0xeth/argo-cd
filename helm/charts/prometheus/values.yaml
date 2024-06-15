@@ -37,7 +37,9 @@ configmapReload:
 
   ## env sets environment variables to pass to the container. Can be set as name/value pairs,
   ## read from secrets or configmaps.
-  env: []
+  env:
+    - name: APPNAME
+      value: "prometheus-config-reloader"
     # - name: SOMEVAR
     #   value: somevalue
     # - name: PASSWORD
@@ -70,7 +72,9 @@ configmapReload:
     ## Additional configmap-reload container arguments
     ## Set to null for argumentless flags
     ##
-    extraArgs: {}
+    extraArgs:
+      log-level: debug
+      watch-interval: 1m
 
     ## Additional configmap-reload volume directories
     ##
@@ -90,7 +94,15 @@ configmapReload:
       #   readOnly: true
 
     ## Security context to be added to configmap-reload container
-    containerSecurityContext: {}
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      seccompProfile:
+        type: RuntimeDefault
 
     ## configmap-reload resource requests and limits
     ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -114,7 +126,7 @@ server:
   ##
   ## You MUST also set namespaces to the ones you have access to and want monitored by Prometheus.
   ##
-  # useExistingClusterRoleName: nameofclusterrole
+  useExistingClusterRoleName: prometheus-server
 
   ## If set it will override prometheus.server.fullname value for ClusterRole and ClusterRoleBinding
   ##
@@ -209,7 +221,9 @@ server:
   ##     secretKeyRef:
   ##       name: mysecret
   ##       key: username
-  env: []
+  env:
+    - name: APPNAME
+      value: prometheus
 
   # List of flags to override default parameters, e.g:
   # - --enable-feature=agent
@@ -224,10 +238,10 @@ server:
     - web.enable-admin-api
     ##
     ## storage.tsdb.no-lockfile flag controls BD locking
-    # - storage.tsdb.no-lockfile
+    - storage.tsdb.no-lockfile
     ##
     ## storage.tsdb.wal-compression flag enables compression of the write-ahead log (WAL)
-    # - storage.tsdb.wal-compression
+    - storage.tsdb.wal-compression
 
   ## Path to a configuration file on prometheus server container FS
   configPath: /etc/config/prometheus.yml
@@ -255,8 +269,8 @@ server:
 
   ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#tsdb
   ##
-  tsdb: {}
-    # out_of_order_time_window: 0s
+  tsdb:
+    out_of_order_time_window: 10s
 
   ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#exemplars
   ## Must be enabled via --enable-feature=exemplar-storage
@@ -274,7 +288,9 @@ server:
   ## Additional Prometheus server container arguments
   ## Set to null for argumentless flags
   ##
-  extraArgs: {}
+  extraArgs:
+    query.timeout: 1m
+    query.max-concurrency: 15
     # web.enable-remote-write-receiver: null
 
   ## Additional InitContainers to initialize the pod
@@ -603,7 +619,7 @@ server:
   livenessProbeFailureThreshold: 3
   livenessProbeSuccessThreshold: 1
   startupProbe:
-    enabled: false
+    enabled: true
     periodSeconds: 5
     failureThreshold: 30
     timeoutSeconds: 10
@@ -664,7 +680,13 @@ server:
 
   ## Security context to be added to server container
   ##
-  containerSecurityContext: {}
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
 
   service:
     ## If false, no Service will be created for the Prometheus server
@@ -716,7 +738,7 @@ server:
 
   ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
   ##
-  retentionSize: ""
+  retentionSize: "1GB"
 
 ## Prometheus server ConfigMap entries for rule files (allow prometheus labels interpolation)
 ruleFiles: {}
@@ -1265,7 +1287,7 @@ prometheus-node-exporter:
 prometheus-pushgateway:
   ## If false, pushgateway will not be installed
   ##
-  enabled: true
+  enabled: false
 
   # Optional service annotations
   serviceAnnotations:
