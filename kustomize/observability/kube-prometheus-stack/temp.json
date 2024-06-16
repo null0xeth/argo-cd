@@ -1,0 +1,20 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "creationTimestamp": "2024-06-15T18:27:57Z",
+    "deletionTimestamp": "2024-06-15T19:56:25Z",
+    "labels": {
+      "kubernetes.io/metadata.name": "monitoring"
+    },
+    "name": "monitoring",
+    "resourceVersion": "19868737",
+    "uid": "db584347-7a20-4352-89a8-c2cacd9ec067"
+  },
+  "spec": {
+    "finalizers": []
+  },
+  "status": {
+    "phase": "Terminating"
+  }
+}

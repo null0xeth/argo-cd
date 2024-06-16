@@ -200,7 +200,7 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://prometheus-server.monitoring.svc.cluster.local:80"
+        "address": "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
       }
     }
     }
