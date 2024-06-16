@@ -5,15 +5,15 @@ metadata:
   name: metrics-server
   namespace: kube-system
   labels:
-    kubernetes.io/name: "Metrics-server"
+    kubernetes.io/name: metrics-server
   annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "443"
+    prometheus.io/scrape: 'true'
 spec:
   selector:
-    k8s-app: metrics-server
+    app.kubernetes.io/name: metrics-server
+
   ports:
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: https
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https

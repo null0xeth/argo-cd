@@ -320,13 +320,13 @@ grafana:
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    relabelings: []
-    # - sourceLabels: [__meta_kubernetes_pod_node_name]
-    #   separator: ;
-    #   regex: ^(.*)$
-    #   targetLabel: nodename
-    #   replacement: $1
-    #   action: replace
+    relabelings:
+      - sourceLabels: [__meta_kubernetes_pod_node_name]
+        separator: ;
+        regex: ^(.*)$
+        targetLabel: nodename
+        replacement: $1
+        action: replace
 
 ## Flag to disable all the kubernetes component scrapers
 ##
@@ -339,7 +339,8 @@ kubeApiServer:
   enabled: true
   tlsConfig:
     serverName: kubernetes
-    insecureSkipVerify: false
+    # TODO: NEW
+    insecureSkipVerify: true
   serviceMonitor:
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
@@ -412,7 +413,7 @@ kubelet:
     ## Attach metadata to discovered targets. Requires Prometheus v2.45 for endpoints created by the operator.
     ##
     attachMetadata:
-      node: false
+      node: true
 
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
@@ -1271,7 +1272,7 @@ prometheusOperator:
 
 
     deployment:
-      enabled: false
+      enabled: true
 
       ## Number of replicas
       ##
@@ -1303,7 +1304,7 @@ prometheusOperator:
       ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
       ##
       serviceAccount:
-        automountServiceAccountToken: false
+        automountServiceAccountToken: true
         create: true
         name: ""
 
@@ -1946,7 +1947,7 @@ prometheus:
 
   ## Configure network policy for the prometheus
   networkPolicy:
-    enabled: false
+    enabled: true
 
     ## Flavor of the network policy to use.
     #  Can be:
@@ -2023,7 +2024,7 @@ prometheus:
   # ServiceMonitor to scrape Sidecar metrics
   # Needs thanosService to be enabled as well
   thanosServiceMonitor:
-    enabled: false
+    enabled: true
     interval: ""
 
     ## Additional labels
