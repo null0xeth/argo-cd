@@ -2465,7 +2465,8 @@ prometheus:
 
     # EnableFeatures API enables access to Prometheus disabled features.
     # ref: https://prometheus.io/docs/prometheus/latest/disabled_features/
-    enableFeatures: []
+    enableFeatures:
+      - new-service-discovery-manager
     # - exemplar-storage
 
     ## Image of Prometheus.
@@ -2517,7 +2518,7 @@ prometheus:
 
     ## enable --web.enable-remote-write-receiver flag on prometheus-server
     ##
-    enableRemoteWriteReceiver: true
+    enableRemoteWriteReceiver: false
 
     ## Name of the external label used to denote replica name
     ##
@@ -3116,10 +3117,23 @@ prometheus:
     maximumStartupDurationSeconds: 0
 
   additionalRulesForClusterRole:
-    - apiGroups: [ "" ]
+    # - apiGroups: [ "" ]
+    #   resources:
+    #     - nodes/proxy
+    #   verbs: [ "get", "list", "watch" ]
+    - apiGroups: [""]
       resources:
+        - nodes
         - nodes/proxy
-      verbs: [ "get", "list", "watch" ]
+        - nodes/metrics
+        - services
+        - endpoints
+        - pods
+        - ingresses
+        - configmaps
+      verbs: ["get", "list", "watch"]
+    - nonResourceURLs: ["/metrics"]
+      verbs: ["get"]
 
   additionalServiceMonitors: []
   ## Name of the ServiceMonitor to create

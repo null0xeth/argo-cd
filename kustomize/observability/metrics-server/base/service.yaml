@@ -4,7 +4,14 @@ kind: Service
 metadata:
   name: metrics-server
   namespace: kube-system
+  labels:
+    kubernetes.io/name: "Metrics-server"
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "443"
 spec:
+  selector:
+    k8s-app: metrics-server
   ports:
   - name: https
     port: 443
