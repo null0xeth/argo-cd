@@ -13,6 +13,7 @@ spec:
       labels:
         app: argocd-metrics-server
     spec:
+      serviceAccountName: argocd-metrics-extension
       containers:
         - image: quay.io/argoprojlabs/argocd-extension-metrics:latest
           imagePullPolicy: IfNotPresent
