@@ -6,14 +6,12 @@ metadata:
   namespace: kube-system
   labels:
     app.kubernetes.io/component: router
-  annotations:
-    prometheus.io/scrape: "true"
 spec:
   selector:
     app.kubernetes.io/name: metrics-server
   ports:
     - name: https
-      port: 10250
+      port: 443
       protocol: TCP
       targetPort: https
 
