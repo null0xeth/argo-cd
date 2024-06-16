@@ -320,13 +320,13 @@ grafana:
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    relabelings:
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
 
 ## Flag to disable all the kubernetes component scrapers
 ##
@@ -339,8 +339,7 @@ kubeApiServer:
   enabled: true
   tlsConfig:
     serverName: kubernetes
-    # TODO: NEW
-    insecureSkipVerify: true
+    insecureSkipVerify: false
   serviceMonitor:
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
@@ -413,7 +412,7 @@ kubelet:
     ## Attach metadata to discovered targets. Requires Prometheus v2.45 for endpoints created by the operator.
     ##
     attachMetadata:
-      node: true
+      node: false
 
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
@@ -921,47 +920,6 @@ kubeScheduler:
 
   serviceMonitor:
     enabled: true
-    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
-    ##
-    interval: ""
-
-    ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
-    ##
-    sampleLimit: 0
-
-    ## TargetLimit defines a limit on the number of scraped targets that will be accepted.
-    ##
-    targetLimit: 0
-
-    ## Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    ##
-    labelLimit: 0
-
-    ## Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    ##
-    labelNameLengthLimit: 0
-
-    ## Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-    ##
-    labelValueLengthLimit: 0
-
-    ## proxyUrl: URL of a proxy that should be used for scraping.
-    ##
-    proxyUrl: ""
-    ## Enable scraping kube-scheduler over https.
-    ## Requires proper certs (not self-signed) and delegated authentication/authorization checks.
-    ## If null or unset, the value is determined dynamically based on target Kubernetes version.
-    ##
-    https: null
-
-    ## port: Name of the port the metrics will be scraped from
-    ##
-    port: http-metrics
-
-    jobLabel: jobLabel
-    selector: {}
-    #  matchLabels:
-    #    component: kube-scheduler
 
     ## Skip TLS certificate validation when scraping
     insecureSkipVerify: null
@@ -1080,53 +1038,39 @@ kubeProxy:
 ## Component scraping kube state metrics
 ##
 kubeStateMetrics:
-
+  enabled: true
 
 ## Configuration for kube-state-metrics subchart
 ##
 kube-state-metrics:
-  enabled: true
-
-  kubeRBACProxy:
-    enabled: true
-
+  rbac:
+    create: true
+  releaseLabel: true
   prometheus:
     monitor:
       enabled: true
-      additionalLabels: {}
 
-  affinity: {}
-  tolerations: []
+      ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
+      ##
+      metricRelabelings:
+        - action: keep
+          regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+          sourceLabels: [__name__]
 
-  collectors:
-    - certificatesigningrequests
-    - configmaps
-    - cronjobs
-    - daemonsets
-    - deployments
-    - endpoints
-    - horizontalpodautoscalers
-    - ingresses
-    - jobs
-    - leases
-    - limitranges
-    - mutatingwebhookconfigurations
-    - namespaces
-    - networkpolicies
-    - nodes
-    - persistentvolumeclaims
-    - persistentvolumes
-    - poddisruptionbudgets
-    - pods
-    - replicasets
-    - replicationcontrollers
-    - resourcequotas
-    - secrets
-    - services
-    - statefulsets
-    - storageclasses
-    - validatingwebhookconfigurations
-    - volumeattachments
+      ## RelabelConfigs to apply to samples before scraping
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
+      ##
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: nodename
+          replacement: $1
+          action: replace
+
+  selfMonitor:
+    enabled: false
 
 ## Deploy node exporter as a daemonset to all nodes
 ##
@@ -1164,41 +1108,7 @@ prometheus-node-exporter:
     monitor:
       enabled: true
 
-      jobLabel: jobLabel
-
-      ## Scrape interval. If not set, the Prometheus default scrape interval is used.
-      ##
-      interval: ""
-
-      ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
-      ##
-      sampleLimit: 0
-
-      ## TargetLimit defines a limit on the number of scraped targets that will be accepted.
-      ##
-      targetLimit: 0
-
-      ## Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-      ##
-      labelLimit: 0
-
-      ## Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-      ##
-      labelNameLengthLimit: 0
-
-      ## Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-      ##
-      labelValueLengthLimit: 0
-
-      ## How long until a scrape request times out. If not set, the Prometheus default scape timeout is used.
-      ##
-      scrapeTimeout: ""
-
-      ## proxyUrl: URL of a proxy that should be used for scraping.
-      ##
-      proxyUrl: ""
-
-      ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
+      jobLabel: jobLabel      ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
       ##
       metricRelabelings:
@@ -1272,7 +1182,7 @@ prometheusOperator:
 
 
     deployment:
-      enabled: true
+      enabled: false
 
       ## Number of replicas
       ##
@@ -1304,7 +1214,7 @@ prometheusOperator:
       ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
       ##
       serviceAccount:
-        automountServiceAccountToken: true
+        automountServiceAccountToken: false
         create: true
         name: ""
 
@@ -1947,7 +1857,7 @@ prometheus:
 
   ## Configure network policy for the prometheus
   networkPolicy:
-    enabled: true
+    enabled: false
 
     ## Flavor of the network policy to use.
     #  Can be:
@@ -1983,7 +1893,7 @@ prometheus:
   # Thanos sidecar on prometheus nodes
   # (Please remember to change ${kube-prometheus-stack.fullname} and ${namespace}. Not just copy and paste!)
   thanosService:
-    enabled: true
+    enabled: false
     annotations: {}
     labels: {}
 
@@ -2024,7 +1934,7 @@ prometheus:
   # ServiceMonitor to scrape Sidecar metrics
   # Needs thanosService to be enabled as well
   thanosServiceMonitor:
-    enabled: true
+    enabled: false
     interval: ""
 
     ## Additional labels
@@ -3294,7 +3204,7 @@ thanosRuler:
 
   ## Deploy thanosRuler
   ##
-  enabled: true
+  enabled: false
 
   ## Annotations for ThanosRuler
   ##
