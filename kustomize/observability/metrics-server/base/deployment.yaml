@@ -5,11 +5,11 @@ metadata:
   name: metrics-server
   namespace: kube-system
   labels:
-    k8s-app: metrics-server
+    app.kubernetes.io/component: backend
 spec:
   selector:
     matchLabels:
-      k8s-app: metrics-server
+      app.kubernetes.io/name: metrics-server
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -17,7 +17,7 @@ spec:
     metadata:
       name: metrics-server
       labels:
-        k8s-app: metrics-server
+        app.kubernetes.io/component: backend
     spec:
       serviceAccountName: metrics-server
       volumes:
