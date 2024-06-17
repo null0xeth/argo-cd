@@ -1498,7 +1498,7 @@ redis-ha:
     tag: 1.58.0
   persistentVolume:
     # -- Configures persistence on Redis nodes
-    enabled: true
+    enabled: false
   ## Redis specific configuration options
   redis:
     # -- Redis convention for naming the cluster group: must match `^[\\w-\\.]+$` and can be templated
