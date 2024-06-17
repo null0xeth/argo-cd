@@ -21,36 +21,32 @@ data:
                   "tab": "Golden Signal",
                   "graphs": [
                     {
-                      "name": "pod_cpu_line",
-                      "title": "CPU",
-                      "description": "",
+                      "name": "pod_cpu_requests_line",
+                      "title": "CPU Requests",
                       "graphType": "line",
                       "metricName": "pod",
-                      "queryExpression": "sum(rate(container_cpu_usage_secsrnds_total{pod=~'{{`{{ .name }}`}}', image!='', container!='POD', container!='', container_name!='POD'}[5m])) by (pod)"
+                      "queryExpression": "sum(kube_pod_container_resource_requests_cpu_cores{pod=~'{{`{{ .name }}`}}', image!=''}) by (pod)"
                     },
                     {
-                      "name": "pod_cpu_pie",
-                      "title": "CPU Avg",
-                      "description": "",
-                      "graphType": "pie",
-                      "metricName": "pod",
-                      "queryExpression": "sum(rate(container_cpu_usage_seconds_total{pod=~'{{`{{ .name }}`}}', container!='POD', image!='', container!='', container_name!='POD'}[5m])) by (pod)"
-                    },
-                    {
-                      "name": "pod_memory_line",
-                      "title": "Memory",
-                      "description": "",
+                      "name": "pod_cpu_limits_line",
+                      "title": "CPU Limits",
                       "graphType": "line",
                       "metricName": "pod",
-                      "queryExpression": "sum(rate(container_memory_usage_bytes{pod=~'{{`{{ .name }}`}}', container!='POD', image!='', container!='', container_name!='POD'}[5m])) by (pod)"
+                      "queryExpression": "sum(kube_pod_container_resource_limits_cpu_cores{pod=~'{{`{{ .name }}`}}', image!=''}) by (pod)"
                     },
                     {
-                      "name": "pod_memory_pie",
-                      "title": "Mem Avg",
-                      "description": "",
-                      "graphType": "pie",
+                      "name": "pod_memory_requests_line",
+                      "title": "Memory Requests",
+                      "graphType": "line",
                       "metricName": "pod",
-                      "queryExpression": "sum(rate(container_memory_usage_bytes{pod=~'{{`{{ .name }}`}}', container!='POD', image!='', container!='', container_name!='POD'}[5m])) by (pod)"
+                      "queryExpression": "sum(kube_pod_container_resource_requests_memory_bytes{pod=~'{{`{{ .name }}`}}', image!=''}) by (pod)"
+                    },
+                    {
+                      "name": "pod_memory_limits_line",
+                      "title": "Memory Limits",
+                      "graphType": "line",
+                      "metricName": "pod",
+                      "queryExpression": "sum(kube_pod_container_resource_limits_memory_bytes{pod=~'{{`{{ .name }}`}}', image!=''}) by (pod)"
                     }
                   ]
                 },
@@ -62,34 +58,30 @@ data:
                     {
                       "name": "container_cpu_line",
                       "title": "CPU",
-                      "description": "",
                       "graphType": "line",
                       "metricName": "container",
-                      "queryExpression": "sum(rate(container_cpu_usage_seconds_total{pod=~'{{`{{ .name }}`}}', image!='', container!='POD', container!='', container_name!='POD'}[5m])) by (container)"
+                      "queryExpression": "sum(rate(container_cpu_usage_seconds_total{pod=~'{{`{{ .name }}`}}', image!=''}[5m])) by (container)"
                     },
                     {
                       "name": "container_cpu_pie",
                       "title": "CPU Avg",
-                      "description": "",
                       "graphType": "pie",
                       "metricName": "container",
-                      "queryExpression": "sum(rate(container_cpu_usage_seconds_total{pod=~'{{`{{ .name }}`}}', image!='',container!='POD', container!='', container_name!='POD'}[5m])) by (container)"
+                      "queryExpression": "sum(rate(container_cpu_usage_seconds_total{pod=~'{{`{{ .name }}`}}', image!=''}[5m])) by (container)"
                     },
                     {
                       "name": "container_memory_line",
                       "title": "Memory",
-                      "description": "",
                       "graphType": "line",
                       "metricName": "container",
-                      "queryExpression": "sum(rate(container_memory_usage_bytes{pod=~'{{`{{ .name }}`}}', image!='', container!='POD', container!='', container_name!='POD'}[5m])) by (container)"
+                      "queryExpression": "sum(container_memory_working_set_bytes{pod=~'{{`{{ .name }}`}}', image!=''}) by (container)"
                     },
                     {
                       "name": "container_memory_pie",
                       "title": "Mem Avg",
-                      "description": "",
                       "graphType": "pie",
                       "metricName": "container",
-                      "queryExpression": "sum(rate(container_memory_usage_bytes{pod=~'{{`{{ .name }}`}}', image!='', container!='POD', container!='', container_name!='POD'}[5m])) by (container)"
+                      "queryExpression": "sum(container_memory_working_set_bytes{pod=~'{{`{{ .name }}`}}', image!=''}) by (container)"
                     }
                   ]
                 }
@@ -200,7 +192,7 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://prometheus-operated.monitoring.svc.cluster.local:9090"
+        "address": "http://prometheus-operated.monitoring.svc.cluster.local:90
       }
     }
 
