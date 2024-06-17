@@ -192,8 +192,6 @@ data:
       {
         "Name": "default",
         "default": true,
-        "address": "http://prometheus-operated.monitoring.svc.cluster.local:90
+        "address": "http://prometheus-operated.monitoring.svc.cluster.local:9090"
       }
     }
-
-
