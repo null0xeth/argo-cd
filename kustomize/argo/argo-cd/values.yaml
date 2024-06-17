@@ -1850,11 +1850,11 @@ server:
       mountPath: /tmp/extensions/
 
   # -- Additional volumes to the server pod
-  volumes:
-    - name: extensions
-      emptyDir: {}
-  #  - name: custom-tools
-  #    emptyDir: {}
+  volumes: []
+  #   - name: extensions
+  #     emptyDir: {}
+  # #  - name: custom-tools
+  # #    emptyDir: {}
 
   ## Argo CD server emptyDir volumes
   emptyDir:
