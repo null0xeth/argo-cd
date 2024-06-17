@@ -1848,9 +1848,9 @@ server:
       mountPath: /tmp/extensions/
 
   # -- Additional volumes to the server pod
-  volumes:
-    - name: extensions
-      emptyDir: {}
+  # volumes:
+  #   - name: extensions
+  #     emptyDir: {}
   # #  - name: custom-tools
   # #    emptyDir: {}
 
