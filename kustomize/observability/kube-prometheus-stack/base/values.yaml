@@ -87,7 +87,7 @@ kubelet:
     insecureSkipVerify: true
     cAdvisor: true
     probes: true
-    resource: true
+    resource: false
     resourcePath: "/metrics/resource"
 
     ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
@@ -133,34 +133,34 @@ kubelet:
         action: drop
         regex: 'container_spec.*'
       # Drop cgroup metrics with no pod.
-      - sourceLabels: [id, pod]
-        action: drop
-        regex: '.+;'
-      - sourceLabels: [__name__, image]
-        separator: ;
-        regex: container_([a-z_]+);
-        replacement: $1
-        action: drop
-      - sourceLabels: [__name__]
-        separator: ;
-        regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
-        replacement: $1
-        action: drop
+      # - sourceLabels: [id, pod]
+      #   action: drop
+      #   regex: '.+;'
+      # - sourceLabels: [__name__, image]
+      #   separator: ;
+      #   regex: container_([a-z_]+);
+      #   replacement: $1
+      #   action: drop
+      # - sourceLabels: [__name__]
+      #   separator: ;
+      #   regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+      #   replacement: $1
+      #   action: drop
 
     ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    probesMetricRelabelings:
-      - sourceLabels: [__name__, image]
-        separator: ;
-        regex: container_([a-z_]+);
-        replacement: $1
-        action: drop
-      - sourceLabels: [__name__]
-        separator: ;
-        regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
-        replacement: $1
-        action: drop
+    probesMetricRelabelings: []
+      # - sourceLabels: [__name__, image]
+      #   separator: ;
+      #   regex: container_([a-z_]+);
+      #   replacement: $1
+      #   action: drop
+      # - sourceLabels: [__name__]
+      #   separator: ;
+      #   regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+      #   replacement: $1
+      #   action: drop
 
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
@@ -170,12 +170,12 @@ kubelet:
       - action: replace
         sourceLabels: [__metrics_path__]
         targetLabel: metrics_path
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
@@ -184,12 +184,12 @@ kubelet:
       - action: replace
         sourceLabels: [__metrics_path__]
         targetLabel: metrics_path
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
@@ -198,27 +198,27 @@ kubelet:
       - action: replace
         sourceLabels: [__metrics_path__]
         targetLabel: metrics_path
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
     ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    metricRelabelings:
-      - sourceLabels: [__name__, image]
-        separator: ;
-        regex: container_([a-z_]+);
-        replacement: $1
-        action: drop
-      - sourceLabels: [__name__]
-        separator: ;
-        regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
-        replacement: $1
-        action: drop
+    metricRelabelings: []
+      # - sourceLabels: [__name__, image]
+      #   separator: ;
+      #   regex: container_([a-z_]+);
+      #   replacement: $1
+      #   action: drop
+      # - sourceLabels: [__name__]
+      #   separator: ;
+      #   regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+      #   replacement: $1
+      #   action: drop
 
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
@@ -228,12 +228,12 @@ kubelet:
       - action: replace
         sourceLabels: [__metrics_path__]
         targetLabel: metrics_path
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
 ## Component scraping the kube controller manager
 ##
@@ -258,39 +258,39 @@ kubeControllerManager:
     ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    metricRelabelings:
-      - action: keep
-        regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-        sourceLabels: [__name__]
+    metricRelabelings: []
+      # - action: keep
+      #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+      #   sourceLabels: [__name__]
 
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    relabelings:
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+    relabelings: []
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
 kubeScheduler:
   enabled: true
 
   serviceMonitor:
     enabled: true
-    metricRelabelings:
-      - action: keep
-        regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-        sourceLabels: [__name__]
+    metricRelabelings: []
+      # - action: keep
+      #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+      #   sourceLabels: [__name__]
 
-    relabelings:
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+    relabelings: []
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
 ## Component scraping kube proxy
 ##
@@ -315,8 +315,8 @@ kube-state-metrics:
 
   releaseLabel: true
 
-  networkPolicy:
-    enabled: false
+  # networkPolicy:
+  #   enabled: false
 
   serviceAccount:
     # Specifies whether a ServiceAccount should be created, require rbac true
@@ -341,21 +341,21 @@ kube-state-metrics:
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
       ##
 
-      metricRelabelings:
-        - action: keep
-          regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-          sourceLabels: [__name__]
+      metricRelabelings: []
+        # - action: keep
+        #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+        #   sourceLabels: [__name__]
 
       ## RelabelConfigs to apply to samples before scraping
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
       ##
-      relabelings:
-        - sourceLabels: [__meta_kubernetes_pod_node_name]
-          separator: ;
-          regex: ^(.*)$
-          targetLabel: nodename
-          replacement: $1
-          action: replace
+      relabelings: []
+        # - sourceLabels: [__meta_kubernetes_pod_node_name]
+        #   separator: ;
+        #   regex: ^(.*)$
+        #   targetLabel: nodename
+        #   replacement: $1
+        #   action: replace
 
   selfMonitor:
     enabled: true
@@ -397,7 +397,8 @@ prometheus-node-exporter:
         - sourceLabels: [__meta_kubernetes_pod_node_name]
           separator: ;
           regex: ^(.*)$
-          targetLabel: nodename
+          #targetLabel: nodename
+          targetLabel: node
           replacement: $1
           action: replace
 
@@ -533,20 +534,20 @@ prometheusOperator:
 
     ## Metric relabel configs to apply to samples before ingestion.
     ##
-    metricRelabelings:
-      - action: keep
-        regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-        sourceLabels: [__name__]
+    metricRelabelings: []
+      # - action: keep
+      #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+      #   sourceLabels: [__name__]
 
     #   relabel configs to apply to samples before ingestion.
     ##
-    relabelings:
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+    relabelings: []
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
   ## Prometheus-config-reloader
   ##
@@ -973,20 +974,20 @@ prometheus:
 
     ## Metric relabel configs to apply to samples before ingestion.
     ##
-    metricRelabelings:
-      - action: keep
-        regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-        sourceLabels: [__name__]
+    metricRelabelings: []
+      # - action: keep
+      #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+      #   sourceLabels: [__name__]
 
     #   relabel configs to apply to samples before ingestion.
     ##
-    relabelings:
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+    relabelings: []
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
     ## Additional Endpoints
     ##
@@ -2022,21 +2023,21 @@ thanosRuler:
     ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    metricRelabelings:
-      - action: keep
-        regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-        sourceLabels: [__name__]
+    metricRelabelings: []
+      # - action: keep
+      #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+      #   sourceLabels: [__name__]
 
     ## RelabelConfigs to apply to samples before scraping
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
     ##
-    relabelings:
-      - sourceLabels: [__meta_kubernetes_pod_node_name]
-        separator: ;
-        regex: ^(.*)$
-        targetLabel: nodename
-        replacement: $1
-        action: replace
+    relabelings: []
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
 
     ## Additional Endpoints
     ##

@@ -4,18 +4,8 @@ data:
     "resourceRules":
       "cpu":
         "containerLabel": "container"
-        "containerQuery": |
-          sum by (<<.GroupBy>>) (
-            irate (
-                container_cpu_usage_seconds_total{<<.LabelMatchers>>,container!="",pod!=""}[4m]
-            )
-          )
-        "nodeQuery": |
-          sum by (<<.GroupBy>>) (
-            irate(
-                node_cpu_usage_seconds_total{<<.LabelMatchers>>}[4m]
-            )
-          )
+        "containerQuery": "sum(irate(container_cpu_usage_seconds_total{<<.LabelMatchers>>,container!=\"POD\",container!=\"\",pod!=\"\"}[5m])) by (<<.GroupBy>>)"
+        "nodeQuery": "sum(1 - irate(node_cpu_seconds_total{mode=\"idle\"}[5m]) * on(namespace, pod) group_left(node) node_namespace_pod:kube_pod_info:{<<.LabelMatchers>>}) by (<<.GroupBy>>)"
         "resources":
           "overrides":
             "namespace":
@@ -26,17 +16,11 @@ data:
               "resource": "pod"
       "memory":
         "containerLabel": "container"
-        "containerQuery": |
-          sum by (<<.GroupBy>>) (
-            container_memory_working_set_bytes{<<.LabelMatchers>>,container!="",pod!=""}
-          )
-        "nodeQuery": |
-          sum by (<<.GroupBy>>) (
-            node_memory_working_set_bytes{<<.LabelMatchers>>}
-          )
+        "containerQuery": "sum(container_memory_working_set_bytes{<<.LabelMatchers>>,container!=\"POD\",container!=\"\",pod!=\"\"}) by (<<.GroupBy>>)"
+        "nodeQuery": "sum(node_memory_MemTotal_bytes{job=\"node-exporter\",<<.LabelMatchers>>} - node_memory_MemAvailable_bytes{job=\"node-exporter\",<<.LabelMatchers>>}) by (<<.GroupBy>>)"
         "resources":
           "overrides":
-            "node":
+            "instance":
               "resource": "node"
             "namespace":
               "resource": "namespace"
@@ -45,9 +29,71 @@ data:
       "window": "5m"
 kind: ConfigMap
 metadata:
-  labels:
-    app.kubernetes.io/component: metrics-adapter
-    app.kubernetes.io/name: prometheus-adapter
-    app.kubernetes.io/version: 0.12.0
   name: adapter-config
   namespace: monitoring
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: adapter-config
+#   namespace: monitoring
+# data:
+#   config.yaml: |-
+#     rules:
+#     - seriesQuery: '{__name__=~"^container_.*",container!="POD",namespace!="",pod!=""}'
+#       resources:
+#         overrides:
+#           namespace: '{resource: "namespace"}'
+#           pod: '{resource: "pod"}'
+#       name:
+#         matches: "^container_(.*)_seconds_total$"
+
+#       metricsQuery: "sum(rate(<<.Series>>{<<.LabelMatchers>>,container!="POD"}[2m])) by (<<.GroupBy>>)"
+
+#     - seriesQuery: '{__name__=~"^container_.*_total",container!="POD",namespace!="",pod!=""}'
+#       resources:
+#         overrides:
+#           namespace: '{resource: "namespace"}'
+#           pod: '{resource: "pod"}'
+#       seriesFilters:
+#       - isNot: "^container_.*_seconds_total$"
+#       name: '{matches: "^container_(.*)_total$"}'
+#       metricsQuery: "sum(rate(<<.Series>>{<<.LabelMatchers>>,container!="POD"}[2m])) by (<<.GroupBy>>)"
+
+#     # this rule matches cumulative non-cAdvisor metrics
+#     - seriesQuery: '{namespace!="",__name__!="^container_.*"}'
+#       name: '{matches: "^(.*)_total$"}'
+#       resources:
+#         # specify an a generic mapping between resources and labels.  This
+#         # is a template, like the `metricsQuery` template, except with the `.Group`
+#         # and `.Resource` strings available.  It will also be used to match labels,
+#         # so avoid using template functions which truncate the group or resource.
+#         # Group will be converted to a form acceptible for use as a label automatically.
+#         template: "<<.Resource>>"
+#         # if we wanted to, we could also specify overrides here
+#       metricsQuery: "sum(rate(<<.Series>>{<<.LabelMatchers>>,container!="POD"}[2m])) by (<<.GroupBy>>)"
+
+#     # this rule matches only a single metric, explicitly naming it something else
+#     # It's series query *must* return only a single metric family
+#     - seriesQuery: 'cheddar{sharp="true"}'
+#       # this metric will appear as "cheesy_goodness" in the custom metrics API
+#       name: '{as: "cheesy_goodness"}'
+#       resources:
+#         overrides:
+#           # this should still resolve in our cluster
+#           brand: {group: "cheese.io", resource: "brand"}
+#       metricsQuery: 'count(cheddar{sharp="true"})'
+
+#     # external rules are not tied to a Kubernetes resource and can reference any metric
+#     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-metrics-not-related-to-kubernetes-objects
+#     externalRules:
+#     - seriesQuery: '{__name__="queue_consumer_lag",name!=""}'
+#       metricsQuery: "sum(<<.Series>>{<<.LabelMatchers>>}) by (name)"
+#     - seriesQuery: '{__name__="queue_depth",topic!=""}'
+#       metricsQuery: "sum(<<.Series>>{<<.LabelMatchers>>}) by (name)"
+#       # Kubernetes metric queries include a namespace in the query by default
+#       # but you can explicitly disable namespaces if needed with "namespaced: false"
+#       # this is useful if you have an HPA with an external metric in namespace A
+#       # but want to query for metrics from namespace B
+#       resources:
+#         namespaced: false
