@@ -43,7 +43,7 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  domain: argocd.chonk.city
+  domain: argocd.honker.dev
 
   # -- Common labels for the all resources
   additionalLabels:
