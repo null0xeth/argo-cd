@@ -1756,28 +1756,28 @@ server:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/#the-extensions-resource
   extensions:
     # -- Enable support for Argo CD extensions
-    enabled: true
+    enabled: false
 
-    ## Argo CD extension installer image
-    image:
-      # -- Repository to use for extension installer image
-      repository: "quay.io/argoprojlabs/argocd-extension-installer"
-      # -- Tag to use for extension installer image
-      tag: "v0.0.5"
-      # -- Image pull policy for extensions
-      # @default -- `""` (defaults to global.image.imagePullPolicy)
-      imagePullPolicy: "IfNotPresent"
+    # ## Argo CD extension installer image
+    # image:
+    #   # -- Repository to use for extension installer image
+    #   repository: "quay.io/argoprojlabs/argocd-extension-installer"
+    #   # -- Tag to use for extension installer image
+    #   tag: "v0.0.5"
+    #   # -- Image pull policy for extensions
+    #   # @default -- `""` (defaults to global.image.imagePullPolicy)
+    #   imagePullPolicy: "IfNotPresent"
 
     # -- Extensions for Argo CD
     # @default -- `[]` (See [values.yaml])
     ## Ref: https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
-    extensionList:
-      - name: extension-metrics
-        env:
-          - name: EXTENSION_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
-          - name: EXTENSION_CHECKSUM_URL
-            value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
+    extensionList: []
+      # - name: extension-metrics
+      #   env:
+      #     - name: EXTENSION_URL
+      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
+      #     - name: EXTENSION_CHECKSUM_URL
+      #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
 
     # -- Server UI extensions container-level security context
     # @default -- See [values.yaml]
