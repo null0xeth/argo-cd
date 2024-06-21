@@ -4,9 +4,8 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-  #- namespace.yaml
+  - namespace.yaml
   - ingress.yaml
-  - rbac
+  #- rbac
   - project.yaml
   - metrics
-  #- cmp/kustomize-helm.yaml
