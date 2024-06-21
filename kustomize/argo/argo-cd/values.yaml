@@ -167,7 +167,8 @@ configs:
     create: true
 
     # -- Annotations to be added to argocd-cm configmap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- The name of tracking label used by Argo CD for resource pruning
     application.instanceLabelKey: argocd.argoproj.io/instance
@@ -235,7 +236,8 @@ configs:
     create: true
 
     # -- Annotations to be added to the argocd-cmd-params-cm ConfigMap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     ## Generic parameters
     # -- Open-Telemetry collector address: (e.g. "otel-collector:4317")
@@ -301,7 +303,8 @@ configs:
     create: true
 
     # -- Annotations to be added to argocd-rbac-cm configmap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- The name of the default role which Argo CD will falls back to, when authorizing API requests (optional).
     # If omitted or empty, users may be still be able to login, but will see no apps, projects, etc...
@@ -328,7 +331,8 @@ configs:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/gpg-verification/
   gpg:
     # -- Annotations to be added to argocd-gpg-keys-cm configmap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- [GnuPG] public keys to add to the keyring
     # @default -- `{}` (See [values.yaml])
@@ -343,7 +347,8 @@ configs:
   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#ssh-known-host-public-keys
   ssh:
     # -- Annotations to be added to argocd-ssh-known-hosts-cm configmap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- Known hosts to be added to the known host list by default.
     # @default -- See [values.yaml]
@@ -370,7 +375,8 @@ configs:
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories-using-self-signed-tls-certificates-or-are-signed-by-custom-ca
   tls:
     # -- Annotations to be added to argocd-tls-certs-cm configmap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- TLS certificates for Git repositories
     # @default -- `{}` (See [values.yaml])
@@ -387,7 +393,8 @@ configs:
     create: true
 
     # -- Annotations to be added to argocd-cmp-cm configmap
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
     plugins: {}
@@ -513,7 +520,8 @@ configs:
     #   url: https://github.com/argoproj/private-repo
 
   # -- Annotations to be added to `configs.repositories` Secret
-  repositoriesAnnotations: {}
+  repositoriesAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # Argo CD sensitive data
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
@@ -523,7 +531,8 @@ configs:
     # -- Labels to be added to argocd-secret
     labels: {}
     # -- Annotations to be added to argocd-secret
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
 
     # -- Shared secret for authenticating GitHub webhook events
     githubSecret: ""
@@ -602,17 +611,12 @@ controller:
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   pdb:
     # -- Deploy a [PodDisruptionBudget] for the application controller
-    enabled: false
+    enabled: true
     # -- Labels to be added to application controller pdb
     labels: {}
     # -- Annotations to be added to application controller pdb
-    annotations: {}
-    # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
-    # @default -- `""` (defaults to 0 if not specified)
-    minAvailable: ""
-    # -- Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
-    ## Has higher precedence over `controller.pdb.minAvailable`
-    maxUnavailable: ""
+    annotations:
+      reloader.stakater.com/auto: "true"
 
   ## Application controller image
   image:
@@ -683,13 +687,16 @@ controller:
     # sizeLimit: "1Gi"
 
   # -- Annotations for the application controller StatefulSet
-  statefulsetAnnotations: {}
+  statefulsetAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Annotations for the application controller Deployment
-  deploymentAnnotations: {}
+  deploymentAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Annotations to be added to application controller pods
-  podAnnotations: {}
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Labels to be added to application controller pods
   podLabels: {}
@@ -779,7 +786,8 @@ controller:
     # -- Service account name
     name: argocd-application-controller
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Labels applied to created service account
     labels: {}
     # -- Automount API credentials for the Service Account
@@ -802,7 +810,8 @@ controller:
       # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
       clusterIP: ""
       # -- Metrics service annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
       # -- Metrics service labels
       labels: {}
       # -- Metrics service port
@@ -831,7 +840,8 @@ controller:
       # -- Prometheus ServiceMonitor labels
       additionalLabels: {}
       # -- Prometheus ServiceMonitor annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
     rules:
       # -- Deploy a PrometheusRule for the application controller
       enabled: true
@@ -1707,17 +1717,18 @@ server:
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   pdb:
     # -- Deploy a [PodDisruptionBudget] for the Argo CD server
-    enabled: false
+    enabled: true
     # -- Labels to be added to Argo CD server pdb
     labels: {}
     # -- Annotations to be added to Argo CD server pdb
-    annotations: {}
-    # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
-    # @default -- `""` (defaults to 0 if not specified)
-    minAvailable: ""
-    # -- Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
-    ## Has higher precedence over `server.pdb.minAvailable`
-    maxUnavailable: ""
+    annotations:
+      reloader.stakater.com/auto: "true"
+    # # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
+    # # @default -- `""` (defaults to 0 if not specified)
+    # minAvailable: ""
+    # # -- Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
+    # ## Has higher precedence over `server.pdb.minAvailable`
+    # maxUnavailable: ""
 
   ## Argo CD server image
   image:
@@ -1865,11 +1876,12 @@ server:
     # sizeLimit: "1Gi"
 
   # -- Annotations to be added to server Deployment
-  deploymentAnnotations: {}
+  deploymentAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Annotations to be added to server pods
-  podAnnotations: {}
-
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
   # -- Labels to be added to server pods
   podLabels: {}
 
@@ -2076,7 +2088,8 @@ server:
       # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
       clusterIP: ""
       # -- Metrics service annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
       # -- Metrics service labels
       labels: {}
       # -- Metrics service port
@@ -2107,7 +2120,8 @@ server:
       # -- Prometheus ServiceMonitor labels
       additionalLabels: {}
       # -- Prometheus ServiceMonitor annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
 
   # -- Automount API credentials for the Service Account into the pod.
   automountServiceAccountToken: true
@@ -2118,7 +2132,8 @@ server:
     # -- Server service account name
     name: argocd-server
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Labels applied to created service account
     labels: {}
     # -- Automount API credentials for the Service Account
@@ -2371,11 +2386,12 @@ repoServer:
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   pdb:
     # -- Deploy a [PodDisruptionBudget] for the repo server
-    enabled: false
+    enabled: true
     # -- Labels to be added to repo server pdb
     labels: {}
     # -- Annotations to be added to repo server pdb
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
     # @default -- `""` (defaults to 0 if not specified)
     minAvailable: ""
@@ -2540,10 +2556,12 @@ repoServer:
   useEphemeralHelmWorkingDir: true
 
   # -- Annotations to be added to repo server Deployment
-  deploymentAnnotations: {}
+  deploymentAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Annotations to be added to repo server pods
-  podAnnotations: {}
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Labels to be added to repo server pods
   podLabels: {}
@@ -2665,7 +2683,8 @@ repoServer:
   ## Repo server service configuration
   service:
     # -- Repo server service annotations
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Repo server service labels
     labels: {}
     # -- Repo server service port
@@ -2683,7 +2702,8 @@ repoServer:
       # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
       clusterIP: ""
       # -- Metrics service annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
       # -- Metrics service labels
       labels: {}
       # -- Metrics service port
@@ -2736,7 +2756,8 @@ repoServer:
     # -- Repo server service account name
     name: "" # "argocd-repo-server"
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Labels applied to created service account
     labels: {}
     # -- Automount API credentials for the Service Account
@@ -2765,11 +2786,12 @@ applicationSet:
   ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   pdb:
     # -- Deploy a [PodDisruptionBudget] for the ApplicationSet controller
-    enabled: false
+    enabled: true
     # -- Labels to be added to ApplicationSet controller pdb
     labels: {}
     # -- Annotations to be added to ApplicationSet controller pdb
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
     # @default -- `""` (defaults to 0 if not specified)
     minAvailable: ""
@@ -2840,7 +2862,8 @@ applicationSet:
       # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
       clusterIP: ""
       # -- Metrics service annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
       # -- Metrics service labels
       labels: {}
       # -- Metrics service port
@@ -2869,14 +2892,16 @@ applicationSet:
       # -- Prometheus ServiceMonitor namespace
       namespace: ""  # monitoring
       # -- Prometheus ServiceMonitor labels
-      additionalLabels: {}
+      additionalLabels:
+        reloader.stakater.com/auto: "true"
       # -- Prometheus ServiceMonitor annotations
       annotations: {}
 
   ## ApplicationSet service configuration
   service:
     # -- ApplicationSet service annotations
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- ApplicationSet service labels
     labels: {}
     # -- ApplicationSet service type
@@ -2895,17 +2920,20 @@ applicationSet:
     # -- ApplicationSet controller service account name
     name: argocd-applicationset-controller
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Labels applied to created service account
     labels: {}
     # -- Automount API credentials for the Service Account
     automountServiceAccountToken: true
 
   # -- Annotations to be added to ApplicationSet controller Deployment
-  deploymentAnnotations: {}
+  deploymentAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Annotations for the ApplicationSet controller pods
-  podAnnotations: {}
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Labels for the ApplicationSet controller pods
   podLabels: {}
@@ -3245,7 +3273,8 @@ notifications:
       # -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
       clusterIP: ""
       # -- Metrics service annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
       # -- Metrics service labels
       labels: {}
       # -- Metrics service port name
@@ -3259,7 +3288,8 @@ notifications:
       # -- Prometheus ServiceMonitor labels
       additionalLabels: {}
       # -- Prometheus ServiceMonitor annotations
-      annotations: {}
+      annotations:
+        reloader.stakater.com/auto: "true"
       # namespace: monitoring
       # interval: 30s
       # scrapeTimeout: 10s
@@ -3280,10 +3310,12 @@ notifications:
     #   token: $slack-token
 
   # -- Annotations to be applied to the notifications controller Deployment
-  deploymentAnnotations: {}
+  deploymentAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Annotations to be applied to the notifications controller Pods
-  podAnnotations: {}
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
 
   # -- Labels to be applied to the notifications controller Pods
   podLabels: {}
@@ -3360,7 +3392,8 @@ notifications:
     # -- Notification controller service account name
     name: argocd-notifications-controller
     # -- Annotations applied to created service account
-    annotations: {}
+    annotations:
+      reloader.stakater.com/auto: "true"
     # -- Labels applied to created service account
     labels: {}
     # -- Automount API credentials for the Service Account
