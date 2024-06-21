@@ -203,12 +203,15 @@ configs:
       requestedScopes: ["openid", "profile", "email", "groups"]
       enablePKCEAuthentication: true
 
-    extension.config: |-
-      extensions:
-        - name: metrics
-          backend:
-            services:
-              - url: http://argocd-metrics-server:9003
+    resource.compareoptions: |
+      ignoreAggregatedRoles: true
+
+    # extension.config: |-
+    #   extensions:
+    #     - name: metrics
+    #       backend:
+    #         services:
+    #           - url: http://argocd-metrics-server:9003
 
     # resource.customizations.health.argoproj.io_Application: |
     #     hs = {}
