@@ -71,7 +71,7 @@ configs:
         natsStreamingImage: nats-streaming:latest
         metricsExporterImage: natsio/prometheus-nats-exporter:latest
       - version: 0.22.1
-        natsStreamingImage: nats-streaming:0.22.1
+        natsStreamingImage: nats-streaming:0.25.6
         metricsExporterImage: natsio/prometheus-nats-exporter:0.15.0
 
   ## JetStream event bus
