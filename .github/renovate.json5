@@ -1,0 +1,43 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "configMigration": true,
+  "platform": "github",
+  "onboarding": false,
+  "requireConfig": "optional",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "pre-commit": {
+    "enabled": true
+  },
+  "extends": [
+    "config:best-practices",
+    "docker:enableMajor",
+    ":dependencyDashboard",
+    ":automergeBranch",
+    ":automergeDigest",
+    ":automergeMinor",
+    ":disableRateLimiting",
+    ":enablePreCommit",
+    ":semanticCommits",
+    "customManagers:dockerfileVersions",
+    "customManagers:githubActionsVersions",
+    "customManagers:helmChartYamlAppVersions",
+    "customManagers:makefileVersions",
+    "customManagers:tfvarsVersions",
+    "preview:dockerCompose",
+    "preview:dockerVersions",
+    "replacements:all",
+    "workarounds:all",
+  ],
+  "automergeSchedule": [
+    "before 1am"
+  ],
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+    }
+  ]
+}
