@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-rbac-cm
-data:
-  policy.csv: |
-    g, honklabs:argocd-admin, role:admin
-  policy.default: role:readonly
-  scopes: '[groups, username]'
