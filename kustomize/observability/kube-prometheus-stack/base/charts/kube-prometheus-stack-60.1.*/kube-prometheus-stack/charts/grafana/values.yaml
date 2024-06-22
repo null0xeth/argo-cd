@@ -118,7 +118,7 @@ testFramework:
     # -- The Docker registry
     registry: docker.io
     repository: bats/bats
-    tag: "v1.4.1"
+    tag: "1.11.0"
   imagePullPolicy: IfNotPresent
   securityContext: {}
   resources: {}
@@ -181,7 +181,7 @@ downloadDashboardsImage:
   # -- The Docker registry
   registry: docker.io
   repository: curlimages/curl
-  tag: 7.85.0
+  tag: 8.8.0
   sha: ""
   pullPolicy: IfNotPresent
 
@@ -401,7 +401,7 @@ initChownData:
     # -- The Docker registry
     registry: docker.io
     repository: library/busybox
-    tag: "1.31.1"
+    tag: "1.36.1"
     sha: ""
     pullPolicy: IfNotPresent
 
@@ -846,7 +846,7 @@ sidecar:
     # -- The Docker registry
     registry: quay.io
     repository: kiwigrid/k8s-sidecar
-    tag: 1.26.1
+    tag: 1.27.4
     sha: ""
   imagePullPolicy: IfNotPresent
   resources: {}
