@@ -6,6 +6,9 @@ namespace: argocd
 openapi:
   path: https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_cd_kustomize_schema.json
 
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
+
 helmCharts:
   - name: argo-cd
     repo: https://argoproj.github.io/argo-helm
