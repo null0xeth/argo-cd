@@ -34,10 +34,4 @@
   "automergeSchedule": [
     "before 1am"
   ],
-  "packageRules": [
-    {
-      "description": "Automerge non-major updates",
-      "matchUpdateTypes": ["minor", "patch"],
-    }
-  ]
 }
