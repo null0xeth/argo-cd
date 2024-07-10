@@ -4,11 +4,5 @@
     "config:recommended"
   ],
   "prHourlyLimit": 0,
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    }
-  ]
+  "automerge": true
 }
