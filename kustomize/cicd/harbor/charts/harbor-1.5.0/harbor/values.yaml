@@ -551,7 +551,7 @@ clair:
   adapter:
     image:
       repository: goharbor/clair-adapter-photon
-      tag: v2.1.0
+      tag: v2.1.5
     # resources:
     #  requests:
     #    memory: 256Mi
