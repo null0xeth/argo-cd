@@ -7,5 +7,6 @@
   "rebaseWhen": "conflicted",
   "labels": ["dependencies"],
   "automergeStrategy": "merge-commit",
+  "automerge": true,
   "prHourlyLimit": 0,
 }
