@@ -4,5 +4,6 @@
     "config:recommended"
   ],
   "prHourlyLimit": 0,
-  "automerge": true
+  "automerge": true,
+  "platformAutomerge": true
 }
