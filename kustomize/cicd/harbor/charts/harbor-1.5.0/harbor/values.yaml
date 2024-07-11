@@ -543,7 +543,7 @@ clair:
   clair:
     image:
       repository: goharbor/clair-photon
-      tag: v2.1.0
+      tag: v2.1.6
     # resources:
     #  requests:
     #    memory: 256Mi
