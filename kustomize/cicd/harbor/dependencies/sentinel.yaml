@@ -1,0 +1,23 @@
+auth:
+  enabled: false
+  sentinel: false
+master:
+  resourcesPreset: small
+  persistence:
+    enabled: false
+replica:
+  resourcesPreset: small
+  persistence:
+    enabled: false
+sentinel:
+  enabled: true
+  masterSet: redis-master
+  resourcesPreset: small
+  persistence:
+    enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 1m
+  resourcesPreset: small

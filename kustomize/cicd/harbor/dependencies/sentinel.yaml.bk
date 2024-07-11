@@ -1,0 +1,175 @@
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+clusterDomain: cluster.local
+
+diagnosticMode:
+  enabled: false
+  command:
+    - sleep
+  args:
+    - infinity
+
+image:
+  registry: docker.io
+  repository: bitnami/redis
+  tag: 7.2.5-debian-12-r0
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+  debug: false
+
+architecture: replication
+
+auth:
+  enabled: true
+  sentinel: true
+  #password: ""
+
+  existingSecret: "harbor-redis-credentials"
+  existingSecretPasswordKey: "REDIS_PASSWORD"
+  usePasswordFiles: false
+  usePasswordFileFromSecret: false
+
+master:
+  count: 1
+  extraFlags:
+   - "--maxmemory-policy volatile-ttl"
+   - "--repl-backlog-size 1024mb"
+  containerPorts:
+    redis: 6379
+  automountServiceAccountToken: true
+  shareProcessNamespace: false
+  persistence:
+    enabled: true
+    path: /data
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    existingClaim: ""
+
+  persistentVolumeClaimRetentionPolicy:
+    enabled: false
+
+  service:
+    type: ClusterIP
+    portNames:
+      redis: "tcp-redis"
+    ports:
+      redis: 6379
+
+  serviceAccount:
+    create: true
+    name: ""
+    automountServiceAccountToken: true
+
+  pdb:
+    create: true
+
+replica:
+  kind: StatefulSet
+  replicaCount: 3
+  disableCommands:
+    - FLUSHDB
+    - FLUSHALL
+  extraFlags:
+   - "--maxmemory-policy volatile-ttl"
+   - "--repl-backlog-size 1024mb"
+  externalMaster:
+    enabled: false
+  containerPorts:
+    redis: 6379
+  automountServiceAccountToken: true
+  shareProcessNamespace: false
+
+  persistence:
+    enabled: true
+
+  persistentVolumeClaimRetentionPolicy:
+    enabled: false
+    whenScaled: Retain
+    whenDeleted: Retain
+
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+
+  autoscaling:
+    enabled: false
+    # minReplicas: 1
+    # maxReplicas: 11
+    # targetCPU: ""
+    # targetMemory: ""
+
+  serviceAccount:
+    create: true
+    name: ""
+    automountServiceAccountToken: true
+    annotations: {}
+
+  pdb:
+    create: true
+    minAvailable: ""
+    maxUnavailable: ""
+
+sentinel:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/redis-sentinel
+    tag: 7.2.5-debian-12-r0
+    debug: false
+  masterSet: mymaster
+  quorum: 2
+  getMasterTimeout: 90
+  automateClusterRecovery: false
+  redisShutdownWaitFailover: true
+  enableServiceLinks: true
+
+  externalMaster:
+    enabled: false
+
+  containerPorts:
+    sentinel: 26379
+  persistence:
+    enabled: true
+
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+      sentinel: 26379
+    createMaster: true
+
+  masterService:
+    enabled: true
+    type: ClusterIP
+    ports:
+      redis: 6379
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: true
+  annotations: {}
+
+volumePermissions:
+  enabled: true
+
+kubectl:
+  command: ["/opt/bitnami/scripts/kubectl-scripts/update-master-label.sh"]
+
+sysctl:
+  enabled: true
+  mountHostSys: true
+
+useExternalDNS:
+  enabled: false
+  suffix: ""
+  annotationKey: external-dns.alpha.kubernetes.io/
+  additionalAnnotations: {}
+

@@ -1,0 +1,21 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-harbor
+  namespace: harbor
+spec:
+  instances: 3
+  enableSuperuserAccess: true
+  bootstrap:
+    initdb:
+      database: harbor
+      owner: harbor_admin
+      dataChecksums: true
+      encoding: 'UTF8'
+  superuserSecret:
+    name: harbor-db-secret
+  storage:
+    size: 20Gi
+  walStorage:
+    size: 5Gi
+
