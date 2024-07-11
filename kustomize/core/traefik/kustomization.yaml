@@ -4,7 +4,7 @@ kind: Kustomization
 commonAnnotations:
     reloader.stakater.com/auto: "true"
 
-namespace: traefik
+#namespace: traefik
 
 helmCharts:
     - name: traefik
@@ -15,9 +15,16 @@ helmCharts:
       valuesFile: values.yaml
 
 resources:
+#    - git@github.com:traefik/traefik-helm-chart.git/traefik/crds/
     - resources/namespace.yaml
-    - resources/middleware
-    - resources/routes
+    - resources/gateway
+    - resources/crds
+    #- patches/rbac/kubernetesingress.yaml
+    - config/middleware
+    - config/routes
+
+patches:
+    - path: patches/rbac/kubernetesingress.yaml
 
 generatorOptions:
     disableNameSuffixHash: true
