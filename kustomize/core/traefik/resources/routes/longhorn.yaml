@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: longhorn-ui-ingress
+  namespace: longhorn-system
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints: [web, websecure]
+  routes:
+    - match: Host(`longhorn.honker.dev`)
+      kind: Rule
+      services:
+        - name: longhorn-frontend
+          port: 80
+          strategy: RoundRobin
+          weight: 10
+  tls:
+    secretName: honker-dev-tls
+
