@@ -5,15 +5,17 @@ metadata:
   namespace: harbor
 spec:
   instances: 3
-  enableSuperuserAccess: true
   bootstrap:
     initdb:
-      database: harbor
-      owner: harbor_admin
+      database: harbor_core
+      owner: harbor_user
       dataChecksums: true
       encoding: 'UTF8'
+      secret:
+        name: harbor-db-secret
+  enableSuperuserAccess: true
   superuserSecret:
-    name: harbor-db-secret
+    name: harbor-super-db-secret
   storage:
     size: 20Gi
   walStorage:

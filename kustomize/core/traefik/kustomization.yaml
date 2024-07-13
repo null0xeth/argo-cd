@@ -14,13 +14,14 @@ helmCharts:
 
 resources:
     - resources/namespace.yaml
-    - resources/gateway
-    - resources/crds
+    - git@github.com:traefik/traefik-helm-chart.git/traefik/crds/
+    # - resources/gateway
+    # - resources/crds
     - config/middleware
     - config/routes
 
-patches:
-    - path: patches/rbac/kubernetesingress.yaml
+# patches:
+#     - path: patches/rbac/kubernetesingress.yaml
 
 generatorOptions:
     disableNameSuffixHash: true

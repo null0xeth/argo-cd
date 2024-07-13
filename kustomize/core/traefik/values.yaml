@@ -8,7 +8,7 @@ image:
   # -- Traefik image repository
   repository: traefik
   # -- defaults to appVersion
-  tag: v3.1.0-rc3
+  tag: v3.0.4
   # -- Traefik image pull policy
   pullPolicy: IfNotPresent
 
@@ -155,36 +155,11 @@ ingressRoute:
   dashboard:
     # -- Create an IngressRoute for the dashboard
     enabled: false
-    # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-    annotations: {}
-    # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
-    labels: {}
-    # -- The router match rule used for the dashboard ingressRoute
-    matchRule: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
-    # -- Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
-    # By default, it's using traefik entrypoint, which is not exposed.
-    # /!\ Do not expose your dashboard without any protection over the internet /!\
-    entryPoints: ["traefik"]
-    # -- Additional ingressRoute middlewares (e.g. for authentication)
-    middlewares: []
-    # -- TLS options (e.g. secret containing certificate)
-    tls: {}
+
   healthcheck:
     # -- Create an IngressRoute for the healthcheck probe
     enabled: false
-    # -- Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-    annotations: {}
-    # -- Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
-    labels: {}
-    # -- The router match rule used for the healthcheck ingressRoute
-    matchRule: PathPrefix(`/ping`)
-    # -- Specify the allowed entrypoints to use for the healthcheck ingress route, (e.g. traefik, web, websecure).
-    # By default, it's using traefik entrypoint, which is not exposed.
-    entryPoints: ["traefik"]
-    # -- Additional ingressRoute middlewares (e.g. for authentication)
-    middlewares: []
-    # -- TLS options (e.g. secret containing certificate)
-    tls: {}
+
 
 updateStrategy:
   # -- Customize updateStrategy: RollingUpdate or OnDelete
@@ -239,28 +214,28 @@ providers:
 
   kubernetesIngress:
     # -- Load Kubernetes Ingress provider
-    enabled: false
+    enabled: true
     # -- Allows to reference ExternalName services in Ingress
-    # allowExternalNameServices: true
-    # # -- Allows to return 503 when there is no endpoints available
-    # allowEmptyServices: false
-    # # -- When ingressClass is set, only Ingresses containing an annotation with the same value are processed. Otherwise, Ingresses missing the annotation, having an empty value, or the value traefik are processed.
-    # #ingressClass:
-    # # labelSelector: environment=production,method=traefik
-    # # -- Array of namespaces to watch. If left empty, Traefik watches all namespaces.
-    # namespaces: []
-    # # - "default"
-    # # Disable cluster IngressClass Lookup - Requires Traefik V3.
-    # # When combined with rbac.namespaced: true, ClusterRole will not be created and ingresses must use kubernetes.io/ingress.class annotation instead of spec.ingressClassName.
-    # disableIngressClassLookup: false
-    # # IP used for Kubernetes Ingress endpoints
-    # publishedService:
-    #   enabled: false
-    #   # Published Kubernetes Service to copy status from. Format: namespace/servicename
-    #   # By default this Traefik service
-    #   # pathOverride: ""
-    # # -- Defines whether to use Native Kubernetes load-balancing mode by default.
-    # #nativeLBByDefault:
+    allowExternalNameServices: true
+    # -- Allows to return 503 when there is no endpoints available
+    allowEmptyServices: false
+    # -- When ingressClass is set, only Ingresses containing an annotation with the same value are processed. Otherwise, Ingresses missing the annotation, having an empty value, or the value traefik are processed.
+    #ingressClass:
+    # labelSelector: environment=production,method=traefik
+    # -- Array of namespaces to watch. If left empty, Traefik watches all namespaces.
+    namespaces: []
+    # - "default"
+    # Disable cluster IngressClass Lookup - Requires Traefik V3.
+    # When combined with rbac.namespaced: true, ClusterRole will not be created and ingresses must use kubernetes.io/ingress.class annotation instead of spec.ingressClassName.
+    disableIngressClassLookup: false
+    # IP used for Kubernetes Ingress endpoints
+    publishedService:
+      enabled: false
+      # Published Kubernetes Service to copy status from. Format: namespace/servicename
+      # By default this Traefik service
+      # pathOverride: ""
+    # -- Defines whether to use Native Kubernetes load-balancing mode by default.
+    #nativeLBByDefault:
 
   kubernetesGateway:
     # -- Enable Traefik Gateway provider for Gateway API
@@ -275,7 +250,7 @@ providers:
 
   file:
     # -- Create a file provider
-    enabled: false
+    enabled: true
     # -- Allows Traefik to automatically watch for file changes
     watch: true
     # -- File content (YAML format, go template supported) (see https://doc.traefik.io/traefik/providers/file/)
@@ -603,11 +578,11 @@ ports:
     # Port Redirections
     # Added in 2.2, you can make permanent redirects via entrypoints.
     # https://docs.traefik.io/routing/entrypoints/#redirection
-    redirectTo:
-      port: websecure
-      #(Optional)
-      priority: 10
-      permanent: true
+    # redirectTo:
+    #   port: websecure
+    #   #(Optional)
+    #   priority: 10
+    #   permanent: true
     #
     # -- Trust forwarded headers information (X-Forwarded-*).
     # forwardedHeaders:
@@ -794,8 +769,8 @@ persistence:
   # It can be used to store TLS certificates, see `storage` in certResolvers
   enabled: true
   name: data
-  existingClaim: ""
-  accessMode: ReadWriteOnce
+  #existingClaim: ""
+  accessMode: ReadWriteMany
   size: 128Mi
   storageClass: ""
   #volumeName: ""

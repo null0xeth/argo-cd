@@ -69,7 +69,6 @@ persistence:
 
   imageChartStorage:
     disableredirect: true
-
     type: s3
     s3:
       # Set an existing secret for S3 accesskey and secretkey
@@ -99,7 +98,7 @@ existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
 # in each component tls cert files need to provided in advance.
 internalTLS:
   # If internal TLS enabled
-  enabled: true
+  enabled: false
   # enable strong ssl ciphers (default: false)
   strong_ssl_ciphers: false
   # There are three ways to provide tls
@@ -248,7 +247,7 @@ metrics:
     #   action: replace
 
 trace:
-  enabled: true
+  enabled: false
   # trace provider: jaeger or otel
   # jaeger should be 1.26+
   provider: jaeger
@@ -641,67 +640,21 @@ database:
   external:
     host: cluster-harbor-rw
     port: 5432
-    username: app
-    coreDatabase: app
-    # if using existing secret, the key must be "password"
-    # TODO: ADD LATER
-    existingSecret: harbor-db-secret-adjusted
-  # The maximum number of connections in the idle connection pool per pod (core+exporter).
-  # If it <=0, no idle connections are retained.
+    username: harbor_user
+    coreDatabase: harbor_core
+    existingSecret: harbor-db-secret
   maxIdleConns: 100
-  # The maximum number of open connections to the database per pod (core+exporter).
-  # If it <= 0, then there is no limit on the number of open connections.
-  # Note: the default number of connections is 1024 for harbor's postgres.
   maxOpenConns: 900
-  ## Additional deployment annotations
   podAnnotations: {}
-  ## Additional deployment labels
   podLabels: {}
 
 redis:
-  # if external Redis is used, set "type" to "external"
-  # and fill the connection information in "external" section
   type: external
-  # internal:
-  #   image:
-  #     repository: goharbor/redis-photon
-  #     tag: dev
-  #   # set the service account to be used, default if left empty
-  #   serviceAccountName: ""
-  #   # mount the service account token
-  #   automountServiceAccountToken: false
-  #   # resources:
-  #   #  requests:
-  #   #    memory: 256Mi
-  #   #    cpu: 100m
-  #   extraEnvVars: []
-  #   nodeSelector: {}
-  #   tolerations: []
-  #   affinity: {}
-  #   ## The priority class to run the pod as
-  #   priorityClassName:
-  #   # containers to be run before the controller's container starts.
-  #   initContainers: []
-  #   # Example:
-  #   #
-  #   # - name: wait
-  #   #   image: busybox
-  #   #   command: [ 'sh', '-c', "sleep 20" ]
-  #   # # jobserviceDatabaseIndex defaults to "1"
-  #   # # registryDatabaseIndex defaults to "2"
-  #   # # trivyAdapterIndex defaults to "5"
-  #   # # harborDatabaseIndex defaults to "0", but it can be configured to "6", this config is optional
-  #   # # cacheLayerDatabaseIndex defaults to "0", but it can be configured to "7", this config is optional
-  #   jobserviceDatabaseIndex: "1"
-  #   registryDatabaseIndex: "2"
-  #   trivyAdapterIndex: "5"
-    # harborDatabaseIndex: "6"
-    # cacheLayerDatabaseIndex: "7"
   external:
     # support redis, redis+sentinel
     # addr for redis: <host_redis>:<port_redis>
     # addr for redis+sentinel: <host_sentinel1>:<port_sentinel1>,<host_sentinel2>:<port_sentinel2>,<host_sentinel3>:<port_sentinel3>
-    addr: "sentinel-redis:26379"
+    addr: "sentinel-redis-node-0.sentinel-redis-headless.harbor.svc.cluster.local:26379,sentinel-redis-node-1.sentinel-redis-headless.harbor.svc.cluster.local:26379,sentinel-redis-node-2.sentinel-redis-headless.harbor.svc.cluster.local:26379"
     # The name of the set of Redis instances to monitor, it must be set to support redis+sentinel
     sentinelMasterSet: "redis-master"
     # The "coreDatabaseIndex" must be "0" as the library Harbor

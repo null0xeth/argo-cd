@@ -1,11 +1,22 @@
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: ServersTransport
+# metadata:
+#   name: harbortransport
+#   namespace: harbor
+
+# spec:
+#   serverName: container.health
+#   insecureSkipVerify: false
 ---
 apiVersion: traefik.io/v1alpha1
 kind: ServersTransport
 metadata:
-  name: harbor-transport
+  name: harbor-server-transport
   namespace: harbor
 spec:
   serverName: container.health
+  #insecureSkipVerify: false
   insecureSkipVerify: true
 ---
 apiVersion: traefik.io/v1alpha1
@@ -15,6 +26,7 @@ metadata:
   namespace: harbor
   annotations:
     kubernetes.io/ingress.class: traefik-external
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   entryPoints: [websecure]
   routes:
@@ -24,17 +36,19 @@ spec:
       services:
         - name: harbor
           port: 443
-          scheme: https
-          serversTransport: harbor-transport
-      middlewares:
-        - name: rate-limit
-          namespace: traefik
-        - name: https-redirectscheme
-          namespace: traefik
-        - name: default-headers
-          namespace: traefik
-        - name: compress
-          namespace: traefik
+          strategy: RoundRobin
+          weight: 10
+          #scheme: https
+          serversTransport: harbor-server-transport
+      # middlewares:
+      #   - name: rate-limit
+      #     namespace: traefik
+      #   - name: https-redirectscheme
+      #     namespace: traefik
+      #   - name: default-headers
+      #     namespace: traefik
+      #   - name: compress
+      #     namespace: traefik
   tls:
     secretName: container-health-tls
 
