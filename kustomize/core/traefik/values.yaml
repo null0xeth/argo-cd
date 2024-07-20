@@ -113,7 +113,7 @@ ingressClass:
   isDefaultClass: true
   # name: my-custom-class
 
-core:
+#core:
   # -- Can be used to use globally v2 router syntax
   # See https://doc.traefik.io/traefik/v3.0/migration/v2-to-v3/#new-v3-syntax-notable-changes
   #defaultRuleSyntax:
@@ -205,7 +205,7 @@ providers:
     # -- Allows to return 503 when there is no endpoints available
     allowEmptyServices: false
     # -- When the parameter is set, only resources containing an annotation with the same value are processed. Otherwise, resources missing the annotation, having an empty value, or the value traefik are processed. It will also set required annotation on Dashboard and Healthcheck IngressRoute when enabled.
-    ingressClass: traefik-external
+    #ingressClass: traefik-external
     # labelSelector: environment=production,method=traefik
     # -- Array of namespaces to watch. If left empty, Traefik watches all namespaces.
     namespaces: []
@@ -291,7 +291,7 @@ logs:
     #format:
     # By default, the level is set to ERROR.
     # -- Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO.
-    level: ERROR
+    level: DEBUG
   access:
     # -- To enable access logs
     enabled: false

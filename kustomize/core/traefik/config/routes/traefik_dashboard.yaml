@@ -4,9 +4,6 @@ kind: IngressRoute
 metadata:
   name: traefik-dashboard
   namespace: traefik
-  annotations:
-    kubernetes.io/ingress.class: traefik-external
-    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   entryPoints: [websecure]
   routes:
@@ -25,8 +22,8 @@ spec:
           namespace: traefik
         - name: default-headers
           namespace: traefik
-        - name: compress
-          namespace: traefik
+        # - name: compress
+        #   namespace: traefik
   tls:
     secretName: honker-dev-tls
 

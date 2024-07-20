@@ -7,7 +7,6 @@ expose:
     certSource: secret
     secret:
       secretName: "container-health-tls"
-
   clusterIP:
     # The name of ClusterIP service
     name: harbor
@@ -34,7 +33,7 @@ persistence:
       existingClaim: ""
       storageClass: ""
       subPath: ""
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       size: 5Gi
       annotations: {}
     jobservice:
@@ -42,14 +41,14 @@ persistence:
         existingClaim: ""
         storageClass: ""
         subPath: ""
-        accessMode: ReadWriteOnce
+        accessMode: ReadWriteMany
         size: 1Gi
         annotations: {}
     database:
       existingClaim: ""
       storageClass: ""
       subPath: ""
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       size: 1Gi
       annotations: {}
     redis:
@@ -98,7 +97,7 @@ existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
 # in each component tls cert files need to provided in advance.
 internalTLS:
   # If internal TLS enabled
-  enabled: false
+  enabled: true
   # enable strong ssl ciphers (default: false)
   strong_ssl_ciphers: false
   # There are three ways to provide tls
@@ -111,43 +110,23 @@ internalTLS:
   # core related cert configuration
   core:
     # secret name for core's tls certs
-    secretName: ""
-    # Content of core's TLS cert file, only available when `certSource` is "manual"
-    crt: ""
-    # Content of core's TLS key file, only available when `certSource` is "manual"
-    key: ""
+    secretName: "harbor-core-tls"
   # jobservice related cert configuration
   jobservice:
     # secret name for jobservice's tls certs
-    secretName: ""
-    # Content of jobservice's TLS key file, only available when `certSource` is "manual"
-    crt: ""
-    # Content of jobservice's TLS key file, only available when `certSource` is "manual"
-    key: ""
+    secretName: "harbor-jobservice-tls"
   # registry related cert configuration
   registry:
     # secret name for registry's tls certs
-    secretName: ""
-    # Content of registry's TLS key file, only available when `certSource` is "manual"
-    crt: ""
-    # Content of registry's TLS key file, only available when `certSource` is "manual"
-    key: ""
+    secretName: "harbor-registry-tls"
   # portal related cert configuration
   portal:
     # secret name for portal's tls certs
-    secretName: ""
-    # Content of portal's TLS key file, only available when `certSource` is "manual"
-    crt: ""
-    # Content of portal's TLS key file, only available when `certSource` is "manual"
-    key: ""
+    secretName: "harbor-portal-tls"
   # trivy related cert configuration
   trivy:
     # secret name for trivy's tls certs
-    secretName: ""
-    # Content of trivy's TLS key file, only available when `certSource` is "manual"
-    crt: ""
-    # Content of trivy's TLS key file, only available when `certSource` is "manual"
-    key: ""
+    secretName: "harbor-trivy-tls"
 
 ipFamily:
   # ipv6Enabled set to true if ipv6 is enabled in cluster, currently it affected the nginx related component
@@ -175,7 +154,7 @@ logLevel: info
 # The name of the secret which contains key named "ca.crt". Setting this enables the
 # download link on portal to download the CA certificate when the certificate isn't
 # generated automatically
-caSecretName: ""
+#caSecretName: ""
 
 # The secret key used for encryption. Must be a string of 16 chars.
 #secretKey: "not-a-secure-key"
@@ -398,9 +377,9 @@ core:
       image: busybox
       command: [ 'sh', '-c', "sleep 20" ]
 
-  configureUserSettings:
+  #configureUserSettings:
   quotaUpdateProvider: redis # Or redis
-
+  existingSecret: "harbor-core-secret-key"
 
 jobservice:
   image:

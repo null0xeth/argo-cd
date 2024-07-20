@@ -4,9 +4,6 @@ kind: IngressRoute
 metadata:
   name: longhorn-route
   namespace: longhorn-system
-  annotations:
-    kubernetes.io/ingress.class: traefik-external
-    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   entryPoints: [web, websecure]
   routes:

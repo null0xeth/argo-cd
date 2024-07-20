@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
+
+helmCharts:
+    - name: jaeger-operator
+      repo: https://jaegertracing.github.io/helm-charts
+      version: 2.54.0
+      releaseName: jaeger-operator
+      namespace: observability
+      valuesFile: values.yaml
+      includeCRDs: true
+
+
+resources:
+    - dependencies/eck_operator/
+    - resources/namespace.yaml
+    - secrets/istio_jaeger_secret.yaml
+    - config/instance.yaml
+    #- resources/eck_cluster.yaml
+
+generatorOptions:
+    disableNameSuffixHash: true
+
+
+
+
+

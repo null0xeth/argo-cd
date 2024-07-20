@@ -1,0 +1,58 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: harbor-gateway
+  namespace: harbor
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    # - port:
+    #     number: 80
+    #     name: http-harbor
+    #     protocol: HTTP
+    #   hosts:
+    #     - registry.container.health
+    - port:
+        number: 443
+        name: https-harbor
+        protocol: HTTPS
+      hosts:
+        - registry.container.health
+      tls:
+        mode: PASSTHROUGH
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: harbor-http-virtual-service
+#   namespace: harbor
+# spec:
+#   hosts:
+#     - registry.container.health
+#   gateways:
+#     - harbor-gateway
+#   http:
+#     - route:
+#       - destination:
+#           host: harbor.harbor.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: harbor-https-virtual-service
+  namespace: harbor
+spec:
+  hosts:
+    - registry.container.health
+  gateways:
+    - harbor-gateway
+  tls:
+    - match:
+        - port: 443
+          sniHosts:
+            - registry.container.health
+      route:
+        - destination:
+            host: harbor.harbor.svc.cluster.local

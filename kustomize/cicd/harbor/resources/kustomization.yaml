@@ -3,5 +3,5 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - ingress.yaml
   - peerauthentication.yaml
+  - gateway/gateway.yaml

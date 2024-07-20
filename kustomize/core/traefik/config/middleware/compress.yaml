@@ -11,5 +11,9 @@ metadata:
   #   helm.sh/chart: traefik-23.1.0
   #   app.kubernetes.io/managed-by: Helm
 spec:
-  compress: {}
-
+  compress:
+    includedContentTypes:
+      - application/json
+      - text/html
+      - text/plain
+    defaultEncoding: gzip

@@ -1,0 +1,21 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "creationTimestamp": "2024-06-21T19:49:21Z",
+    "deletionTimestamp": "2024-07-18T21:09:59Z",
+    "labels": {
+      "istio-injection": "enabled",
+      "kubernetes.io/metadata.name": "cert-manager"
+    },
+    "name": "cert-manager",
+    "resourceVersion": "55555681",
+    "uid": "0222504b-f180-4533-85d6-7de884f29cf8"
+  },
+  "spec": {
+    "finalizers": []
+  },
+  "status": {
+    "phase": "Terminating"
+  }
+}
