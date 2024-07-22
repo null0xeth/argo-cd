@@ -14,7 +14,7 @@ helmCharts:
 
 resources:
     - resources/namespace.yaml
-    - resources/ingress.yaml
+  #- resources/ingress.yaml
 
 # patches:
 #     - path: patches/rbac/kubernetesingress.yaml

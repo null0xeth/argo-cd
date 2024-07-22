@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
+
+resources:
+  - 0-operator-webhook-cert.yaml
+  - 1-service-account.yaml
+  - 2-deployment.yaml
+  - 3-service.yaml
+
+generatorOptions:
+    disableNameSuffixHash: true
+
+
+
+

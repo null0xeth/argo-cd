@@ -5,34 +5,33 @@ defaults:
 
   ## Discovery Settings
   pilot:
-    autoscaleEnabled: true
-    autoscaleMin: 1
-    autoscaleMax: 5
-    autoscaleBehavior: {}
-    replicaCount: 1
-    rollingMaxSurge: 100%
-    rollingMaxUnavailable: 25%
+    autoscaleEnabled: false
+    # autoscaleMin: 1
+    # autoscaleMax: 5
+    # autoscaleBehavior: {}
+    # replicaCount: 1
+    # rollingMaxSurge: 100%
+    # rollingMaxUnavailable: 25%
 
-    hub: ""
-    tag: ""
-    variant: ""
-
-    # Can be a full hub/image:tag
-    image: pilot
-    traceSampling: 1.0
+    # # Can be a full hub/image:tag
+    # image: pilot
+    #traceSampling: 1.0
+    traceSampling: 100
 
     # Resources for a small pilot install
     resources:
       requests:
-        cpu: 500m
-        memory: 2048Mi
+        # cpu: 500m
+        # memory: 2048Mi
+        cpu: 10m
+        memory: 100m
 
     # Set to `type: RuntimeDefault` to use the default profile if available.
     seccompProfile: {}
 
     # Whether to use an existing CNI installation
     cni:
-      enabled: true
+      enabled: false
       provider: default
 
     # Additional container arguments
@@ -178,14 +177,14 @@ defaults:
 
     injectionCABundle: ""
   telemetry:
-    enabled: true
+    enabled: false
     v2:
       # For Null VM case now.
       # This also enables metadata exchange.
-      enabled: true
+      enabled: false
       # Indicate if prometheus stats filter is enabled or not
       prometheus:
-        enabled: true
+        enabled: false
       # stackdriver filter settings.
       stackdriver:
         enabled: false
@@ -201,7 +200,7 @@ defaults:
   # meshConfig defines runtime configuration of components, including Istiod and istio-agent behavior
   # See https://istio.io/docs/reference/config/istio.mesh.v1alpha1/ for all available options
   meshConfig:
-    enablePrometheusMerge: true
+    enablePrometheusMerge: false
     ingressService: "istio-gateway"
     ingressSelector: "gateway"
 
@@ -213,13 +212,14 @@ defaults:
     istioNamespace: istio-system
     # List of cert-signers to allow "approve" action in the istio cluster role
     #
-    # certSigners:
-    #   - clusterissuers.cert-manager.io/istio-ca
-    certSigners: []
+
+    #certSigners: []
+    certSigners:
+      - clusterissuers.cert-manager.io/istio-ca
     # enable pod disruption budget for the control plane, which is used to
     # ensure Istio control plane components are gradually upgraded or recovered.
     defaultPodDisruptionBudget:
-      enabled: true
+      enabled: false
       # The values aren't mutable due to a current PodDisruptionBudget limitation
       # minAvailable: 1
 
@@ -227,27 +227,25 @@ defaults:
     # Horizontal Pod Autoscaler will be able to function (if set).
     # Each component can overwrite these default values by adding its own resources
     # block in the relevant section below and setting the desired resources values.
+    # Default resources allocated
     defaultResources:
       requests:
-        cpu: 10m
-      #   memory: 128Mi
-      # limits:
-      #   cpu: 100m
-      #   memory: 128Mi
+        cpu: 100m
+        memory: 100Mi
 
     # Default hub for Istio images.
     # Releases are published to docker hub under 'istio' project.
     # Dev builds from prow are on gcr.io
     hub: docker.io/istio
     # Default tag for Istio images.
-    tag: 1.23.0-alpha.0
+    tag: latest
     # Variant of the image to use.
     # Currently supported are: [debug, distroless]
     variant: ""
 
     # Specify image pull policy if default behavior isn't desired.
     # Default behavior: latest images will be Always else IfNotPresent.
-    imagePullPolicy: ""
+    imagePullPolicy: Always
 
     # ImagePullSecrets for all ServiceAccount, list of secrets in the same namespace
     # to use for pulling any images in pods that reference this ServiceAccount.
@@ -277,7 +275,7 @@ defaults:
     # When this option is set as true, Istio Operator, instead of webhooks, manages the
     # webhook configurations. When this option is set as false, webhooks manage their
     # own webhook configurations.
-    operatorManageWebhooks: false
+    operatorManageWebhooks: true
 
     # Custom DNS config for the pod to resolve names of services in other
     # clusters. Use this to add additional search domains, and other settings.
@@ -509,12 +507,6 @@ defaults:
   base:
     # For istioctl usage to disable istio config crds in base
     enableIstioConfigCRDs: true
-
-  # `istio_cni` has been deprecated and will be removed in a future release. use `pilot.cni` instead
-  istio_cni:
-    # `chained` has been deprecated and will be removed in a future release. use `provider` instead
-    chained: false
-    provider: default
 
   # Gateway Settings
   gateways:

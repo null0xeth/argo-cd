@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/instance: istio-system
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: prometheus-operator
+    app.kubernetes.io/version: 2.53.0
+  name: prometheus-istio-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus-istio-system
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-istio-system
+    namespace: istio-system

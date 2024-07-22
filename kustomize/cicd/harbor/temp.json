@@ -6,15 +6,15 @@
       "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{\"reloader.stakater.com/auto\":\"true\"},\"labels\":{\"istio-injection\":\"enabled\"},\"name\":\"harbor\"}}\n",
       "reloader.stakater.com/auto": "true"
     },
-    "creationTimestamp": "2024-07-18T22:51:00Z",
-    "deletionTimestamp": "2024-07-18T22:51:13Z",
+    "creationTimestamp": "2024-07-18T22:51:28Z",
+    "deletionTimestamp": "2024-07-21T08:18:58Z",
     "labels": {
       "istio-injection": "enabled",
       "kubernetes.io/metadata.name": "harbor"
     },
     "name": "harbor",
-    "resourceVersion": "55639650",
-    "uid": "8d5acebc-9299-465d-8bbf-3aa9a21b089b"
+    "resourceVersion": "57798428",
+    "uid": "223e5ce5-a17a-4188-a17e-e6e6a82a5006"
   },
   "spec": {
     "finalizers": []

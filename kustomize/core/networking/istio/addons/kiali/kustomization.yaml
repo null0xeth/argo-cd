@@ -4,17 +4,9 @@ kind: Kustomization
 commonAnnotations:
     reloader.stakater.com/auto: "true"
 
-helmCharts:
-    - name: kiali-operator
-      repo: https://kiali.org/helm-charts
-      version: 1.87.0
-      releaseName: kiali-operator
-      namespace: kiali-operator
-      valuesFile: values.yaml
-      includeCRDs: true
-
 resources:
-  - namespace.yaml
+  #- operator/subscription.yaml
+  - kiali_instance.yaml
 
 generatorOptions:
     disableNameSuffixHash: true

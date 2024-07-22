@@ -1,0 +1,27 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: prometheus-operator-rulesvalidation
+  annotations:
+    cert-manager.io/inject-ca-from: default/prometheus-operator-admission-webhook
+webhooks:
+  - clientConfig:
+      service:
+        name: prometheus-operator-admission-webhook
+        namespace: default
+        path: /admission-prometheusrules/validate
+    failurePolicy: Fail
+    name: prometheusrulevalidate.monitoring.coreos.com
+    namespaceSelector: {}
+    rules:
+      - apiGroups:
+          - monitoring.coreos.com
+        apiVersions:
+          - '*'
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - prometheusrules
+    admissionReviewVersions: ["v1", "v1beta1"]
+    sideEffects: None

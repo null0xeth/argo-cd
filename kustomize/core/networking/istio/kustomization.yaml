@@ -6,7 +6,9 @@ commonAnnotations:
 
 resources:
     - k8s_resources/namespace.yaml
+    - https://github.com/kubernetes-sigs/gateway-api.git/config/crd/
     - components/
+    - addons/prometheus/
     - addons/kiali/
 
 generatorOptions:

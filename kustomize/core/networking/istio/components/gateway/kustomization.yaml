@@ -11,6 +11,9 @@ helmCharts:
       releaseName: istio-gateway
       namespace: istio-ingress
 
+resources:
+  - namespace.yaml
+
 generatorOptions:
     disableNameSuffixHash: true
 

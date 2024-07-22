@@ -12,13 +12,13 @@ nameOverride: ""
 fullnameOverride: ""
 
 reloader:
-  autoReloadAll: false
+  autoReloadAll: true
   isArgoRollouts: false
   isOpenshift: false
   ignoreSecrets: false
   ignoreConfigMaps: false
-  reloadOnCreate: false
-  syncAfterRestart: false
+  reloadOnCreate: true
+  syncAfterRestart: true
   reloadStrategy: annotations # Set to default, env-vars or annotations
   ignoreNamespaces: "" # Comma separated list of namespaces to ignore
   namespaceSelector: "" # Comma separated list of k8s label selectors for namespaces selection
@@ -132,14 +132,13 @@ reloader:
 
     # Specify resource requests/limits for the deployment.
     # Example:
-    # resources:
-    #   limits:
-    #     cpu: "100m"
-    #     memory: "512Mi"
-    #   requests:
-    #     cpu: "10m"
-    #     memory: "128Mi"
-    resources: {}
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "512Mi"
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
     pod:
       annotations: {}
     priorityClassName: ""
@@ -223,7 +222,7 @@ reloader:
     targetLabels: []
 
   podMonitor:
-    enabled: true
+    enabled: false
     # Set the namespace the podMonitor should be deployed
     namespace: kube-system
 
@@ -273,7 +272,7 @@ reloader:
     podTargetLabels: []
 
   podDisruptionBudget:
-    enabled: true
+    enabled: false
     # Set the minimum available replicas
     # minAvailable: 1
 

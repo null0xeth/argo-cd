@@ -1,0 +1,60 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "creationTimestamp": "2024-06-19T22:33:52Z",
+    "deletionTimestamp": "2024-07-20T19:44:44Z",
+    "labels": {
+      "istio-injection": "enabled",
+      "kubernetes.io/metadata.name": "monitoring",
+      "pod-security.kubernetes.io/warn": "privileged",
+      "pod-security.kubernetes.io/warn-version": "latest"
+    },
+    "name": "monitoring",
+    "resourceVersion": "57617988",
+    "uid": "84186c95-1da1-4b06-8ea0-2981fcf41c9e"
+  },
+  "spec": {
+    "finalizers": []
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastTransitionTime": "2024-07-20T19:44:49Z",
+        "message": "Discovery failed for some groups, 1 failing: unable to retrieve the complete list of server APIs: packages.operators.coreos.com/v1: stale GroupVersion discovery: packages.operators.coreos.com/v1",
+        "reason": "DiscoveryFailed",
+        "status": "True",
+        "type": "NamespaceDeletionDiscoveryFailure"
+      },
+      {
+        "lastTransitionTime": "2024-07-20T19:44:49Z",
+        "message": "All legacy kube types successfully parsed",
+        "reason": "ParsedGroupVersions",
+        "status": "False",
+        "type": "NamespaceDeletionGroupVersionParsingFailure"
+      },
+      {
+        "lastTransitionTime": "2024-07-20T19:44:49Z",
+        "message": "All content successfully deleted, may be waiting on finalization",
+        "reason": "ContentDeleted",
+        "status": "False",
+        "type": "NamespaceDeletionContentFailure"
+      },
+      {
+        "lastTransitionTime": "2024-07-20T19:44:49Z",
+        "message": "All content successfully removed",
+        "reason": "ContentRemoved",
+        "status": "False",
+        "type": "NamespaceContentRemaining"
+      },
+      {
+        "lastTransitionTime": "2024-07-20T19:44:49Z",
+        "message": "All content-preserving finalizers finished",
+        "reason": "ContentHasNoFinalizers",
+        "status": "False",
+        "type": "NamespaceFinalizersRemaining"
+      }
+    ],
+    "phase": "Terminating"
+  }
+}
