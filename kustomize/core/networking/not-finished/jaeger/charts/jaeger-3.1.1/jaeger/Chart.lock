@@ -4,12 +4,12 @@ dependencies:
   version: 0.15.4
 - name: elasticsearch
   repository: https://charts.bitnami.com/bitnami
-  version: 21.3.2
+  version: 21.3.3
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
   version: 29.3.10
 - name: common
   repository: https://charts.bitnami.com/bitnami
   version: 2.20.5
-digest: sha256:f144619a00ff7a949dad34ceeb75918cb77dd53530004cfde2a0c247f44b926a
-generated: "2024-07-22T21:08:30.914945304Z"
+digest: sha256:10aca2eb05c810ebee83778686747a602ea88e7db7386f05741fc1e72ceb9e21
+generated: "2024-07-23T08:56:42.482694793Z"
