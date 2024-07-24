@@ -12,7 +12,7 @@ dependencies:
 - condition: provisionDataStore.kafka
   name: kafka
   repository: https://charts.bitnami.com/bitnami
-  version: 29.3.11
+  version: 29.3.12
 - name: common
   repository: https://charts.bitnami.com/bitnami
   version: 2.x.x
