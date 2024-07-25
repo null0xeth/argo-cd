@@ -5,10 +5,10 @@ commonAnnotations:
     reloader.stakater.com/auto: "true"
 
 resources:
-  - resources/
-  - crds/
-  - chart/
-  - config/
+    - resources/
+    - crds/
+    - chart/
+    - config/
 
 generatorOptions:
     disableNameSuffixHash: true

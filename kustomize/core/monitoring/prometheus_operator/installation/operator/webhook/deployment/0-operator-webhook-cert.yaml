@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: prometheus-operator-admission-webhook
-  namespace: external-secrets
+  name: prometheus-operator-webhook-certs
+  namespace: monitoring
 spec:
   dnsNames:
     - prometheus-operator-admission-webhook.default.svc.cluster.local
     - prometheus-operator-admission-webhook.default.svc
-  secretName: admission-webhook-certs
+  secretName: prometheus-operator-webhook-certs
   issuerRef:
-    name: selfsigned-ca-issuer
+    name: selfsigned-issuer
     kind: ClusterIssuer

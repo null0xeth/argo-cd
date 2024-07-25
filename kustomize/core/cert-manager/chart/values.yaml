@@ -94,7 +94,7 @@ crds:
 #
 # Note that cert-manager uses leader election to ensure that there can
 # only be a single instance active at a time.
-replicaCount: 3
+replicaCount: 2
 
 # Deployment update strategy for the cert-manager controller deployment.
 # For more information, see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy).
@@ -489,7 +489,7 @@ prometheus:
   # resources. Additionally, a service is created which can be used together
   # with your own ServiceMonitor (managed outside of this Helm chart).
   # Otherwise, a ServiceMonitor/ PodMonitor is created.
-  enabled: true
+  enabled: false
 
   servicemonitor:
     # Create a ServiceMonitor to add cert-manager to Prometheus.
@@ -591,7 +591,7 @@ prometheus:
 # +docs:section=Webhook
 
 webhook:
-  replicaCount: 3
+  replicaCount: 2
   timeoutSeconds: 30
   config: {}
   strategy:
@@ -634,29 +634,29 @@ webhook:
 
   # Optional additional annotations to add to the webhook ValidatingWebhookConfiguration.
   # +docs:property
-  # validatingWebhookConfigurationAnnotations: {}
+  validatingWebhookConfigurationAnnotations: {}
 
-  validatingWebhookConfiguration:
-    # Configure spec.namespaceSelector for validating webhooks.
-    # +docs:property
-    namespaceSelector:
-      matchExpressions:
-        - key: "cert-manager.io/disable-validation"
-          operator: "NotIn"
-          values:
-            - "true"
+  # validatingWebhookConfiguration:
+  #   # Configure spec.namespaceSelector for validating webhooks.
+  #   # +docs:property
+  #   namespaceSelector:
+  #     matchExpressions:
+  #       - key: "cert-manager.io/disable-validation"
+  #         operator: "NotIn"
+  #         values:
+  #           - "true"
 
-  mutatingWebhookConfiguration:
-    # Configure spec.namespaceSelector for mutating webhooks.
-    # +docs:property
-    namespaceSelector: {}
-    #  matchLabels:
-    #    key: value
-    #  matchExpressions:
-    #    - key: kubernetes.io/metadata.name
-    #      operator: NotIn
-    #      values:
-    #        - kube-system
+  mutatingWebhookConfiguration: {}
+    # # Configure spec.namespaceSelector for mutating webhooks.
+    # # +docs:property
+    # namespaceSelector: {}
+    # #  matchLabels:
+    # #    key: value
+    # #  matchExpressions:
+    # #    - key: kubernetes.io/metadata.name
+    # #      operator: NotIn
+    # #      values:
+    # #        - kube-system
 
 
   # Additional command line flags to pass to cert-manager webhook binary.
@@ -840,7 +840,7 @@ webhook:
   # Enables default network policies for webhooks.
   networkPolicy:
     # Create network policies for the webhooks.
-    enabled: false
+    enabled: true
 
     # Ingress rule for the webhook network policy. By default, it allows all
     # inbound traffic.
@@ -897,7 +897,7 @@ cainjector:
   #
   # Note that cert-manager uses leader election to ensure that there can
   # only be a single instance active at a time.
-  replicaCount: 3
+  replicaCount: 2
 
   # This is used to configure options for the cainjector pod.
   # It allows setting options that are usually provided via flags.
@@ -1261,7 +1261,7 @@ startupapicheck:
 
   # Automounting API credentials for a particular pod.
   # +docs:property
-  # automountServiceAccountToken: true
+  automountServiceAccountToken: true
 
   serviceAccount:
     # Specifies whether a service account should be created.

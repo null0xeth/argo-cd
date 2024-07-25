@@ -10,7 +10,7 @@ global:
       # auto - Apply configurations if it is detected that OpenShift is the target platform.
       # force - Always apply configurations.
       # disabled - No modification applied.
-      adaptSecurityContext: auto
+      adaptSecurityContext: disabled
 
 replicaCount: 2
 
@@ -158,13 +158,9 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
-  seccompProfile:
-    type: RuntimeDefault
+  seccompProfile: {}
 
-resources:
-  requests:
-    cpu: 10m
-    memory: 32Mi
+resources: {}
 
 serviceMonitor:
   # -- Specifies whether to create a ServiceMonitor resource for collecting Prometheus metrics
@@ -240,7 +236,7 @@ hostNetwork: false
 
 webhook:
   # -- Specifies whether a webhook deployment be created.
-  create: true
+  create: false
   # -- Specifices the time to check if the cert is valid
   certCheckInterval: "5m"
   # -- Specifices the lookaheadInterval for certificate validity
@@ -292,7 +288,7 @@ webhook:
     # switch to using cert-manager (installed separately) to automatically issue
     # and renew the webhook certificate. This chart does not install
     # cert-manager for you, See https://cert-manager.io/docs/
-    enabled: true
+    enabled: false
     # -- Automatically add the cert-manager.io/inject-ca-from annotation to the
     # webhooks and CRDs. As long as you have the cert-manager CA Injector
     # enabled, this will automatically setup your webhook's CA to the one used
@@ -311,14 +307,14 @@ webhook:
       # -- Set the requested duration (i.e. lifetime) of the Certificate. See
       # https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec
       # One year by default.
-      duration: "8760h"
+      duration: "2160h"
       # -- How long before the currently issued certificate’s expiry
       # cert-manager should renew the certificate. See
       # https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec
       # Note that renewBefore should be greater than .webhook.lookaheadInterval
       # since the webhook will check this far in advance that the certificate is
       # valid.
-      renewBefore: ""
+      renewBefore: "360h"
       # -- Add extra annotations to the Certificate resource.
       annotations: {}
 
@@ -384,7 +380,7 @@ webhook:
   podLabels: {}
 
   podSecurityContext:
-    enabled: true
+    enabled: false
       # fsGroup: 2000
 
   securityContext:
@@ -396,17 +392,13 @@ webhook:
     readOnlyRootFilesystem: true
     runAsNonRoot: true
     runAsUser: 1000
-    seccompProfile:
-      type: RuntimeDefault
+    seccompProfile: {}
 
-  resources:
-    requests:
-      cpu: 10m
-      memory: 32Mi
+  resources: {}
 
 certController:
   # -- Specifies whether a certificate controller deployment be created.
-  create: true
+  create: false
   requeueInterval: "5m"
   replicaCount: 1
   # -- Specifices Log Params to the Webhook
@@ -448,7 +440,7 @@ certController:
   affinity: {}
 
   # -- Run the certController on the host network
-  hostNetwork: false
+  hostNetwork: true
 
     # -- Pod priority class name.
   priorityClassName: ""
@@ -502,7 +494,7 @@ certController:
   podLabels: {}
 
   podSecurityContext:
-    enabled: true
+    enabled: false
       # fsGroup: 2000
 
   securityContext:
@@ -517,10 +509,7 @@ certController:
     seccompProfile:
       type: RuntimeDefault
 
-  resources:
-    requests:
-      cpu: 10m
-      memory: 32Mi
+  resources: {}
 
 # -- Specifies `dnsPolicy` to deployment
 dnsPolicy: ClusterFirst

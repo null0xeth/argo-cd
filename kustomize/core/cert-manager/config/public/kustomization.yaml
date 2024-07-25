@@ -5,7 +5,9 @@ commonAnnotations:
     reloader.stakater.com/auto: "true"
 
 resources:
-  - selfsigned/
-  - public/
+    - secrets/cf_secrets.yaml
+    - cluster-issuers/
+    - certs/
+
 
 

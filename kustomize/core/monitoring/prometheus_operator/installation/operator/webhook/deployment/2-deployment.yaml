@@ -70,5 +70,5 @@ spec:
       - name: tls-certificates
         secret:
           defaultMode: 420
-          secretName: admission-webhook-certs
+          secretName: prometheus-operator-webhook-certs
 

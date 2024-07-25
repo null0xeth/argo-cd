@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# commonAnnotations:
-#     reloader.stakater.com/auto: "true"
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
 
 helmCharts:
     - name: external-secrets
@@ -13,7 +13,7 @@ helmCharts:
       valuesFile: values.yaml
 
 resources:
-  #- resources/namespace.yaml
+    - resources/namespace.yaml
     - config/gcp_cluster_store.yaml
 
 generatorOptions:

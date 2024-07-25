@@ -5,7 +5,7 @@ commonAnnotations:
     reloader.stakater.com/auto: "true"
 
 resources:
-  - selfsigned/
-  - public/
-
+  - container_health.yaml
+  - s3_honker_cloud.yaml
+  - honker_dev.yaml
 
