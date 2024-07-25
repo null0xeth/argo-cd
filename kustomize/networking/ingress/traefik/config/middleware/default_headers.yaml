@@ -4,12 +4,12 @@ kind: Middleware
 metadata:
   name: default-headers
   namespace: traefik
-  # annotations:
-  # labels:
-  #   app.kubernetes.io/name: traefik
-  #   app.kubernetes.io/instance: traefik-traefik
-  #   helm.sh/chart: traefik-23.1.0
-  #   app.kubernetes.io/managed-by: Helm
+  annotations:
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: traefik-traefik
+    helm.sh/chart: traefik-30.0.1
+    app.kubernetes.io/managed-by: Helm
 spec:
   headers:
     accessControlAllowMethods: ['GET', 'OPTIONS', 'PUT']
@@ -19,7 +19,7 @@ spec:
     stsIncludeSubdomains: True
     stsPreload: True
     forceSTSHeader: True
-    customFrameOptionsValue: allow-from https:chonk.city
+    customFrameOptionsValue: allow-from https:honker.dev
     contentTypeNosniff: True
     browserXssFilter: True
     referrerPolicy: same-origin

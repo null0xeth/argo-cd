@@ -1,0 +1,17 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: knative-eventing-operator-aggregated
+  labels:
+    app.kubernetes.io/version: "1.14.5"
+    app.kubernetes.io/name: knative-operator
+aggregationRule:
+  clusterRoleSelectors:
+    # This (along with escalate below) allows the Operator to pick up any
+    # roles that are provided to the admin of the cluster by knative eventing
+    # automatically.
+    - matchExpressions:
+        - {key: eventing.knative.dev/release, operator: Exists}
+rules: [] # Rules are automatically filled in by the controller manager.
+

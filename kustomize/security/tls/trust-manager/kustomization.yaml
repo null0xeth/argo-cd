@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
+
+helmCharts:
+    - name: trust-manager
+      repo: https://charts.jetstack.io
+      version: v0.12.0
+      releaseName: trust-manager
+      namespace: cert-manager
+      valuesFile: values.yaml
+      includeCRDs: true
+
+generatorOptions:
+    disableNameSuffixHash: true
+
+
+

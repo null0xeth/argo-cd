@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
+
+resources:
+  - secret.yaml
+  - pdb.yaml
+  - deployment.yaml
+  - service.yaml
+  - validating.yaml
+  - validating2.yaml
+  - mutating.yaml
+  - hpa.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+
+
+
+
+
+
+
+
+
+

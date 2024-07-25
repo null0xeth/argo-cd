@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+    reloader.stakater.com/auto: "true"
+
+resources:
+  - kn-operator-sa.yaml
+  - kn-operator-role.yaml
+  - kn-operator-deployment.yaml
+  - config/example-observability.yaml
+  - config/example-config-logging.yaml
+  - kn-operator-webhook-sa.yaml
+  - kn-operator-webhook-clusterrole.yaml
+  - kn-operator-webhook-clusterrolebinding.yaml
+  - kn-operator-webhook-rolebinding.yaml
+  - webhook-deployment.yaml
+  - webhook-service.yaml
+
+generatorOptions:
+    disableNameSuffixHash: true
+
+
+
+
+
