@@ -1009,7 +1009,7 @@ certgen:
     # @schema
     override: ~
     repository: "quay.io/cilium/certgen"
-    tag: "v0.2.0"
+    tag: "v0.2.1"
     digest: "sha256:169d93fd8f2f9009db3b9d5ccd37c2b753d0989e1e7cd8fe79f9160c459eef4f"
     useDigest: true
     pullPolicy: "IfNotPresent"
@@ -3387,7 +3387,7 @@ authentication:
             # @schema
             override: ~
             repository: "ghcr.io/spiffe/spire-agent"
-            tag: "1.9.6"
+            tag: "1.10.0"
             digest: "sha256:5106ac601272a88684db14daf7f54b9a45f31f77bb16a906bd5e87756ee7b97c"
             useDigest: true
             pullPolicy: "IfNotPresent"
@@ -3438,7 +3438,7 @@ authentication:
             # @schema
             override: ~
             repository: "ghcr.io/spiffe/spire-server"
-            tag: "1.9.6"
+            tag: "1.10.0"
             digest: "sha256:59a0b92b39773515e25e68a46c40d3b931b9c1860bc445a79ceb45a805cab8b4"
             useDigest: true
             pullPolicy: "IfNotPresent"

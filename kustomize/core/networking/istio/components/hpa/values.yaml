@@ -131,7 +131,7 @@ addonResizer:
   enabled: true
   image:
     repository: registry.k8s.io/autoscaling/addon-resizer
-    tag: 1.8.21
+    tag: 1.8.22
   securityContext:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
