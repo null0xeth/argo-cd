@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
     - name: cni
       repo: https://istio-release.storage.googleapis.com/charts
-      version: 1.23.0-alpha.0
+      version: 1.23.0-rc.0
       releaseName: istio-cni
       namespace: istio-system
       valuesFile: values.yaml
