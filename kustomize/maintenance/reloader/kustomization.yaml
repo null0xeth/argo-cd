@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
   - name: reloader
     repo: https://stakater.github.io/stakater-charts
-    version: 1.0.119
+    version: 1.0.120
     releaseName: reloader
     namespace: kube-system
     valuesFile: values.yaml
