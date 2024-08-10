@@ -5,7 +5,7 @@ helmCharts:
   - name: prometheus-adapter
     includeCRDs: true
     repo: https://prometheus-community.github.io/helm-charts
-    version: "4.10.0"
+    version: "4.11.0"
     releaseName: prometheus-adapter
     namespace: monitoring
     valuesFile: values.yaml
