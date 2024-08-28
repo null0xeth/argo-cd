@@ -18,5 +18,3 @@ helmCharts:
 
 generatorOptions:
     disableNameSuffixHash: true
-
-
