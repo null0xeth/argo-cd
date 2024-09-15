@@ -5,7 +5,7 @@ helmCharts:
   - name: kube-prometheus-stack
     includeCRDs: true
     repo: https://prometheus-community.github.io/helm-charts
-    version: "62.6.*"
+    version: "62.7.*"
     releaseName: kube-prometheus-stack
     namespace: monitoring
     valuesFile: values.yaml
