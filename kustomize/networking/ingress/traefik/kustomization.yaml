@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
     - name: traefik
       repo: https://traefik.github.io/charts
-      version: 32.1.1
+      version: 33.0.0
       releaseName: traefik
       namespace: traefik
       valuesFile: values.yaml
