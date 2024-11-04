@@ -7,5 +7,5 @@ dependencies:
     version: 3.12.2
     repository: https://kubernetes-sigs.github.io/metrics-server/
   - name: prometheus
-    version: "25.28.*"
+    version: "25.29.*"
     repository: https://prometheus-community.github.io/helm-charts
