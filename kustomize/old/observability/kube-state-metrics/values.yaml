@@ -4,7 +4,7 @@ image:
   registry: registry.k8s.io
   repository: kube-state-metrics/kube-state-metrics
   # If unset use v + .Charts.appVersion
-  tag: "v2.13.0"
+  tag: "v2.14.0"
   pullPolicy: IfNotPresent
 
 ## set to true to add the release label so scraping of the servicemonitor with kube-prometheus-stack works out of the box
