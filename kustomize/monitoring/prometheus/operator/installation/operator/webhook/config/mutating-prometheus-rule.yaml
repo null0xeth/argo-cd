@@ -10,14 +10,14 @@ webhooks:
         name: prometheus-operator-admission-webhook
         namespace: default
         path: /admission-prometheusrules/mutate
-    failurePolicy: Fail
+    failurePolicy: "Ignore"
     name: prometheusrulemutate.monitoring.coreos.com
     namespaceSelector: {}
     rules:
       - apiGroups:
           - monitoring.coreos.com
         apiVersions:
-          - '*'
+          - "*"
         operations:
           - CREATE
           - UPDATE
@@ -25,4 +25,3 @@ webhooks:
           - prometheusrules
     admissionReviewVersions: ["v1", "v1beta1"]
     sideEffects: None
-
