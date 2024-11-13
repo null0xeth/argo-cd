@@ -1,0 +1,2 @@
+#export CF_EMAIL=email; envsubst < ../../cert-management/certificates/issuer.yml | kubectl apply -f -
+#

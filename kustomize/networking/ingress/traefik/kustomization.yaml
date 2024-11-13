@@ -2,26 +2,35 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 commonAnnotations:
-    reloader.stakater.com/auto: "true"
+  reloader.stakater.com/auto: "true"
 
 helmCharts:
+<<<<<<< HEAD
     - name: traefik
       repo: https://traefik.github.io/charts
       version: 33.0.0
       releaseName: traefik
       namespace: traefik
       valuesFile: values.yaml
+=======
+  - name: traefik
+    repo: https://traefik.github.io/charts
+    version: 30.1.0
+    releaseName: traefik
+    namespace: traefik
+    valuesFile: values.yaml
+>>>>>>> b82b8aad (feat: Refactored gitlab ci file)
 
 resources:
-    - resources/namespace.yaml
-    - git@github.com:traefik/traefik-helm-chart.git/traefik/crds/
-    # - resources/gateway
-    # - resources/crds
-    - config/middleware
-    - config/routes
+  - resources/namespace.yaml
+  - https://github.com/traefik/traefik-helm-chart//traefik/crds/
+  # - resources/gateway
+  # - resources/crds
+  - config/middleware
+  - config/routes
 
 # patches:
 #     - path: patches/rbac/kubernetesingress.yaml
 
 generatorOptions:
-    disableNameSuffixHash: true
+  disableNameSuffixHash: true
