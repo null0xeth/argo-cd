@@ -8,7 +8,7 @@ dependencies:
 - condition: provisionDataStore.elasticsearch
   name: elasticsearch
   repository: https://charts.bitnami.com/bitnami
-  version: 21.3.24
+  version: 21.3.25
 - condition: provisionDataStore.kafka
   name: kafka
   repository: https://charts.bitnami.com/bitnami
