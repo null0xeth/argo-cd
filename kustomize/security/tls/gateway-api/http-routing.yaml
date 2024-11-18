@@ -1,0 +1,111 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: cilium-tls
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  gatewayClassName: cilium
+  listeners:
+    - name: http
+      hostname: "*.int.honker.dev"
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: https
+      hostname: "*.int.honker.dev"
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: k8s-honker-dev-tls
+            kind: Secret
+            group: ""
+      allowedRoutes:
+        namespaces:
+          from: All
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: http-redirect
+spec:
+  parentRefs:
+    - name: cilium-tls
+      sectionName: http
+  hostnames:
+    - "*.int.honker.dev"
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: example-svc
+#   labels:
+#     example: http-routing
+# spec:
+#   ports:
+#     - name: http
+#       port: 8080
+#       targetPort: 3000
+#   selector:
+#     app: example-backend
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: example-backend
+#   labels:
+#     app: example-backend
+#     example: http-routing
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: example-backend
+#   template:
+#     metadata:
+#       labels:
+#         app: example-backend
+#     spec:
+#       containers:
+#         - name: example-backend
+#           image: gcr.io/k8s-staging-gateway-api/echo-basic:v20231214-v1.0.0-140-gf544a46e
+#           env:
+#             - name: POD_NAME
+#               valueFrom:
+#                 fieldRef:
+#                   fieldPath: metadata.name
+#             - name: NAMESPACE
+#               valueFrom:
+#                 fieldRef:
+#                   fieldPath: metadata.namespace
+#           resources:
+#             requests:
+#               cpu: 10m
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: example-route
+#   labels:
+#     example: http-routing
+# spec:
+#   parentRefs:
+#     - name: example-gateway
+#   hostnames:
+#     - "example.com"
+#   rules:
+#     - backendRefs:
+#         - name: example-svc
+#           port: 8080
+

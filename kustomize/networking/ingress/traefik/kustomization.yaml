@@ -5,21 +5,12 @@ commonAnnotations:
   reloader.stakater.com/auto: "true"
 
 helmCharts:
-<<<<<<< HEAD
-    - name: traefik
-      repo: https://traefik.github.io/charts
-      version: 33.0.0
-      releaseName: traefik
-      namespace: traefik
-      valuesFile: values.yaml
-=======
   - name: traefik
     repo: https://traefik.github.io/charts
-    version: 30.1.0
+    version: 33.0.0
     releaseName: traefik
     namespace: traefik
     valuesFile: values.yaml
->>>>>>> b82b8aad (feat: Refactored gitlab ci file)
 
 resources:
   - resources/namespace.yaml
