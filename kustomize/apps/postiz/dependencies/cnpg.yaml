@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-postiz
+  namespace: applications
+spec:
+  instances: 3
+  bootstrap:
+    initdb:
+      database: postiz
+      owner: postiz_user
+      dataChecksums: true
+      encoding: "UTF8"
+      secret:
+        name: postiz-cnpg-secret
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postiz-cnpg-super-secret
+  storage:
+    size: 20Gi
+  walStorage:
+    size: 5Gi
