@@ -87,7 +87,7 @@ haproxy:
     #   maxUnavailable: 25%
   image:
     repository: haproxy
-    tag: 3.0.6-alpine
+    tag: 3.1.0-alpine
     pullPolicy: IfNotPresent
 
   ## Custom labels for the haproxy pod
