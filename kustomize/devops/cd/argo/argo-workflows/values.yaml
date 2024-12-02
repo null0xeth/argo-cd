@@ -81,7 +81,7 @@ controller:
     # -- Registry to use for the controller
     repository: argoproj/workflow-controller
     # -- Image tag for the workflow controller. Defaults to `.Values.images.tag`.
-    tag: "v3.6.1"
+    tag: "v3.6.2"
   # -- parallelism dictates how many workflows can be running at the same time
   parallelism:
   # -- Globally limits the rate at which pods are created.
