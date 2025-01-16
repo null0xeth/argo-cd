@@ -17,7 +17,7 @@ require (
 	istio.io/api v1.24.2
 	istio.io/client-go v1.24.2
 	k8s.io/api v0.32.1
-	k8s.io/apimachinery v0.32.0
+	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
 	k8s.io/code-generator v0.32.1
 	knative.dev/caching c601f824cec3
