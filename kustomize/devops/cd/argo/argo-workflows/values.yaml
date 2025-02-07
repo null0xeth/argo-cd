@@ -412,7 +412,7 @@ executor:
     # -- Repository to use for the Workflow Executors
     repository: argoproj/argoexec
     # -- Image tag for the workflow executor. Defaults to `.Values.images.tag`.
-    tag: "v3.6.2"
+    tag: "v3.6.3"
     # -- Image PullPolicy to use for the Workflow Executors. Defaults to `.Values.images.pullPolicy`.
     pullPolicy: "always"
   # -- Resource limits and requests for the Workflow Executors
