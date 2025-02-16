@@ -10,7 +10,7 @@ helmGlobals:
 helmCharts:
 - name: argo-workflows
   repo: https://argoproj.github.io/argo-helm
-  version: "0.45.5"
+  version: "0.45.7"
   namespace: argo
   apiVersions:
     - monitoring.coreos.com/v1
