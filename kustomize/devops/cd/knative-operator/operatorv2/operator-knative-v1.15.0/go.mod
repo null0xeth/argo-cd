@@ -13,7 +13,7 @@ require (
 	gocloud.dev v0.40.0
 	golang.org/x/mod v0.24.0
 	golang.org/x/oauth2 v0.28.0
-	google.golang.org/api v0.226.0
+	google.golang.org/api v0.227.0
 	istio.io/api v1.25.0
 	istio.io/client-go v1.25.0
 	k8s.io/api v0.32.3
