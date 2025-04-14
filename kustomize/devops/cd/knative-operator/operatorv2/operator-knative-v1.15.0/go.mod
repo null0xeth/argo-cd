@@ -15,7 +15,7 @@ require (
 	golang.org/x/oauth2 v0.29.0
 	google.golang.org/api v0.228.0
 	istio.io/api v1.25.2
-	istio.io/client-go v1.25.1
+	istio.io/client-go v1.25.2
 	k8s.io/api v0.32.3
 	k8s.io/apimachinery v0.32.3
 	k8s.io/client-go v0.32.3
