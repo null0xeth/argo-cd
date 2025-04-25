@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
     - name: reflector
       repo: https://emberstack.github.io/helm-charts
-      version: 9.0.342
+      version: 9.0.344
       releaseName: reflector
       valuesFile: reflector_values.yaml
     - name: cert-manager
