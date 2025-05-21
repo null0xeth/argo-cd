@@ -715,7 +715,7 @@ redis:
     serviceAccountName: ""
     image:
       repository: goharbor/redis-photon
-      tag: v2.13.0
+      tag: v2.13.1
     # resources:
     #  requests:
     #    memory: 256Mi
