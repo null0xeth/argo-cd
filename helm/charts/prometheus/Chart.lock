@@ -1,9 +1,9 @@
 dependencies:
 - name: metrics-server
   repository: https://kubernetes-sigs.github.io/metrics-server/
-  version: 3.12.2
+  version: 3.13.0
 - name: prometheus
   repository: https://prometheus-community.github.io/helm-charts
   version: 27.23.0
-digest: sha256:9d34bdc984d2e91e91fd62156c920c92145f775bbfa33589f4c44feb703526f8
-generated: "2025-07-05T15:57:20.344385091Z"
+digest: sha256:5f75ace139cf185806e1b53348ae15838282e2d09195fb34cb323616e328d818
+generated: "2025-08-05T19:24:46.435164797Z"
