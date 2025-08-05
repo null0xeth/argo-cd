@@ -4,7 +4,7 @@ version: 1.0.0
 name: prometheus
 dependencies:
   - name: metrics-server
-    version: 3.12.2
+    version: 3.13.0
     repository: https://kubernetes-sigs.github.io/metrics-server/
   - name: prometheus
     version: "27.23.*"
