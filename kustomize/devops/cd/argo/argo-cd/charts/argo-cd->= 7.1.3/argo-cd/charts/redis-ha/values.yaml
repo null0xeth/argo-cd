@@ -44,7 +44,7 @@ configmapTest:
   ## Image for redis-ha-configmap-test hook
   image:
     repository: koalaman/shellcheck
-    tag: v0.10.0
+    tag: v0.11.0
   ## Resources for the ConfigMap test pod
   resources: {}
 
