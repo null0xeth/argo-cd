@@ -25,7 +25,7 @@ require (
 	knative.dev/hack 0a23232167bc
 	knative.dev/pkg 0e7ffe491d5e
 	knative.dev/serving v0.46.0
-	sigs.k8s.io/yaml v1.5.0
+	sigs.k8s.io/yaml v1.6.0
 )
 
 require (
