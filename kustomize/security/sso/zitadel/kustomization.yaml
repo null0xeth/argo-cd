@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
     - name: zitadel
       repo: https://charts.zitadel.com
-      version: 9.5.3
+      version: 9.6.0
       releaseName: zitadel
       namespace: guardian
       valuesFile: values.yaml
