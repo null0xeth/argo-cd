@@ -127,7 +127,7 @@ haproxy:
     # -- HAProxy Image Repository
     repository: public.ecr.aws/docker/library/haproxy
     # -- HAProxy Image Tag
-    tag: 3.2.8-alpine
+    tag: 3.2.9-alpine
     # -- HAProxy Image PullPolicy
     pullPolicy: IfNotPresent
 
