@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
     - name: trust-manager
       repo: https://charts.jetstack.io
-      version: v0.20.2
+      version: v0.20.3
       releaseName: trust-manager
       namespace: cert-manager
       valuesFile: values.yaml
