@@ -63,7 +63,7 @@ image:
 
   # Kubernetes imagePullPolicy on Deployment.
   pullPolicy: IfNotPresent
-  tag: v0.11.1
+  tag: v0.12.0
 # Optional secrets used for pulling the csi-driver container image.
 #
 # For example:
