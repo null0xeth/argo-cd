@@ -12,7 +12,7 @@ resources:
 helmCharts:
   - name: redis
     repo: oci://registry-1.docker.io/bitnamicharts
-    version: 24.0.4
+    version: 24.0.7
     releaseName: sentinel
     namespace: harbor
     valuesFile: dependencies/sentinel.yaml
