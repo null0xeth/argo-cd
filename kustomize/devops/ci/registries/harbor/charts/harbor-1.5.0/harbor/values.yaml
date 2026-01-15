@@ -375,7 +375,7 @@ proxy:
 nginx:
   image:
     repository: goharbor/nginx-photon
-    tag: v2.14.1
+    tag: v2.14.2
   # set the service account to be used, default if left empty
   serviceAccountName: ""
   replicas: 1
