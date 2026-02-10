@@ -1049,7 +1049,7 @@ redis-ha:
     # -- Redis repository
     repository: public.ecr.aws/docker/library/redis
     # -- Redis tag
-    tag: 8.4.0-alpine
+    tag: 8.6.0-alpine
   ## Prometheus redis-exporter sidecar
   exporter:
     # -- Enable Prometheus redis-exporter sidecar
