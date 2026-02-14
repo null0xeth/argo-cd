@@ -1,6 +1,6 @@
 dependencies:
 - name: redis-ha
   repository: https://dandydeveloper.github.io/charts/
-  version: 4.35.9
-digest: sha256:d82995a99689caf953674b7b21ba0f6fbc179c4d952b92f3535d8877059a5a74
-generated: "2026-02-14T13:50:06.572914253Z"
+  version: 4.35.10
+digest: sha256:c10ea03dd5fe32e7d1b53c01e852780c7a822011f00f2d85cb04a0da43bb8ba5
+generated: "2026-02-14T18:03:46.639032702Z"
