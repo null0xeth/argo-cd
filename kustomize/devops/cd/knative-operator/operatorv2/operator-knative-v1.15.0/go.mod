@@ -11,7 +11,7 @@ require (
 	github.com/manifestival/manifestival v0.7.2
 	go.uber.org/zap v1.27.1
 	gocloud.dev v0.45.0
-	golang.org/x/mod v0.33.0
+	golang.org/x/mod v0.34.0
 	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.271.0
 	istio.io/api v1.29.1
