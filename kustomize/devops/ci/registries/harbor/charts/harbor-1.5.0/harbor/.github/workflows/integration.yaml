@@ -22,7 +22,7 @@ jobs:
           docker_daemon_json: '{"insecure-registries":["0.0.0.0/0"]}'
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.0.0-rc.1
+        uses: helm/kind-action@v1.14.0
         with:
           version: v0.8.1
           node_image: kindest/node:${{ matrix.k8s_version }}
