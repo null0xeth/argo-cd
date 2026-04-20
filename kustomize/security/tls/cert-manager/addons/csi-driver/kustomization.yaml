@@ -7,7 +7,7 @@ commonAnnotations:
 helmCharts:
     - name: cert-manager-csi-driver
       repo: https://charts.jetstack.io
-      version: v0.13.0
+      version: v0.14.0
       releaseName: cert-manager-csi
       namespace: cert-manager
       valuesFile: values.yaml
