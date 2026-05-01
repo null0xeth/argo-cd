@@ -9,7 +9,7 @@ require (
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/manifestival/client-go-client v0.6.0
 	github.com/manifestival/manifestival v0.7.2
-	go.uber.org/zap v1.27.1
+	go.uber.org/zap v1.28.0
 	gocloud.dev v0.45.0
 	golang.org/x/mod v0.35.0
 	golang.org/x/oauth2 v0.36.0
