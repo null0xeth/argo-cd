@@ -10,7 +10,7 @@ require (
 	github.com/manifestival/client-go-client v0.6.0
 	github.com/manifestival/manifestival v0.7.2
 	go.uber.org/zap v1.28.0
-	gocloud.dev v0.45.0
+	gocloud.dev v0.46.0
 	golang.org/x/mod v0.36.0
 	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.283.0
