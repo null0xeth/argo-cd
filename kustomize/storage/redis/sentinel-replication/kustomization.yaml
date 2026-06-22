@@ -11,7 +11,7 @@ resources:
 helmCharts:
   - name: redis
     repo: oci://registry-1.docker.io/bitnamicharts
-    version: 27.0.11
+    version: 27.0.12
     releaseName: redis-sentinel
     namespace: sentinel
     valuesFile: values.yaml
