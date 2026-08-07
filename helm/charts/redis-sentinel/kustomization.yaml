@@ -10,7 +10,7 @@ commonAnnotations:
 helmCharts:
   - name: redis
     repo: oci://registry-1.docker.io/bitnamicharts
-    version: "28.0.0"
+    version: "28.0.1"
     releaseName: argocd-redis
     namespace: argocd
     valuesFile: values.yaml
