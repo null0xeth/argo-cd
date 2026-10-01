@@ -702,7 +702,7 @@ exporter:
   # -- Exporter image
   image: oliver006/redis_exporter
   # -- Exporter image tag
-  tag: v1.92.1
+  tag: v1.93.0
   # -- Exporter image pullPolicy
   pullPolicy: IfNotPresent
 
