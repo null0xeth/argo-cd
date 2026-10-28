@@ -19,7 +19,7 @@ require (
 	k8s.io/api v0.37.1
 	k8s.io/apimachinery v0.37.1
 	k8s.io/client-go v11.0.0+incompatible
-	k8s.io/code-generator v0.37.1
+	k8s.io/code-generator v0.37.2
 	knative.dev/caching c601f824cec3
 	knative.dev/eventing v0.51.0
 	knative.dev/hack 0a23232167bc
