@@ -12,7 +12,7 @@ require (
 	go.uber.org/zap v1.28.0
 	gocloud.dev v0.47.0
 	golang.org/x/mod v0.43.0
-	golang.org/x/oauth2 v0.37.0
+	golang.org/x/oauth2 v0.38.0
 	google.golang.org/api v0.311.0
 	istio.io/api v1.31.4
 	istio.io/client-go v1.31.4
