@@ -16,10 +16,10 @@ require (
 	google.golang.org/api v0.317.0
 	istio.io/api v1.32.0
 	istio.io/client-go v1.32.0
-	k8s.io/api v0.37.2
-	k8s.io/apimachinery v0.37.2
+	k8s.io/api v0.37.3
+	k8s.io/apimachinery v0.37.3
 	k8s.io/client-go v11.0.0+incompatible
-	k8s.io/code-generator v0.37.2
+	k8s.io/code-generator v0.37.3
 	knative.dev/caching c601f824cec3
 	knative.dev/eventing v0.51.0
 	knative.dev/hack 0a23232167bc
